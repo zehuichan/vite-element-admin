@@ -62,19 +62,12 @@ export const constantRoutes = [
   {
     path: '/mms',
     component: Layout,
-    meta: {title: '会员管理', icon: 'dashboard'},
     children: [
       {
         path: 'member',
         name: 'Member',
-        component: () => import('@/views/dashboard/index'),
-        meta: {title: '会员管理'}
-      },
-      {
-        path: 'address',
-        name: 'Address',
-        component: () => import('@/views/dashboard/index'),
-        meta: {title: '地址管理'}
+        component: () => import('@/views/mms/member'),
+        meta: {title: '会员管理', icon: 'dashboard'}
       }
     ]
   },
@@ -86,13 +79,13 @@ export const constantRoutes = [
       {
         path: 'product',
         name: 'Product',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/pms/product'),
         meta: {title: '商品管理'}
       },
       {
         path: 'cate',
         name: 'Cate',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/pms/cate'),
         meta: {title: '商品类型管理'}
       }
     ]
@@ -104,7 +97,7 @@ export const constantRoutes = [
       {
         path: 'order',
         name: 'Order',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/oms/order'),
         meta: {title: '订单管理', icon: 'dashboard'}
       }
     ]
@@ -117,13 +110,13 @@ export const constantRoutes = [
       {
         path: 'live',
         name: 'Live',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/cms/live'),
         meta: {title: '直播间'}
       },
       {
         path: 'healthy',
         name: 'Healthy',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/cms/healthy'),
         meta: {title: '小健康'}
       }
     ]
@@ -136,14 +129,33 @@ export const constantRoutes = [
       {
         path: 'flash',
         name: 'Flash',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/sms/flash'),
         meta: {title: '活动推广'}
       },
       {
         path: 'subject',
         name: 'Subject',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/sms/subject'),
         meta: {title: '专题推荐'}
+      }
+    ]
+  },
+  {
+    path: '/bms',
+    component: Layout,
+    meta: {title: '基础配置', icon: 'dashboard'},
+    children: [
+      {
+        path: 'base',
+        name: 'Base',
+        component: () => import('@/views/bms/base'),
+        meta: {title: '基础设置'}
+      },
+      {
+        path: 'about',
+        name: 'About',
+        component: () => import('@/views/bms/about'),
+        meta: {title: '关于我们'}
       }
     ]
   },
@@ -155,19 +167,19 @@ export const constantRoutes = [
       {
         path: 'admin',
         name: 'Admin',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/ums/admin'),
         meta: {title: '用户管理'}
       },
       {
         path: 'role',
         name: 'Role',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/ums/role'),
         meta: {title: '角色管理'}
       },
       {
         path: 'menu',
         name: 'Menu',
-        component: () => import('@/views/dashboard/index'),
+        component: () => import('@/views/ums/menu'),
         meta: {title: '菜单管理'}
       }
     ]

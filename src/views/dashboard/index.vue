@@ -1,30 +1,19 @@
 <template>
-  <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+  <div>
+    <div class="app-container">
+      <div class="page-header-heading">
+        <span class="page-header-heading-title">{{$route.meta.title}}</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
-export default {
-  name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
+  export default {
+    name: 'Dashboard'
   }
-}
 </script>
 
-<style lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
-  }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
-  }
-}
+<style lang="scss">
+
 </style>

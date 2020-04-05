@@ -63,3 +63,18 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+
+.page-header-heading {
+  @extend .clearfix;
+
+  .page-header-heading-title {
+    display: block;
+    float: left;
+    margin-bottom: 0;
+    padding-right: 12px;
+    color: rgba(0, 0, 0, .85);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+  }
+}
