@@ -55,7 +55,7 @@ export const constantRoutes = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
-        meta: {title: '仪表板', icon: 'dashboard'}
+        meta: {title: '仪表板', icon: 'el-icon-orange'}
       }
     ]
   },
@@ -67,14 +67,14 @@ export const constantRoutes = [
         path: 'member',
         name: 'Member',
         component: () => import('@/views/mms/member'),
-        meta: {title: '会员管理', icon: 'dashboard'}
+        meta: {title: '会员管理', icon: 'el-icon-user'}
       }
     ]
   },
   {
     path: '/pms',
     component: Layout,
-    meta: {title: '商品管理', icon: 'dashboard'},
+    meta: {title: '商品管理', icon: 'el-icon-goods'},
     children: [
       {
         path: 'product',
@@ -98,14 +98,14 @@ export const constantRoutes = [
         path: 'order',
         name: 'Order',
         component: () => import('@/views/oms/order'),
-        meta: {title: '订单管理', icon: 'dashboard'}
+        meta: {title: '订单管理', icon: 'el-icon-s-order'}
       }
     ]
   },
   {
     path: '/cms',
     component: Layout,
-    meta: {title: '内容发布', icon: 'dashboard'},
+    meta: {title: '内容发布', icon: 'el-icon-magic-stick'},
     children: [
       {
         path: 'live',
@@ -124,7 +124,7 @@ export const constantRoutes = [
   {
     path: '/sms',
     component: Layout,
-    meta: {title: '活动营运', icon: 'dashboard'},
+    meta: {title: '活动营运', icon: 'el-icon-collection-tag'},
     children: [
       {
         path: 'flash',
@@ -143,7 +143,7 @@ export const constantRoutes = [
   {
     path: '/bms',
     component: Layout,
-    meta: {title: '基础配置', icon: 'dashboard'},
+    meta: {title: '基础配置', icon: 'el-icon-bangzhu'},
     children: [
       {
         path: 'base',
@@ -162,7 +162,7 @@ export const constantRoutes = [
   {
     path: '/ums',
     component: Layout,
-    meta: {title: '权限管理', icon: 'dashboard'},
+    meta: {title: '权限管理', icon: 'el-icon-cpu'},
     children: [
       {
         path: 'admin',

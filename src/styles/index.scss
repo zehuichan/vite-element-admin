@@ -48,6 +48,14 @@ div:focus {
   outline: none;
 }
 
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
 .clearfix {
   &:after {
     visibility: hidden;
@@ -62,6 +70,8 @@ div:focus {
 // main-container global css
 .app-container {
   padding: 20px;
+  margin: 24px;
+  background-color: #fff;
 }
 
 .page-header-heading {
@@ -77,4 +87,10 @@ div:focus {
     font-size: 20px;
     line-height: 32px;
   }
+}
+
+.page-container {
+  @extend .clearfix;
+
+  padding: 16px 0;
 }
