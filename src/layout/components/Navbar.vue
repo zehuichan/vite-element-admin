@@ -16,7 +16,7 @@
           <router-link to="/">
             <el-dropdown-item> 首页</el-dropdown-item>
           </router-link>
-          <el-dropdown-item divided @click.native="logout">退出</el-dropdown-item>
+          <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
