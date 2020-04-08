@@ -67,6 +67,18 @@ div:focus {
   }
 }
 
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
 // main-container global css
 .app-container {
   padding: 20px;
@@ -93,4 +105,8 @@ div:focus {
   @extend .clearfix;
 
   padding: 16px 0;
+}
+
+.base-form {
+  padding-top: 24px;
 }

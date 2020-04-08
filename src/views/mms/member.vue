@@ -4,6 +4,39 @@
       <div class="page-header-heading">
         <span class="page-header-heading-title">{{$route.meta.title}}</span>
       </div>
+      <el-form label-position="right" label-width="80px" :model="dataForm" class="base-form">
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="8" :md="6">
+            <el-form-item label="时间">
+              <el-date-picker
+                  v-model="dataForm.name"
+                  type="date"
+                  placeholder="选择日期"
+                  style="width: 100%;"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="8" :md="6">
+            <el-form-item label="输入搜索">
+              <el-input v-model="dataForm.name" clearable placeholder="会员姓名"/>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="8" :md="6">
+            <el-form-item label="手机号">
+              <el-input v-model="dataForm.region" clearable placeholder="手机号"/>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="8" :md="6">
+            <el-form-item label="地址">
+              <el-input v-model="dataForm.region" clearable placeholder="地址"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24" class="text-right">
+            <el-button>重置</el-button>
+            <el-button type="primary">查询结果</el-button>
+          </el-col>
+        </el-row>
+      </el-form>
     </div>
     <div class="app-container">
       <el-table
@@ -74,6 +107,7 @@
         options: [
           {value: '选项1', label: '批量删除'},
         ],
+        dataForm: {}
       }
     },
     created() {
