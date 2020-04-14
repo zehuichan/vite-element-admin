@@ -58,12 +58,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/',
+    path: '/dashboard',
     component: Layout,
-    redirect: '/dashboard',
     children: [
       {
-        path: 'dashboard',
+        path: '',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
         meta: {title: '首页', icon: 'el-icon-orange', affix: true}
@@ -73,12 +72,13 @@ export const constantRoutes = [
   {
     path: '/mms',
     component: Layout,
+    meta: {title: '会员管理', icon: 'el-icon-user'},
     children: [
       {
         path: 'member',
         name: 'Member',
         component: () => import('@/views/mms/member'),
-        meta: {title: '会员管理', icon: 'el-icon-user'}
+        meta: {title: '会员管理'}
       }
     ]
   },
@@ -104,12 +104,13 @@ export const constantRoutes = [
   {
     path: '/oms',
     component: Layout,
+    meta: {title: '订单管理', icon: 'el-icon-s-order'},
     children: [
       {
         path: 'order',
         name: 'Order',
         component: () => import('@/views/oms/order'),
-        meta: {title: '订单管理', icon: 'el-icon-s-order'}
+        meta: {title: '订单管理'}
       }
     ]
   },
