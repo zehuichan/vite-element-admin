@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(Element, {
-  size: Cookies.get('size') || 'small' // set element-ui default size
+  size: Cookies.get('size') || 'mini' // set element-ui default size
 })
 
 Vue.config.productionTip = false

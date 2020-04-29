@@ -1,4 +1,6 @@
-import { asyncRoutes, constantRoutes } from '@/router'
+import {menuList} from '@/api/ums'
+import {asyncRoutes, constantRoutes} from '@/router'
+import mapping from '@/router/mapping'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -22,7 +24,7 @@ export function filterAsyncRoutes(routes, roles) {
   const res = []
 
   routes.forEach(route => {
-    const tmp = { ...route }
+    const tmp = {...route}
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
         tmp.children = filterAsyncRoutes(tmp.children, roles)
@@ -47,8 +49,12 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({commit}, roles) {
     return new Promise(resolve => {
+      menuList().then(response => {
+        const {data} = response
+        console.log(data)
+      })
       let accessedRoutes
       if (roles.includes('admin')) {
         accessedRoutes = asyncRoutes || []

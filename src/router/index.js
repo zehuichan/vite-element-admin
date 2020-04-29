@@ -48,6 +48,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/auth-redirect',
+    component: () => import('@/views/login/auth-redirect'),
+    hidden: true
+  },
+  {
     path: '/401',
     component: () => import('@/views/error-page/401'),
     hidden: true
@@ -57,12 +62,21 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/404'),
     hidden: true
   },
+]
+
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
   {
-    path: '/dashboard',
+    path: '/',
     component: Layout,
+    redirect: '/dashboard',
     children: [
       {
-        path: '',
+        path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
         meta: {title: '首页', icon: 'el-icon-orange', affix: true}
@@ -72,13 +86,13 @@ export const constantRoutes = [
   {
     path: '/mms',
     component: Layout,
-    meta: {title: '会员管理', icon: 'el-icon-user'},
+    redirect: '/mms/member',
     children: [
       {
         path: 'member',
         name: 'Member',
         component: () => import('@/views/mms/member'),
-        meta: {title: '会员管理'}
+        meta: {title: '会员管理', icon: 'el-icon-user'}
       }
     ]
   },
@@ -104,13 +118,13 @@ export const constantRoutes = [
   {
     path: '/oms',
     component: Layout,
-    meta: {title: '订单管理', icon: 'el-icon-s-order'},
+    redirect: '/oms/order',
     children: [
       {
         path: 'order',
         name: 'Order',
         component: () => import('@/views/oms/order'),
-        meta: {title: '订单管理'}
+        meta: {title: '订单管理', icon: 'el-icon-s-order'},
       }
     ]
   },
@@ -126,11 +140,17 @@ export const constantRoutes = [
         meta: {title: '直播间'}
       },
       {
-        path: 'healthy',
-        name: 'Healthy',
-        component: () => import('@/views/cms/healthy'),
-        meta: {title: '小健康'}
-      }
+        path: 'article',
+        name: 'Article',
+        component: () => import('@/views/cms/article'),
+        meta: {title: '咨询文章'}
+      },
+      {
+        path: 'course',
+        name: 'Course',
+        component: () => import('@/views/cms/course'),
+        meta: {title: '课程'}
+      },
     ]
   },
   {
@@ -174,7 +194,7 @@ export const constantRoutes = [
   {
     path: '/ums',
     component: Layout,
-    meta: {title: '权限管理', icon: 'el-icon-cpu'},
+    meta: {title: '系统管理', icon: 'el-icon-setting'},
     children: [
       {
         path: 'admin',

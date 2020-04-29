@@ -2,28 +2,29 @@ import {login, logout, getInfo} from '@/api/user'
 import {getToken, setToken, removeToken} from '@/utils/auth'
 import {resetRouter} from '@/router'
 
-const getDefaultState = () => {
-  return {
-    token: getToken(),
-    name: '',
-    avatar: ''
-  }
+const state = {
+  token: getToken(),
+  name: '',
+  avatar: '',
+  introduction: '',
+  roles: []
 }
 
-const state = getDefaultState()
-
 const mutations = {
-  RESET_STATE: (state) => {
-    Object.assign(state, getDefaultState())
-  },
   SET_TOKEN: (state, token) => {
     state.token = token
+  },
+  SET_INTRODUCTION: (state, introduction) => {
+    state.introduction = introduction
   },
   SET_NAME: (state, name) => {
     state.name = name
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
   }
 }
 
@@ -53,10 +54,17 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const {name, avatar} = data
+        const {roles, name, avatar, introduction} = data
 
+        // roles must be a non-empty array
+        if (!roles || roles.length <= 0) {
+          reject('getInfo: roles must be a non-null array!')
+        }
+
+        commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_INTRODUCTION', introduction)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -65,12 +73,18 @@ const actions = {
   },
 
   // user logout
-  logout({commit, state}) {
+  logout({commit, state, dispatch}) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
-        removeToken() // must remove  token  first
+        commit('SET_TOKEN', '')
+        commit('SET_ROLES', [])
+        removeToken()
         resetRouter()
-        commit('RESET_STATE')
+
+        // reset visited views and cached views
+        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
+        dispatch('tagsView/delAllViews', null, {root: true})
+
         resolve()
       }).catch(error => {
         reject(error)
@@ -81,8 +95,9 @@ const actions = {
   // remove token
   resetToken({commit}) {
     return new Promise(resolve => {
-      removeToken() // must remove  token  first
-      commit('RESET_STATE')
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
+      removeToken()
       resolve()
     })
   }

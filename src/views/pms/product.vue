@@ -1,9 +1,6 @@
 <template>
   <div>
     <div class="app-container">
-      <div class="page-header-heading">
-        <span class="page-header-heading-title">{{$route.meta.title}}</span>
-      </div>
       <el-form label-position="right" label-width="80px" :model="dataForm" class="base-form">
         <el-row :gutter="20">
           <el-col :xs="24" :sm="8" :md="6">

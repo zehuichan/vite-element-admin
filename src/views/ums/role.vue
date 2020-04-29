@@ -1,9 +1,6 @@
 <template>
   <div>
     <div class="app-container">
-      <div class="page-header-heading">
-        <span class="page-header-heading-title">{{$route.meta.title}}</span>
-      </div>
       <el-form label-position="right" label-width="80px" :model="dataForm" class="base-form">
         <el-row :gutter="20">
           <el-col :xs="24" :sm="8" :md="6">
@@ -11,7 +8,7 @@
               <el-input v-model="dataForm.name" clearable placeholder="账号/姓名"/>
             </el-form-item>
           </el-col>
-          <el-col :span="24" class="text-right">
+          <el-col :xs="24" :sm="16" :md="18" class="text-right">
             <el-button>重置</el-button>
             <el-button type="primary">查询结果</el-button>
           </el-col>

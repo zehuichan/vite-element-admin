@@ -7,29 +7,33 @@
     </div>
     <div class="app-container">
       <el-table
+          ref="table"
           v-loading="loading"
           :data="tableData"
           row-key="id"
           default-expand-all
           :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+          @select="selectChange"
+          @select-all="selectAllChange"
           style="width: 100%"
       >
         <el-table-column type="selection" width="55"/>
-        <el-table-column prop="title" label="菜单名称"/>
-        <el-table-column prop="url" label="URL"/>
-        <el-table-column prop="key" label="前端资源"/>
-        <el-table-column prop="icon" label="前端图标">
+        <el-table-column prop="meta.title" label="菜单名称"/>
+        <el-table-column prop="meta.icon" label="前端图标">
           <template slot-scope="scope">
-            <i v-if="scope.row.icon" class="ico" :class="scope.row.icon"/>
+            <span v-if="scope.row.meta.icon" class="ico" :class="scope.row.meta.icon"/>
             <span v-else>--</span>
           </template>
         </el-table-column>
+        <el-table-column prop="path" label="路由地址"/>
+        <el-table-column prop="meta.role" label="权限标识"/>
+        <el-table-column prop="component" label="组件映射"/>
         <el-table-column prop="hidden" label="是否显示">
           <template slot-scope="scope">
-            <el-tag>{{scope.row.hidden}}</el-tag>
+            <el-tag v-if="!scope.row.hidden">可见</el-tag>
+            <el-tag type="danger" v-else>隐藏</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="meta" label="路由元信息"/>
         <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="text">编辑</el-button>
@@ -54,9 +58,6 @@
       return {
         loading: false,
         tableData: [],
-        total: 0,
-        p: 1,
-        ps: 15
       }
     },
     created() {
@@ -65,10 +66,34 @@
     methods: {
       async _menuList() {
         this.loading = true
-        const res = await menuList({p: this.p, ps: this.ps})
-        this.tableData = res.data.items
-        this.total = res.data.total
+        const res = await menuList()
+        this.tableData = res.data
         this.loading = false
+      },
+      toggleSelection(rows, selected) {
+        if (rows) {
+          rows.forEach(row => {
+            this.$refs.table.toggleRowSelection(row, selected)
+          })
+        } else {
+          this.$refs.table.clearSelection()
+        }
+      },
+      selectChange(selection, row) {
+        const hasChildren = row.children
+        console.log('hasChildren', hasChildren)
+
+      },
+      selectAllChange(selection) {
+        if (selection.length === this.tableData.length) {
+          selection.forEach(rows => {
+            if (rows.children) {
+              this.toggleSelection(rows.children, true)
+            }
+          })
+        } else {
+          this.toggleSelection()
+        }
       },
     },
   }
