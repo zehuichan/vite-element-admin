@@ -21,8 +21,10 @@
 <script>
   // vuex
   import {mapGetters} from 'vuex'
+  // components
   import Logo from './Logo'
   import SidebarItem from './SidebarItem'
+  // styles
   import variables from '@/styles/variables.scss'
 
   export default {
@@ -30,7 +32,8 @@
     computed: {
       ...mapGetters([
         'permission_routes',
-        'sidebar'
+        'sidebar',
+        'query',
       ]),
       activeMenu() {
         const route = this.$route

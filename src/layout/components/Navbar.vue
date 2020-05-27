@@ -4,19 +4,23 @@
     <breadcrumb class="breadcrumb-container"/>
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
+      <template v-if="device!=='mobile'">
+        <lang-select class="right-menu-item hover-effect"/>
+      </template>
+
+      <el-dropdown class="avatar-container" size="medium" trigger="hover">
         <div class="avatar-wrapper">
           <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar" alt="">
-          <i class="el-icon-caret-bottom"/>
+          <span class="user-name">{{name}}</span>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item> 个人中心</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-user">个人中心</el-dropdown-item>
           </router-link>
           <router-link to="/">
-            <el-dropdown-item> 首页</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
           </router-link>
-          <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-switch-button" divided @click.native="logout">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -29,21 +33,28 @@
   // components
   import Breadcrumb from '@/components/Breadcrumb'
   import Hamburger from '@/components/Hamburger'
+  import LangSelect from '@/components/LangSelect'
 
   export default {
     components: {
       Breadcrumb,
-      Hamburger
+      Hamburger,
+      LangSelect
     },
     computed: {
       ...mapGetters([
         'sidebar',
-        'avatar'
+        'avatar',
+        'name',
+        'device'
       ])
     },
     methods: {
       toggleSideBar() {
-        this.$store.dispatch('app/toggleSideBar')
+        this.$store.dispatch('app/toggleSideBar', !this.sidebar.opened)
+      },
+      toggleSideBar2() {
+        this.$store.dispatch('app/openSideBar', {withoutAnimation: true})
       },
       async logout() {
         await this.$store.dispatch('user/logout')
@@ -81,7 +92,8 @@
     .right-menu {
       float: right;
       height: 100%;
-      line-height: 50px;
+      display: flex;
+      align-items: center;
 
       &:focus {
         outline: none;
@@ -89,8 +101,9 @@
 
       .right-menu-item {
         display: inline-block;
-        padding: 0 8px;
+        padding: 0 16px;
         height: 100%;
+        line-height: 50px;
         font-size: 18px;
         color: #5a5e66;
         vertical-align: text-bottom;
@@ -107,24 +120,23 @@
 
       .avatar-container {
         margin-right: 30px;
+        cursor: pointer;
 
         .avatar-wrapper {
-          margin-top: 5px;
           position: relative;
+          display: flex;
+          align-items: center;
 
           .user-avatar {
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 24px;
+            height: 24px;
+            border-radius: 2px;
+            margin-right: 8px;
+            margin-left: 8px;
           }
 
-          .el-icon-caret-bottom {
-            cursor: pointer;
-            position: absolute;
-            right: -20px;
-            top: 25px;
-            font-size: 12px;
+          .user-name {
+
           }
         }
       }

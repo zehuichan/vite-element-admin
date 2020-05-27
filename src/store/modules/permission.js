@@ -1,6 +1,31 @@
 import {menuList} from '@/api/ums'
-import {asyncRoutes, constantRoutes} from '@/router'
+import {constantRoutes} from '@/router'
 import mapping from '@/router/mapping'
+
+/**
+ *
+ * @param serverRouter
+ * @returns {[]}
+ */
+function generatorDynamicRouter(serverRouter) {
+  const res = []
+  serverRouter.forEach(route => {
+    const tmp = {...route}
+    if (tmp.component === 'Layout') {
+      tmp.component = mapping['Layout']
+    } else {
+      tmp.component = mapping[tmp.component]
+    }
+
+    if (tmp.children) {
+      tmp.children = generatorDynamicRouter(tmp.children)
+    }
+
+    res.push(tmp)
+  })
+
+  return res
+}
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -51,18 +76,20 @@ const mutations = {
 const actions = {
   generateRoutes({commit}, roles) {
     return new Promise(resolve => {
+      let accessedRoutes
+      let permissionRouters
       menuList().then(response => {
         const {data} = response
-        console.log(data)
+        permissionRouters = generatorDynamicRouter(data)
+        permissionRouters = [...permissionRouters, {path: '*', redirect: '/404', hidden: true}]
+        if (roles.includes('admin')) {
+          accessedRoutes = permissionRouters || []
+        } else {
+          accessedRoutes = filterAsyncRoutes(permissionRouters, roles)
+        }
+        commit('SET_ROUTES', accessedRoutes)
+        resolve(accessedRoutes)
       })
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
     })
   }
 }

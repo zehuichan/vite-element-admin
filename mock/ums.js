@@ -28,225 +28,76 @@ const role = Mock.mock({
 const menu = Mock.mock(
   [
     {
-      id: '@id',
       path: '/dashboard',
-      component: 'dashboard',
-      redirect: '/dashboard',
+      component: 'Layout',
       hidden: false,
-      name: 'Dashboard',
-      meta: {
-        title: '首页',
-        icon: 'el-icon-orange',
-        role: ['admin']
-      }
-    },
-    {
-      id: '@id',
-      path: '/mms',
-      component: 'member',
-      hidden: false,
-      name: 'Member',
-      meta: {
-        title: '会员管理',
-        icon: 'el-icon-user',
-        role: ['admin']
-      },
-    },
-    {
-      id: '@id',
-      path: '/pms',
-      component: null,
-      hidden: false,
-      meta: {
-        title: '商品管理',
-        icon: 'el-icon-goods',
-        role: ['admin']
-      },
       children: [
         {
-          id: '@id',
-          path: 'product',
-          component: 'product',
-          name: 'Product',
-          meta: {
-            title: '商品管理',
-            role: ['admin']
-          },
-        },
-        {
-          id: '@id',
-          path: 'cate',
-          component: 'cate',
-          name: 'Cate',
-          meta: {
-            title: '商品类型管理',
-            role: ['admin']
-          },
+          path: '/dashboard',
+          component: 'Dashboard',
+          hidden: false,
+          name: 'Dashboard',
+          meta: {title: '仪表板', icon: 'el-icon-orange', affix: true, role: ['admin']},
         },
       ]
     },
     {
-      id: '@id',
-      path: '/oms',
-      component: 'order',
-      redirect: '/oms/order',
+      path: '/tpl',
+      component: 'Layout',
       hidden: false,
-      name: 'Order',
-      meta: {
-        title: '订单管理',
-        icon: 'el-icon-s-order',
-        role: ['admin']
-      }
-    },
-    {
-      id: '@id',
-      path: '/cms',
-      component: null,
-      hidden: false,
-      meta: {
-        title: '内容发布',
-        icon: 'el-icon-magic-stick',
-        role: ['admin']
-      },
+      redirect: '/tpl/mall',
+      meta: {title: '模板', icon: 'el-icon-monitor', role: ['admin']},
       children: [
         {
-          id: '@id',
-          path: 'live',
-          component: 'live',
-          name: 'Live',
-          meta: {
-            title: '直播间',
-            role: ['admin']
-          }
+          path: '/tpl/mall',
+          component: 'Mall',
+          hidden: false,
+          name: 'Mall',
+          meta: {title: 'vant商城模板', role: ['admin']}
         },
         {
-          id: '@id',
-          path: 'article',
-          component: 'article',
-          name: 'Article',
-          meta: {
-            title: '咨询文章',
-            role: ['admin']
-          }
+          path: '/tpl/vant',
+          component: 'Vant',
+          hidden: false,
+          name: 'Vant',
+          meta: {title: 'vant模板', role: ['admin']}
         },
         {
-          id: '@id',
-          path: 'course',
-          component: 'course',
-          name: 'Course',
-          meta: {
-            title: '课程',
-            role: ['admin']
-          }
+          path: '/ums/uniapp',
+          component: 'Uniapp',
+          hidden: false,
+          name: 'Uniapp',
+          meta: {title: 'uniapp模板', role: ['admin']}
         },
       ]
     },
     {
-      id: '@id',
-      path: '/sms',
-      component: null,
-      hidden: false,
-      meta: {
-        title: '活动营运',
-        icon: 'el-icon-collection-tag',
-        role: ['admin']
-      },
-      children: [
-        {
-          id: '@id',
-          path: 'flash',
-          component: 'flash',
-          name: 'Flash',
-          meta: {
-            title: '活动推广',
-            role: ['admin']
-          }
-        },
-        {
-          id: '@id',
-          path: 'subject',
-          component: 'subject',
-          name: 'Subject',
-          meta: {
-            title: '专题推荐',
-            role: ['admin']
-          }
-        },
-      ]
-    },
-    {
-      id: '@id',
-      path: '/bms',
-      component: null,
-      hidden: false,
-      meta: {
-        title: '基础配置',
-        icon: 'el-icon-bangzhu',
-        role: ['admin']
-      },
-      children: [
-        {
-          id: '@id',
-          path: 'base',
-          component: 'base',
-          name: 'Base',
-          meta: {
-            title: '基础设置',
-            role: ['admin']
-          }
-        },
-        {
-          id: '@id',
-          path: 'about',
-          component: 'about',
-          name: 'About',
-          meta: {
-            title: '关于我们',
-            role: ['admin']
-          }
-        },
-      ]
-    },
-    {
-      id: '@id',
       path: '/ums',
-      component: null,
+      component: 'Layout',
       hidden: false,
-      meta: {
-        title: '权限管理',
-        icon: 'el-icon-cpu',
-        role: ['admin']
-      },
+      redirect: '/ums/admin',
+      meta: {title: '权限管理', icon: 'el-icon-cpu', role: ['admin']},
       children: [
         {
-          id: '@id',
-          path: 'admin',
-          component: 'admin',
+          path: '/ums/admin',
+          component: 'Admin',
+          hidden: false,
           name: 'Admin',
-          meta: {
-            title: '用户管理',
-            role: ['admin']
-          }
+          meta: {title: '用户管理', role: ['admin']}
         },
         {
-          id: '@id',
-          path: 'role',
-          component: 'role',
+          path: '/ums/role',
+          component: 'Role',
+          hidden: false,
           name: 'Role',
-          meta: {
-            title: '角色管理',
-            role: ['admin']
-          }
+          meta: {title: '角色管理', role: ['admin']}
         },
         {
-          id: '@id',
-          path: 'menu',
-          component: 'menu',
+          path: '/ums/menu',
+          component: 'Menu',
+          hidden: false,
           name: 'Menu',
-          meta: {
-            title: '菜单管理',
-            role: ['admin']
-          }
+          meta: {title: '菜单管理', role: ['admin']}
         },
       ]
     },
