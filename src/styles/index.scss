@@ -114,3 +114,45 @@ div:focus {
 .btn-tools {
   margin-bottom: 20px;
 }
+
+.error-page {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  padding-top: 100px;
+  text-align: center;
+
+  .title {
+    color: #434e59;
+    font-size: 72px;
+    font-weight: 600;
+    line-height: 72px;
+    margin-bottom: 24px;
+  }
+
+  .info {
+    color: rgba(0, 0, 0, .45);
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: 16px;
+  }
+}
+
+code {
+  border-radius: 2px;
+  position: relative;
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  overflow-x: auto;
+  line-height: 22px;
+  word-break: break-all;
+  white-space: pre-wrap;
+  color: #455a64;
+  font-family: Consolas, Menlo, Courier, monospace;
+  background: #f7f7f7;
+
+  & + code {
+    margin-top: 12px;
+  }
+}

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="app-container">
-      <el-form label-position="right" label-width="80px" :model="dataForm">
+      <el-form label-position="right" label-width="80px" :model="dataForm" class="base-form">
         <el-row :gutter="20">
           <el-col :xs="24" :sm="8" :md="6">
             <el-form-item label="输入搜索">
@@ -27,26 +27,17 @@
           style="width: 100%"
       >
         <el-table-column type="selection" width="55"/>
-        <el-table-column prop="account" label="账号" width="120"/>
-        <el-table-column prop="name" label="姓名"/>
-        <el-table-column prop="mobile" label="手机号" width="120"/>
-        <el-table-column prop="email" label="邮箱" width="160"/>
-        <el-table-column prop="create_time" label="添加时间" width="140"/>
-        <el-table-column prop="login_time" label="最后登录" width="140"/>
-        <el-table-column label="是否启用" width="150">
+        <el-table-column prop="code" label="唯一识别码"/>
+        <el-table-column prop="name" label="角色名称"/>
+        <el-table-column prop="create_time" label="创建时间" min-width="140"/>
+        <el-table-column label="状态" min-width="100">
           <template slot-scope="scope">
-            <el-switch
-                v-model="scope.row.status"
-                active-text="启用"
-                inactive-text="禁用"
-                :active-value="1"
-                :inactive-value="0"
-            />
+            <el-tag>{{scope.row.status ? '启用' : '禁用'}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <el-button type="text">分配角色</el-button>
+            <el-button type="text">分配菜单</el-button>
             <el-divider direction="vertical"/>
             <el-button type="text">编辑</el-button>
             <el-divider direction="vertical"/>
@@ -71,10 +62,11 @@
         <el-pagination
             class="fr"
             background
+            :small="small"
             :current-page="p"
             :page-size="ps"
             :page-sizes="[15, 20, 30, 50]"
-            layout="total, sizes, prev, pager, next, jumper"
+            :layout="layout"
             :total="total"
             @size-change="onSizeChange"
             @current-change="onCurrentChange"
@@ -86,10 +78,12 @@
 
 <script>
   // api
-  import {adminList} from '@/api/ums'
+  import {roleList} from '@/api/ums'
+  // vuex
+  import {mapGetters} from 'vuex'
 
   export default {
-    name: 'Admin',
+    name: 'Role',
     data() {
       return {
         loading: false,
@@ -106,24 +100,35 @@
         ],
       }
     },
+    computed: {
+      small() {
+        return ['screen-md', 'screen-xs', 'screen-sm'].includes(this.query)
+      },
+      layout() {
+        return ['screen-md', 'screen-xs', 'screen-sm'].includes(this.query) ? 'total, prev, pager, next' : 'total, sizes, prev, pager, next, jumper'
+      },
+      ...mapGetters([
+        'query'
+      ])
+    },
     created() {
-      this._adminList()
+      this._roleList()
     },
     methods: {
-      async _adminList() {
+      async _roleList() {
         this.loading = true
-        const res = await adminList({p: this.p, ps: this.ps})
+        const res = await roleList({p: this.p, ps: this.ps})
         this.tableData = res.data.items
         this.total = res.data.total
         this.loading = false
       },
       onSizeChange(val) {
         this.ps = val
-        this._adminList()
+        this._roleList()
       },
       onCurrentChange(val) {
         this.p = val
-        this._adminList()
+        this._roleList()
       },
     },
   }

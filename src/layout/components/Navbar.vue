@@ -5,12 +5,13 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
+        <screenfull class="right-menu-item hover-effect" />
         <lang-select class="right-menu-item hover-effect"/>
       </template>
 
-      <el-dropdown class="avatar-container" size="medium" trigger="hover">
+      <el-dropdown class="avatar-container" size="large" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar" alt="">
+          <img :src="avatar" class="user-avatar" alt="">
           <span class="user-name">{{name}}</span>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -33,12 +34,14 @@
   // components
   import Breadcrumb from '@/components/Breadcrumb'
   import Hamburger from '@/components/Hamburger'
+  import Screenfull from '@/components/Screenfull'
   import LangSelect from '@/components/LangSelect'
 
   export default {
     components: {
       Breadcrumb,
       Hamburger,
+      Screenfull,
       LangSelect
     },
     computed: {
@@ -101,7 +104,7 @@
 
       .right-menu-item {
         display: inline-block;
-        padding: 0 16px;
+        padding: 0 8px;
         height: 100%;
         line-height: 50px;
         font-size: 18px;

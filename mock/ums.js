@@ -14,15 +14,32 @@ const admin = Mock.mock({
 })
 
 const role = Mock.mock({
-  'items|5': [{
-    id: '@id',
-    'name|1': ['商品管理员', '订单管理员', '超级管理员'],
-    desc: '@ctitle',
-    create_time: '@datetime',
-    login_time: '@datetime',
-    count: 0,
-    status: 1
-  }]
+  items: [
+    {
+      id: '@id',
+      name: '管理员',
+      code: 'admin',
+      create_time: '@datetime',
+      login_time: '@datetime',
+      status: 1
+    },
+    {
+      id: '@id',
+      name: 'SVIP',
+      code: 'svip',
+      create_time: '@datetime',
+      login_time: '@datetime',
+      status: 1
+    },
+    {
+      id: '@id',
+      name: '普通会员',
+      code: 'user',
+      create_time: '@datetime',
+      login_time: '@datetime',
+      status: 1
+    },
+  ]
 })
 
 const menu = Mock.mock(
@@ -33,41 +50,59 @@ const menu = Mock.mock(
       hidden: false,
       children: [
         {
-          path: '/dashboard',
+          path: '',
           component: 'Dashboard',
           hidden: false,
           name: 'Dashboard',
-          meta: {title: '仪表板', icon: 'el-icon-orange', affix: true, role: ['admin']},
+          meta: {
+            title: '仪表板', icon: 'el-icon-odometer', affix: true, role: ['admin'],
+            permissions: [
+              {action: 'add', desc: '新增'},
+              {action: 'delete', desc: '删除'},
+              {action: 'edit', desc: '修改'},
+              {action: 'query', desc: '查询'},
+              {action: 'import', desc: '导入'},
+              {action: 'export', desc: '导出'},
+            ]
+          },
         },
       ]
     },
     {
-      path: '/tpl',
+      path: '/documentation',
       component: 'Layout',
       hidden: false,
-      redirect: '/tpl/mall',
-      meta: {title: '模板', icon: 'el-icon-monitor', role: ['admin']},
       children: [
         {
-          path: '/tpl/mall',
-          component: 'Mall',
+          path: '',
+          component: 'Documentation',
           hidden: false,
-          name: 'Mall',
-          meta: {title: 'vant商城模板', role: ['admin']}
+          name: 'Documentation',
+          meta: {title: '文档', icon: 'el-icon-document', affix: true, role: ['admin'],},
         },
+      ]
+    },
+    {
+      path: '/permission',
+      component: 'Layout',
+      hidden: false,
+      children: [
         {
-          path: '/tpl/vant',
-          component: 'Vant',
+          path: '',
+          component: 'Permission',
           hidden: false,
-          name: 'Vant',
-          meta: {title: 'vant模板', role: ['admin']}
-        },
-        {
-          path: '/ums/uniapp',
-          component: 'Uniapp',
-          hidden: false,
-          name: 'Uniapp',
-          meta: {title: 'uniapp模板', role: ['admin']}
+          name: 'Permission',
+          meta: {
+            title: '按钮权限测试页', icon: 'el-icon-lock', role: ['admin'],
+            permissions: [
+              {action: 'add', desc: '新增'},
+              {action: 'delete', desc: '删除'},
+              {action: 'edit', desc: '修改'},
+              {action: 'query', desc: '查询'},
+              {action: 'import', desc: '导入'},
+              {action: 'export', desc: '导出'},
+            ]
+          },
         },
       ]
     },
@@ -75,16 +110,24 @@ const menu = Mock.mock(
       path: '/ums',
       component: 'Layout',
       hidden: false,
-      redirect: '/ums/admin',
-      meta: {title: '权限管理', icon: 'el-icon-cpu', role: ['admin']},
+      redirect: 'noRedirect',
+      meta: {title: '权限管理', icon: 'el-icon-setting', role: ['admin']},
       children: [
         {
-          path: '/ums/admin',
-          component: 'Admin',
+          path: '/ums/user',
+          component: 'User',
           hidden: false,
-          name: 'Admin',
+          name: 'User',
           meta: {title: '用户管理', role: ['admin']}
         },
+        {
+          path: '/ums/user/assign-role/:id',
+          component: 'AssignRole',
+          hidden: true,
+          name: 'AssignRole',
+          meta: {title: '分配角色', noCache: true, activeMenu: '/ums/user', role: ['admin']}
+        },
+
         {
           path: '/ums/role',
           component: 'Role',
@@ -92,6 +135,29 @@ const menu = Mock.mock(
           name: 'Role',
           meta: {title: '角色管理', role: ['admin']}
         },
+        {
+          path: '/ums/role/assign-menu/:id',
+          component: 'AssignMenu',
+          hidden: true,
+          name: 'AssignMenu',
+          meta: {title: '分配菜单', noCache: true, activeMenu: '/ums/role', role: ['admin']}
+        },
+        {
+          path: '/ums/role/assign-btn/:id',
+          component: 'AssignBtn',
+          hidden: true,
+          name: 'AssignBtn',
+          meta: {title: '分配权限', noCache: true, activeMenu: '/ums/role', role: ['admin']}
+        },
+
+        {
+          path: '/ums/org',
+          component: 'Org',
+          hidden: false,
+          name: 'Org',
+          meta: {title: '机构管理', role: ['admin']}
+        },
+
         {
           path: '/ums/menu',
           component: 'Menu',

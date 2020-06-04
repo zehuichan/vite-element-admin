@@ -9,6 +9,7 @@ import mapping from '@/router/mapping'
  */
 function generatorDynamicRouter(serverRouter) {
   const res = []
+
   serverRouter.forEach(route => {
     const tmp = {...route}
     if (tmp.component === 'Layout') {

@@ -24,12 +24,12 @@
   import action from '@/directive/action/index'
 
   export default {
-    name: 'Dashboard',
+    name: 'Permission',
     data() {
       return {
         permissions: {
-          permissionId: 'dashboard',
-          actionsList: ['add', 'delete', 'edit', 'query', 'import', 'export'],
+          permissionId: 'permission',
+          actionsList: ['query', 'import', 'export'],
         }
       }
     },

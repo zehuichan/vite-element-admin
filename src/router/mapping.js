@@ -8,15 +8,19 @@ const mapping = {
 
   // index
   Dashboard: () => import('@/views/dashboard/index'),
-
-  // tpl
-  Mall: () => import('@/views/tpl/mall'),
-  Vant: () => import('@/views/tpl/vant'),
+  Documentation: () => import('@/views/documentation/index'),
+  Permission: () => import('@/views/permission/index'),
 
   // ums
-  Admin: () => import('@/views/ums/admin'),
-  Role: () => import('@/views/ums/role'),
-  Menu: () => import('@/views/ums/menu'),
+  User: () => import('@/views/ums/user/index'),
+  AssignRole: () => import('@/views/ums/user/assign-role'),
+
+  Role: () => import('@/views/ums/role/index'),
+  AssignMenu: () => import('@/views/ums/role/assign-menu'),
+  AssignBtn: () => import('@/views/ums/role/assign-btn'),
+
+  Org: () => import('@/views/ums/org/index'),
+  Menu: () => import('@/views/ums/menu/index'),
 }
 
 

@@ -10,7 +10,7 @@
     </div>
 
     <footer-tool-bar>
-      <el-button type="primary">提交</el-button>
+      <el-button type="primary">保存</el-button>
     </footer-tool-bar>
   </div>
 </template>
@@ -19,7 +19,7 @@
   // api
   import {menuList} from '@/api/ums'
   // components
-  import FooterToolBar from '@/components/FooterToolBar'
+  import FooterToolBar from '@/components/FooterToolBar/index'
 
   export default {
     name: 'Menu',
