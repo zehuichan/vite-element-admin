@@ -2,7 +2,7 @@
   <div>
     <div class="app-container">
       <code>
-        当前角色，分配的按钮权限
+        当前角色，当前页面，分配的按钮权限
         {{permissions}}
       </code>
     </div>

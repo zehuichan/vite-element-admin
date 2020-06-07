@@ -17,8 +17,8 @@
     </div>
     <div class="app-container">
       <div class="btn-tools">
-        <el-button type="primary" icon="el-icon-plus">新增</el-button>
-        <el-button type="danger" icon="el-icon-download">导出</el-button>
+        <el-button type="primary" icon="el-icon-plus" v-action:add>新增</el-button>
+        <el-button type="danger" icon="el-icon-download" v-action:export>导出</el-button>
       </div>
       <el-table
           v-loading="loading"
@@ -29,23 +29,26 @@
         <el-table-column type="selection" width="55"/>
         <el-table-column prop="account" label="账号" min-width="120"/>
         <el-table-column prop="name" label="姓名"/>
+        <el-table-column prop="org" label="所属机构"/>
         <el-table-column prop="mobile" label="手机号" min-width="120"/>
         <el-table-column prop="email" label="邮箱" min-width="200"/>
         <el-table-column prop="create_time" label="添加时间" min-width="140"/>
         <el-table-column prop="login_time" label="最后登录" min-width="140"/>
-        <el-table-column label="是否启用" width="100">
+        <el-table-column label="状态" width="60">
           <template slot-scope="scope">
             <el-tag>{{scope.row.status ? '启用' : '禁用'}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180">
+        <el-table-column label="操作" width="260">
           <template slot-scope="scope">
             <el-button type="text" @click="navigateTo(`/ums/user/assign-role/${scope.row.id}`)">分配角色</el-button>
             <el-divider direction="vertical"/>
-            <el-button type="text">编辑</el-button>
+            <el-button type="text" @click="onClick">修改密码</el-button>
             <el-divider direction="vertical"/>
-            <el-popconfirm title="是否要进行该删除操作?" icon="el-icon-info" iconColor="red">
-              <el-button slot="reference" type="text">删除</el-button>
+            <el-button type="text" v-action:edit>编辑</el-button>
+            <el-divider direction="vertical"/>
+            <el-popconfirm title="此操作将永久删除选择的用户, 是否继续?" icon="el-icon-info" iconColor="red">
+              <el-button slot="reference" type="text" v-action:delete>删除</el-button>
             </el-popconfirm>
           </template>
         </el-table-column>
@@ -76,6 +79,8 @@
         />
       </div>
     </div>
+
+    <pass-word-dialog v-model="show"/>
   </div>
 </template>
 
@@ -86,6 +91,8 @@
   import {mapGetters} from 'vuex'
   // directives
   import action from '@/directive/action'
+  // components
+  import PassWordDialog from './components/PassWordDialog'
 
   export default {
     name: 'User',
@@ -105,7 +112,8 @@
         select: '',
         options: [
           {value: '选项1', label: '批量删除'},
-        ]
+        ],
+        show: false
       }
     },
     computed: {
@@ -141,7 +149,13 @@
         this.p = val
         this._adminList()
       },
+      onClick(){
+        this.show = true
+      },
     },
+    components: {
+      PassWordDialog
+    }
   }
 </script>
 

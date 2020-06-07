@@ -13,11 +13,31 @@ const users = {
     permissions: [
       {
         permissionId: 'dashboard',
-        actionsList: ['add', 'delete', 'edit', 'query', 'import', 'export'],
+        actionList: [
+          {action: 'add', desc: '新增'},
+          {action: 'delete', desc: '删除'},
+          {action: 'edit', desc: '修改'},
+          {action: 'query', desc: '查询'},
+          {action: 'import', desc: '导入'},
+          {action: 'export', desc: '导出'},
+        ],
       },
       {
         permissionId: 'permission',
-        actionsList: ['query', 'import', 'export'],
+        actionList: [
+          {action: 'query', desc: '查询'},
+          {action: 'import', desc: '导入'},
+          {action: 'export', desc: '导出'},
+        ]
+      },
+      {
+        permissionId: 'user',
+        actionList: [
+          {action: 'add', desc: '新增'},
+          {action: 'delete', desc: '删除'},
+          {action: 'edit', desc: '修改'},
+          {action: 'export', desc: '导出'},
+        ]
       }
     ],
     introduction: 'I am a super administrator',

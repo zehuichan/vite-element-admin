@@ -30,7 +30,7 @@
         <el-table-column prop="code" label="唯一识别码"/>
         <el-table-column prop="name" label="角色名称"/>
         <el-table-column prop="create_time" label="创建时间" min-width="140"/>
-        <el-table-column label="状态" min-width="100">
+        <el-table-column label="状态" min-width="80">
           <template slot-scope="scope">
             <el-tag>{{scope.row.status ? '启用' : '禁用'}}</el-tag>
           </template>

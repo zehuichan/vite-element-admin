@@ -23,7 +23,7 @@ export default {
       if (permissionId !== p.permissionId) {
         return
       }
-      if (p.actionsList && !p.actionsList.includes(actionName)) {
+      if (p.actionList && !p.actionList.includes(actionName)) {
         el.parentNode && el.parentNode.removeChild(el) || (el.style.display = 'none')
       }
     })
