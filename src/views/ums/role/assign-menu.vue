@@ -4,6 +4,10 @@
       {{id}}
     </div>
 
+    <div class="app-container">
+      {{id}}
+    </div>
+
     <footer-tool-bar>
       <el-button type="default" @click="navigateBack">取消</el-button>
       <el-button type="primary">保存</el-button>

@@ -1,11 +1,4 @@
 #app {
-  .el-menu-item i {
-    color: inherit;
-  }
-
-  .el-submenu__title i {
-    color: inherit;
-  }
 
   .main-container {
     min-height: 100%;
@@ -64,6 +57,11 @@
       margin-right: 16px;
     }
 
+    .sub-el-icon {
+      margin-right: 12px;
+      margin-left: -2px;
+    }
+
     .el-menu {
       border: none;
       height: 100%;
@@ -113,8 +111,8 @@
           margin-left: 20px;
         }
 
-        [class^=el-icon-] {
-          margin-left: 13px;
+        .sub-el-icon {
+          margin-left: 19px;
         }
       }
     }
@@ -129,8 +127,8 @@
           margin-left: 20px;
         }
 
-        [class^=el-icon-] {
-          margin-left: 13px;
+        .sub-el-icon {
+          margin-left: 19px;
         }
 
         .el-submenu__icon-arrow {
@@ -192,6 +190,11 @@
   & > .el-menu {
     .svg-icon {
       margin-right: 16px;
+    }
+
+    .sub-el-icon {
+      margin-right: 12px;
+      margin-left: -2px;
     }
   }
 

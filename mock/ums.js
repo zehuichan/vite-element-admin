@@ -1,4 +1,4 @@
-import Mock from 'mockjs'
+const Mock = require('mockjs')
 
 const admin = Mock.mock({
   'items|5': [{
@@ -170,7 +170,7 @@ const menu = Mock.mock(
   ]
 )
 
-export default [
+module.exports = [
   {
     url: '/vue-admin-template/ums/admin/list',
     type: 'get',

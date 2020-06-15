@@ -1,4 +1,4 @@
-import Mock from 'mockjs'
+const Mock = require('mockjs')
 
 const data = Mock.mock({
   'items|30': [{
@@ -12,7 +12,7 @@ const data = Mock.mock({
   }]
 })
 
-export default [
+module.exports = [
   {
     url: '/vue-admin-template/mms/member/list',
     type: 'get',
