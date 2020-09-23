@@ -107,6 +107,20 @@ const menu = Mock.mock(
       ]
     },
     {
+      path: '/dynamicform',
+      component: 'Layout',
+      hidden: false,
+      children: [
+        {
+          path: '',
+          component: 'DynamicForm',
+          hidden: false,
+          name: 'DynamicForm',
+          meta: {title: '异步表单', icon: 'el-icon-video-camera', affix: true, role: ['admin'],},
+        },
+      ]
+    },
+    {
       path: '/ums',
       component: 'Layout',
       hidden: false,

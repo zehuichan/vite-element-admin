@@ -10,6 +10,7 @@ const mapping = {
   Dashboard: () => import('@/views/dashboard/index'),
   Documentation: () => import('@/views/documentation/index'),
   Permission: () => import('@/views/permission/index'),
+  DynamicForm: () => import('@/views/dynamic-form/index'),
 
   // ums
   User: () => import('@/views/ums/user/index'),
