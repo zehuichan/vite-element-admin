@@ -116,7 +116,7 @@ const menu = Mock.mock(
           component: 'DynamicForm',
           hidden: false,
           name: 'DynamicForm',
-          meta: {title: '动态配置表单', icon: 'el-icon-video-camera', affix: true, role: ['admin'],},
+          meta: {title: '动态配置表单', icon: 'el-icon-video-camera', role: ['admin'],},
         },
       ]
     },

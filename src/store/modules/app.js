@@ -9,7 +9,7 @@ const state = {
   // 设备
   device: 'desktop',
   // 媒体查询
-  query: undefined,
+  mediaQuery: undefined,
   language: getLanguage(),
   size: Cookies.get('size') || 'mini'
 }
@@ -29,16 +29,16 @@ const mutations = {
     state.sidebar.opened = false
     state.sidebar.withoutAnimation = withoutAnimation
   },
-  OPEN_SIDEBAR: state => {
+  OPEN_SIDEBAR: (state, withoutAnimation) => {
     Cookies.set('sidebarStatus', 1)
     state.sidebar.opened = true
-    state.sidebar.withoutAnimation = false
+    state.sidebar.withoutAnimation = withoutAnimation
   },
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
   },
-  SET_MEDIA_QUERY: (state, query) => {
-    state.query = query
+  SET_MEDIA_QUERY: (state, mediaQuery) => {
+    state.mediaQuery = mediaQuery
   },
   SET_LANGUAGE: (state, language) => {
     state.language = language
@@ -51,25 +51,25 @@ const mutations = {
 }
 
 const actions = {
-  toggleSideBar({commit}) {
+  toggleSideBar({ commit }) {
     commit('TOGGLE_SIDEBAR')
   },
-  closeSideBar({commit}, {withoutAnimation}) {
+  closeSideBar({ commit }, { withoutAnimation }) {
     commit('CLOSE_SIDEBAR', withoutAnimation)
   },
-  openSideBar({commit}) {
-    commit('OPEN_SIDEBAR')
+  openSideBar({ commit }, { withoutAnimation }) {
+    commit('OPEN_SIDEBAR', withoutAnimation)
   },
-  toggleDevice({commit}, device) {
+  toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
   },
-  setMediaQuery({commit}, query) {
+  setMediaQuery({ commit }, query) {
     commit('SET_MEDIA_QUERY', query)
   },
-  setLanguage({commit}, language) {
+  setLanguage({ commit }, language) {
     commit('SET_LANGUAGE', language)
   },
-  setSize({commit}, size) {
+  setSize({ commit }, size) {
     commit('SET_SIZE', size)
   }
 }

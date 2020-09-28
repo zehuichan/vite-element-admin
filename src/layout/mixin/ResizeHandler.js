@@ -2,7 +2,7 @@
 import store from '@/store'
 
 // 文档
-const {body} = document
+const { body } = document
 
 // 媒体查询
 const MEDIA_QUERY = {
@@ -34,7 +34,7 @@ export default {
   watch: {
     $route(route) {
       if (this.device === 'mobile' && this.sidebar.opened) {
-        store.dispatch('app/closeSideBar', {withoutAnimation: false})
+        store.dispatch('app/closeSideBar', { withoutAnimation: false })
       }
     }
   },
@@ -46,48 +46,43 @@ export default {
   },
   mounted() {
     const isMobile = this.$_isMobile()
-    const query = this.$_mediaQuery()
+    const mediaQuery = this.$_mediaQuery()
+    store.dispatch('app/setMediaQuery', mediaQuery)
     if (isMobile) {
       store.dispatch('app/toggleDevice', 'mobile')
-      store.dispatch('app/closeSideBar', {withoutAnimation: true})
+      store.dispatch('app/closeSideBar', { withoutAnimation: true })
     }
-    store.dispatch('app/setMediaQuery', query)
   },
   methods: {
     // use $_ for mixins properties
     // https://vuejs.org/v2/style-guide/index.html#Private-property-names-essential
-    $_isMobile() {
-      const rect = body.getBoundingClientRect()
-      return rect.width < MEDIA_QUERY['screen-sm'].maxWidth
-    },
     $_resizeHandler() {
       if (!document.hidden) {
         const isMobile = this.$_isMobile()
-        const query = this.$_mediaQuery()
+        const mediaQuery = this.$_mediaQuery()
         store.dispatch('app/toggleDevice', isMobile ? 'mobile' : 'desktop')
-        store.dispatch('app/setMediaQuery', query)
+        store.dispatch('app/setMediaQuery', mediaQuery)
 
-        // this.sidebar.opened  false=关闭 true=开启
-        if (!this.sidebar.opened && query === 'screen-sm') {
-          store.dispatch('app/closeSideBar', {withoutAnimation: true})
-        }
-        if (query === 'screen-md') {
-          if (!this.sidebar.opened) {
-            store.dispatch('app/closeSideBar', {withoutAnimation: true})
-          } else {
+        if (!this.sidebar.opened && isMobile) {
+          store.dispatch('app/closeSideBar', { withoutAnimation: true })
+        } else if (this.sidebar.opened) {
+          if (['screen-md'].indexOf(mediaQuery) > -1) {
             store.dispatch('app/toggleSideBar')
+          } else if (['screen-lg', 'screen-xl', 'screen-xll'].indexOf(mediaQuery) > -1) {
+            store.dispatch('app/openSideBar', { withoutAnimation: true })
           }
-        }
-        if (['screen-lg', 'screen-xl', 'screen-xll'].includes(query)) {
-          if (!this.sidebar.opened) {
-            store.dispatch('app/openSideBar')
-          }
+        } else if (['screen-lg', 'screen-xl', 'screen-xll'].indexOf(mediaQuery) > -1) {
+          store.dispatch('app/toggleSideBar')
         }
       }
     },
+    $_isMobile() {
+      const rect = body.getBoundingClientRect()
+      return rect.width - 1 < MEDIA_QUERY['screen-sm'].maxWidth
+    },
     $_mediaQuery() {
       const rect = body.getBoundingClientRect()
-      const _width = rect.width
+      const _width = rect.width - 1
       // screen-xs
       if (_width < MEDIA_QUERY['screen-xs'].maxWidth) {
         return 'screen-xs'

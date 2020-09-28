@@ -3,7 +3,7 @@
     <div class="app-container">
       <code>
         新增媒体查询，当前屏幕
-        {{query}}
+        {{mediaQuery}}
       </code>
     </div>
 
@@ -50,30 +50,30 @@
     data() {
       return {
         media_query: [
-          {key: 'screen-xs', label: 'maxWidth: 575'},
-          {key: 'screen-sm', label: 'minWidth: 576, maxWidth: 767'},
-          {key: 'screen-md', label: 'minWidth: 768, maxWidth: 991'},
-          {key: 'screen-lg', label: 'minWidth: 992, maxWidth: 1199'},
-          {key: 'screen-xl', label: 'minWidth: 1200, maxWidth: 1599'},
-          {key: 'screen-xll', label: 'minWidth: 1600'},
+          { key: 'screen-xs', label: 'maxWidth: 575' },
+          { key: 'screen-sm', label: 'minWidth: 576, maxWidth: 767' },
+          { key: 'screen-md', label: 'minWidth: 768, maxWidth: 991' },
+          { key: 'screen-lg', label: 'minWidth: 992, maxWidth: 1199' },
+          { key: 'screen-xl', label: 'minWidth: 1200, maxWidth: 1599' },
+          { key: 'screen-xll', label: 'minWidth: 1600' },
         ],
         permission_enum: [
-          {key: 'v-action:add', label: 'desc: 新增'},
-          {key: 'v-action:delete', label: 'desc: 删除'},
-          {key: 'v-action:edit', label: 'desc: 修改'},
-          {key: 'v-action:query', label: 'desc: 查询'},
-          {key: 'v-action:get', label: 'desc: 详情'},
-          {key: 'v-action:enable', label: 'desc: 启用'},
-          {key: 'v-action:disable', label: 'desc: 禁用'},
-          {key: 'v-action:import', label: 'desc: 导入'},
-          {key: 'v-action:export', label: 'desc: 导出'}
+          { key: 'v-action:add', label: 'desc: 新增' },
+          { key: 'v-action:delete', label: 'desc: 删除' },
+          { key: 'v-action:edit', label: 'desc: 修改' },
+          { key: 'v-action:query', label: 'desc: 查询' },
+          { key: 'v-action:get', label: 'desc: 详情' },
+          { key: 'v-action:enable', label: 'desc: 启用' },
+          { key: 'v-action:disable', label: 'desc: 禁用' },
+          { key: 'v-action:import', label: 'desc: 导入' },
+          { key: 'v-action:export', label: 'desc: 导出' }
         ],
         ex: '<tag-name v-action:add>新增</tag-name>'
       }
     },
     computed: {
       ...mapGetters([
-        'query'
+        'mediaQuery'
       ])
     },
     directives: {

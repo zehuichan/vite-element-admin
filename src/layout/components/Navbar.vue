@@ -54,10 +54,7 @@
     },
     methods: {
       toggleSideBar() {
-        this.$store.dispatch('app/toggleSideBar', !this.sidebar.opened)
-      },
-      toggleSideBar2() {
-        this.$store.dispatch('app/openSideBar', {withoutAnimation: true})
+        this.$store.dispatch('app/toggleSideBar')
       },
       async logout() {
         await this.$store.dispatch('user/logout')
