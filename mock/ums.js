@@ -45,8 +45,9 @@ const role = Mock.mock({
 const menu = Mock.mock(
   [
     {
-      path: '/dashboard',
+      path: '/',
       component: 'Layout',
+      redirect: '/dashboard',
       hidden: false,
       children: [
         {
