@@ -33,7 +33,6 @@
       ...mapGetters([
         'permission_routes',
         'sidebar',
-        'query',
       ]),
       activeMenu() {
         const route = this.$route

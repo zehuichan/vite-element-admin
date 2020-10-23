@@ -109,13 +109,13 @@
     },
     computed: {
       small() {
-        return ['screen-md', 'screen-xs', 'screen-sm'].includes(this.query)
+        return ['screen-md', 'screen-xs', 'screen-sm'].includes(this.mediaQuery)
       },
       layout() {
-        return ['screen-md', 'screen-xs', 'screen-sm'].includes(this.query) ? 'total, prev, pager, next' : 'total, sizes, prev, pager, next, jumper'
+        return ['screen-md', 'screen-xs', 'screen-sm'].includes(this.mediaQuery) ? 'total, prev, pager, next' : 'total, sizes, prev, pager, next, jumper'
       },
       ...mapGetters([
-        'query'
+        'mediaQuery'
       ])
     },
     created() {
