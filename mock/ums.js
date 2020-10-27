@@ -122,6 +122,20 @@ const menu = Mock.mock(
       ]
     },
     {
+      path: '/tableDemo',
+      component: 'Layout',
+      hidden: false,
+      children: [
+        {
+          path: '',
+          component: 'TableDemo',
+          hidden: false,
+          name: 'TableDemo',
+          meta: {title: '综合表格demo', icon: 'el-icon-s-grid', role: ['admin'],},
+        },
+      ]
+    },
+    {
       path: '/ums',
       component: 'Layout',
       hidden: false,

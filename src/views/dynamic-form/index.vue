@@ -69,7 +69,7 @@
   import FooterToolBar from '@/components/FooterToolBar/index'
 
   export default {
-    name: 'dynamic-form',
+    name: 'DynamicForm',
     data() {
       return {
         options: {
