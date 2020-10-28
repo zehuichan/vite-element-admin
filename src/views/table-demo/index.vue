@@ -19,9 +19,8 @@
         <template #selection>
           <el-table-column type="selection" width="55"/>
         </template>
-
-        <template #date>
-          {{123213123}}
+        <template #date="{scope}">
+          {{scope.row.date}}
         </template>
       </v-table>
     </div>

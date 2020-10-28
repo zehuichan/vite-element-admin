@@ -1,15 +1,19 @@
 <template>
   <div class="v-table">
-    <el-table v-loading="loading" :data="data" v-bind="$attrs" v-on="$listeners">
+    <el-table v-loading="loading" :data="data" v-bind="$attrs" v-on="$listeners" style="width: 100%;">
       <slot name="selection"/>
       <slot name="pre-column"/>
       <el-table-column
         v-for="(column, index) in columns"
         :key="column.key"
+        :prop="column.key"
         :label="column.label"
         :width="column.width"
+        :min-width="column.minWidth"
         :align="column.align || 'center'"
         :header-align="column.headerAlign"
+        :sortable="column.sortable"
+        v-if="column.hidden === undefined && !column.hidden"
       >
         <template slot-scope="scope">
           <slot :scope="scope" :name="column.key">

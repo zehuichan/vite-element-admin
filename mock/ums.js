@@ -156,7 +156,6 @@ const menu = Mock.mock(
           name: 'AssignRole',
           meta: {title: '分配角色', noCache: true, activeMenu: '/ums/user', role: ['admin']}
         },
-
         {
           path: '/ums/role',
           component: 'Role',
@@ -178,7 +177,6 @@ const menu = Mock.mock(
           name: 'AssignBtn',
           meta: {title: '分配权限', noCache: true, activeMenu: '/ums/role', role: ['admin']}
         },
-
         {
           path: '/ums/org',
           component: 'Org',
@@ -186,7 +184,6 @@ const menu = Mock.mock(
           name: 'Org',
           meta: {title: '机构管理', role: ['admin']}
         },
-
         {
           path: '/ums/menu',
           component: 'Menu',
