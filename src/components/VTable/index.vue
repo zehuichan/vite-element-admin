@@ -1,44 +1,52 @@
 <template>
   <div class="v-table">
-    <el-table :data="data" v-bind="$attrs">
+    <el-table v-loading="loading" :data="data" v-bind="$attrs" v-on="$listeners">
+      <slot name="selection"/>
+      <slot name="pre-column"/>
       <el-table-column
-          v-for="(column, index) in columns"
-          :key="column.value"
-          :label="column.text"
-          :width="column.width"
+        v-for="(column, index) in columns"
+        :key="column.key"
+        :label="column.label"
+        :width="column.width"
+        :align="column.align || 'center'"
+        :header-align="column.headerAlign"
       >
         <template slot-scope="scope">
-          {{scope.row[column.value]}}
+          <slot :scope="scope" :name="column.key">
+            {{scope.row[column.key]}}
+          </slot>
         </template>
       </el-table-column>
-      <slot/>
     </el-table>
     <div class="pagination-container">
       <el-pagination
-          :background="background"
-          :current-page.sync="currentPage"
-          :page-size.sync="pageSize"
-          :layout="layout"
-          :page-sizes="pageSizes"
-          :total="total"
-          v-bind="$attrs"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
+        :background="background"
+        :current-page.sync="currentPage"
+        :page-size.sync="pageSize"
+        :layout="layout"
+        :page-sizes="pageSizes"
+        :total="total"
+        v-bind="$attrs"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
       />
     </div>
   </div>
 </template>
 
 <script>
+  import {scrollTo} from '@/utils/scrollTo'
+
   export default {
     name: 'VTable',
     props: {
       // table
+      loading: Boolean,
       data: {
-        type: [Array, Object],
-        required: true
+        type: Array,
+        required: true,
+        default: () => []
       },
-      labelName: String,
       columns: {
         type: Array,
         default: () => []
@@ -54,7 +62,7 @@
       },
       limit: {
         type: Number,
-        default: 20
+        default: 10
       },
       pageSizes: {
         type: Array,
@@ -69,6 +77,10 @@
       background: {
         type: Boolean,
         default: true
+      },
+      autoScroll: {
+        type: Boolean,
+        default: false
       },
     },
     computed: {
@@ -91,10 +103,16 @@
     },
     methods: {
       handleSizeChange(val) {
-        this.$emit('pagination', {page: this.currentPage, limit: val})
+        this.$emit('pagination', { page: this.currentPage, limit: val })
+        if (this.autoScroll) {
+          scrollTo(0, 800)
+        }
       },
       handleCurrentChange(val) {
-        this.$emit('pagination', {page: val, limit: this.pageSize})
+        this.$emit('pagination', { page: val, limit: this.pageSize })
+        if (this.autoScroll) {
+          scrollTo(0, 800)
+        }
       }
     }
   }
