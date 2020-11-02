@@ -28,7 +28,7 @@ import * as filters from './filters' // global filters
  * please remove it before going online ! ! !
  */
 // if (process.env.NODE_ENV === 'production') {
-const {mockXHR} = require('../mock')
+const { mockXHR } = require('../mock')
 mockXHR()
 // }
 
@@ -42,6 +42,17 @@ Vue.use(Element, {
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
+Vue.prototype.$navigateTo = function (url, json) {
+  router.push({
+    path: url,
+    query: json
+  })
+}
+
+Vue.prototype.$navigateBack = function () {
+  router.back()
+}
 
 Vue.config.productionTip = false
 
