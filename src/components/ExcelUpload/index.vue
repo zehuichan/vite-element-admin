@@ -1,7 +1,9 @@
 <template>
   <div style="display: inline-block; margin: 0 10px;">
     <input ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
-    <el-button type="warning" icon="el-icon-upload2" @click="handleUpload">导入人员</el-button>
+    <el-button v-bind="$attrs" @click="handleUpload">
+      <slot>导入</slot>
+    </el-button>
   </div>
 </template>
 
@@ -9,7 +11,7 @@
   import XLSX from 'xlsx'
 
   export default {
-    name: 'UploadExcel',
+    name: 'ExcelUpload',
     props: {
       beforeUpload: Function,
       onSuccess: Function
@@ -24,7 +26,7 @@
       }
     },
     methods: {
-      transExcelRow (row) {
+      transExcelRow(row) {
         const ret = {}
         for (const i in row) {
           ret[i.trim()] = row[i]
