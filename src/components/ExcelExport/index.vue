@@ -11,9 +11,6 @@
 </template>
 
 <script>
-  // utils
-  import {parseTime} from '@/utils'
-
   export default {
     name: 'ExcelExport',
     props: {
@@ -26,11 +23,11 @@
         type: Array,
         default: () => []
       },
-      filterVal: {
+      tBody: {
         type: Array,
         default: () => []
       },
-      data: {
+      filters: {
         type: Array,
         default: () => []
       },
@@ -40,23 +37,19 @@
       handleDownload() {
         import('./Export2Excel').then(excel => {
           const tHeader = this.tHeader
-          const filterVal = this.filterVal
-          const list = this.data
-          const data = this.formatJson(filterVal, list)
+          const filters = this.filters
+          const tBody = this.tBody
+          const data = this.formatJson(filters, tBody)
           excel.export_json_to_excel({
             header: tHeader,
-            data,
+            data: data,
             filename: this.filename
           })
         })
       },
       formatJson(filterVal, jsonData) {
         return jsonData.map(v => filterVal.map(j => {
-          if (j === 'timestamp') {
-            return parseTime(v[j])
-          } else {
-            return v[j]
-          }
+          return v[j]
         }))
       }
     }

@@ -5,8 +5,8 @@
     </div>
     <v-search v-model.sync="dataForm" :options="options" @search="onSearch">
       <template #tools>
-        <excel-upload type="warning" icon="el-icon-upload2" :on-success="onSuccess"/>
-        <excel-export type="success" icon="el-icon-download"/>
+        <excel-upload type="warning" icon="el-icon-upload2" @success="onSuccess"/>
+        <excel-export type="success" icon="el-icon-download" :t-header="tHeader"/>
       </template>
     </v-search>
     <div class="app-container">
@@ -37,6 +37,8 @@
   import VTable from '@/components/VTable'
   import ExcelUpload from '@/components/ExcelUpload'
   import ExcelExport from '@/components/ExcelExport'
+  // mapping
+  import {columns} from './mapping'
 
   export default {
     name: 'TableDemo',
@@ -45,20 +47,7 @@
         tempRoute: {},
         tableLoading: false,
         tableData: [],
-        columns: [
-          {
-            label: '日期',
-            key: 'date',
-          },
-          {
-            label: '推广员',
-            key: 'name',
-          },
-          {
-            label: '渠道',
-            key: 'channel',
-          },
-        ],
+        columns: [],
         total: 0,
         listQuery: {
           page: 1,
@@ -70,11 +59,14 @@
           { label: '推广员', key: 'promoter_name', value: '', placeholder: '推广员', type: 'input' },
           { label: '日期', key: 'count_date', value: [], placeholder: '日期', type: 'daterange' },
         ],
-        upload_data: []
+        upload_data: [],
+        tHeader: ['发行方']
       }
     },
     created() {
       this.tempRoute = Object.assign({}, this.$route)
+
+      this.columns = columns
       this.getList()
     },
     methods: {
@@ -90,8 +82,68 @@
         const data = Object.assign({}, this.listQuery, this.dataForm)
         console.log(data)
         this.tableData = [
-          { date: '2020-10-28 09:52:41', name: '陈泽辉', channel: '回归测试方案' }
-        ]
+          {
+            'id': '773503465847214080',
+            'supplierId': '1',
+            'usersCardId': '735572009561100288',
+            'uid': '734416496691912704',
+            'plateNumber': '湘EFC396',
+            'plateColor': 1,
+            'cancelState': 2,
+            'cancelStateDesc': '取消成功',
+            'afterSaleState': 4,
+            'afterSaleStateDesc': '已取消',
+            'vehicleType': 2,
+            'vehicleTypeDesc': '客车',
+            'deliveryState': 1,
+            'deliveryStateDesc': '待寄回'
+          }, {
+            'id': '773907776538759168',
+            'supplierId': '1',
+            'usersCardId': '727115169764880384',
+            'uid': '725374275825049600',
+            'plateNumber': '豫A999RA',
+            'plateColor': 1,
+            'afterSaleState': 1,
+            'afterSaleStateDesc': '新建',
+            'vehicleType': 1,
+            'vehicleTypeDesc': '货车'
+          }, {
+            'id': '773907785304854528',
+            'supplierId': '1',
+            'usersCardId': '729792163518492672',
+            'uid': '729787520035987456',
+            'plateNumber': '苏AJS923',
+            'plateColor': 1,
+            'afterSaleState': 1,
+            'afterSaleStateDesc': '新建',
+            'vehicleType': 1,
+            'vehicleTypeDesc': '货车'
+          }, {
+            'id': '773907789083922432',
+            'supplierId': '1',
+            'usersCardId': '730084611715137536',
+            'uid': '729787520035987456',
+            'plateNumber': '苏AJS92A',
+            'plateColor': 1,
+            'afterSaleState': 1,
+            'afterSaleStateDesc': '新建',
+            'vehicleType': 1,
+            'vehicleTypeDesc': '货车'
+          }, {
+            'id': '773503440538783744',
+            'supplierId': '1',
+            'usersCardId': '735519894377598976',
+            'uid': '732526851519553536',
+            'plateNumber': '川AQ3L10',
+            'plateColor': 1,
+            'afterSaleState': 1,
+            'afterSaleStateDesc': '新建',
+            'vehicleType': 1,
+            'vehicleTypeDesc': '货车',
+            'deliveryState': 1,
+            'deliveryStateDesc': '待寄回'
+          }]
       },
       onSearch() {
         console.log('search')

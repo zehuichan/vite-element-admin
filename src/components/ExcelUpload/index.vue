@@ -14,7 +14,6 @@
     name: 'ExcelUpload',
     props: {
       beforeUpload: Function,
-      onSuccess: Function
     },
     data() {
       return {
@@ -36,7 +35,7 @@
       generateData({ header, results }) {
         this.excelData.header = header
         this.excelData.results = results
-        this.onSuccess && this.onSuccess(this.excelData)
+        this.$emit('success', this.excelData)
       },
       handleDrop(e) {
         e.stopPropagation()
