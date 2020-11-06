@@ -9,6 +9,7 @@
         <excel-export
           type="success"
           icon="el-icon-download"
+          :can-export="canExport"
           :t-header="tHeader"
           :t-body="tBody"
         />
@@ -66,7 +67,7 @@
         ],
         upload_data: [],
         // 导出相关
-        loading: false,
+        canExport: false,
         tHeader: ['发行方', '车辆类型', '售后订单号', '车牌号', '收件人姓名', '收货人电话', '收货地址', '模式', '快递公司', '快递单号'],
         tFilters: ['supplierId', 'vehicleTypeDesc', 'id', 'plateNumber', 'consignee', 'consigneePhone', 'receivingAddress', 'patternDesc', 'expressCompany', 'deliveryNumber']
       }
@@ -194,6 +195,7 @@
             'deliveryStateDesc': '待寄回',
             'consigneePhone': '123456'
           }]
+        this.canExport = true
       },
       onSearch() {
         console.log('search')
