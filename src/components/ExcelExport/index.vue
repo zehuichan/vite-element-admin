@@ -14,7 +14,6 @@
   export default {
     name: 'ExcelExport',
     props: {
-      loading: Boolean,
       loadingText: {
         type: String,
         default: '正在导出所有需要发货的维修单（所有发行方）...'
@@ -27,30 +26,26 @@
         type: Array,
         default: () => []
       },
-      filters: {
-        type: Array,
-        default: () => []
-      },
       filename: String
+    },
+    data() {
+      return {
+        loading: false
+      }
     },
     methods: {
       handleDownload() {
+        this.loading = true
         import('./Export2Excel').then(excel => {
           const tHeader = this.tHeader
-          const filters = this.filters
           const tBody = this.tBody
-          const data = this.formatJson(filters, tBody)
           excel.export_json_to_excel({
             header: tHeader,
-            data: data,
+            data: tBody,
             filename: this.filename
           })
+          this.loading = false
         })
-      },
-      formatJson(filterVal, jsonData) {
-        return jsonData.map(v => filterVal.map(j => {
-          return v[j]
-        }))
       }
     }
   }

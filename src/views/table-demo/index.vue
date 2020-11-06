@@ -6,7 +6,12 @@
     <v-search v-model.sync="dataForm" :options="options" @search="onSearch">
       <template #tools>
         <excel-upload type="warning" icon="el-icon-upload2" @success="onSuccess"/>
-        <excel-export type="success" icon="el-icon-download" :t-header="tHeader"/>
+        <excel-export
+          type="success"
+          icon="el-icon-download"
+          :t-header="tHeader"
+          :t-body="tBody"
+        />
       </template>
     </v-search>
     <div class="app-container">
@@ -60,8 +65,21 @@
           { label: '日期', key: 'count_date', value: [], placeholder: '日期', type: 'daterange' },
         ],
         upload_data: [],
-        tHeader: ['发行方']
+        // 导出相关
+        loading: false,
+        tHeader: ['发行方', '车辆类型', '售后订单号', '车牌号', '收件人姓名', '收货人电话', '收货地址', '模式', '快递公司', '快递单号'],
+        tFilters: ['supplierId', 'vehicleTypeDesc', 'id', 'plateNumber', 'consignee', 'consigneePhone', 'receivingAddress', 'patternDesc', 'expressCompany', 'deliveryNumber']
       }
+    },
+    computed: {
+      tBody() {
+        return this.tableData.map(v => this.tFilters.map(j => {
+          if (j === 'supplierId') {
+            return this.$options.filters.supplierFilter(v[j])
+          }
+          return v[j]
+        }))
+      },
     },
     created() {
       this.tempRoute = Object.assign({}, this.$route)
@@ -83,6 +101,81 @@
         console.log(data)
         this.tableData = [
           {
+            'id': '773503440538783744',
+            'supplierId': '1',
+            'usersCardId': '735519894377598976',
+            'uid': '732526851519553536',
+            'plateNumber': '川AQ3L10',
+            'plateColor': 1,
+            'afterSaleState': 1,
+            'afterSaleStateDesc': '新建',
+            'vehicleType': 1,
+            'vehicleTypeDesc': '货车',
+            'pattern': 1,
+            'patternDesc': '仅更换ETC卡片',
+            'deliveryState': 1,
+            'deliveryStateDesc': '待寄回',
+            'userReturnTime': '2020-11-06 10:52:00'
+          }, {
+            'id': '773907776538759168',
+            'supplierId': '1',
+            'usersCardId': '727115169764880384',
+            'uid': '725374275825049600',
+            'plateNumber': '豫A999RA',
+            'plateColor': 1,
+            'afterSaleState': 1,
+            'afterSaleStateDesc': '新建',
+            'vehicleType': 1,
+            'vehicleTypeDesc': '货车',
+            'pattern': 3,
+            'patternDesc': '更换ETC卡片和ETC设备',
+            'deliveryState': 2,
+            'deliveryStateDesc': '待签收',
+            'consigneePhone': '123456'
+          }, {
+            'id': '773907785304854528',
+            'supplierId': '1',
+            'usersCardId': '729792163518492672',
+            'uid': '729787520035987456',
+            'plateNumber': '苏AJS923',
+            'plateColor': 1,
+            'afterSaleState': 1,
+            'afterSaleStateDesc': '新建',
+            'vehicleType': 1,
+            'vehicleTypeDesc': '货车',
+            'pattern': 1,
+            'patternDesc': '仅更换ETC卡片',
+            'deliveryState': 3,
+            'deliveryStateDesc': '待发货',
+            'consigneePhone': '123456'
+          }, {
+            'id': '773907789083922432',
+            'supplierId': '1',
+            'usersCardId': '730084611715137536',
+            'uid': '729787520035987456',
+            'plateNumber': '苏AJS92A',
+            'plateColor': 1,
+            'afterSaleState': 1,
+            'afterSaleStateDesc': '新建',
+            'vehicleType': 1,
+            'vehicleTypeDesc': '货车',
+            'pattern': 2,
+            'patternDesc': '仅更换ETC设备',
+            'deliveryState': 1,
+            'deliveryStateDesc': '待寄回',
+            'consigneePhone': '123456'
+          }, {
+            'id': '773948896324964352',
+            'supplierId': '1',
+            'usersCardId': '773863039853813760',
+            'uid': '108',
+            'plateNumber': '粤ATKT77',
+            'plateColor': 1,
+            'afterSaleState': 1,
+            'afterSaleStateDesc': '新建',
+            'vehicleType': 2,
+            'vehicleTypeDesc': '客车'
+          }, {
             'id': '773503465847214080',
             'supplierId': '1',
             'usersCardId': '735572009561100288',
@@ -95,54 +188,11 @@
             'afterSaleStateDesc': '已取消',
             'vehicleType': 2,
             'vehicleTypeDesc': '客车',
+            'pattern': 2,
+            'patternDesc': '仅更换ETC设备',
             'deliveryState': 1,
-            'deliveryStateDesc': '待寄回'
-          }, {
-            'id': '773907776538759168',
-            'supplierId': '1',
-            'usersCardId': '727115169764880384',
-            'uid': '725374275825049600',
-            'plateNumber': '豫A999RA',
-            'plateColor': 1,
-            'afterSaleState': 1,
-            'afterSaleStateDesc': '新建',
-            'vehicleType': 1,
-            'vehicleTypeDesc': '货车'
-          }, {
-            'id': '773907785304854528',
-            'supplierId': '1',
-            'usersCardId': '729792163518492672',
-            'uid': '729787520035987456',
-            'plateNumber': '苏AJS923',
-            'plateColor': 1,
-            'afterSaleState': 1,
-            'afterSaleStateDesc': '新建',
-            'vehicleType': 1,
-            'vehicleTypeDesc': '货车'
-          }, {
-            'id': '773907789083922432',
-            'supplierId': '1',
-            'usersCardId': '730084611715137536',
-            'uid': '729787520035987456',
-            'plateNumber': '苏AJS92A',
-            'plateColor': 1,
-            'afterSaleState': 1,
-            'afterSaleStateDesc': '新建',
-            'vehicleType': 1,
-            'vehicleTypeDesc': '货车'
-          }, {
-            'id': '773503440538783744',
-            'supplierId': '1',
-            'usersCardId': '735519894377598976',
-            'uid': '732526851519553536',
-            'plateNumber': '川AQ3L10',
-            'plateColor': 1,
-            'afterSaleState': 1,
-            'afterSaleStateDesc': '新建',
-            'vehicleType': 1,
-            'vehicleTypeDesc': '货车',
-            'deliveryState': 1,
-            'deliveryStateDesc': '待寄回'
+            'deliveryStateDesc': '待寄回',
+            'consigneePhone': '123456'
           }]
       },
       onSearch() {

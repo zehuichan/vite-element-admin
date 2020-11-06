@@ -18,6 +18,7 @@ import '@/icons' // icon
 import '@/permission' // permission control
 
 import * as filters from './filters' // global filters
+import './constants'
 
 /**
  * If you don't want to use mock-server
