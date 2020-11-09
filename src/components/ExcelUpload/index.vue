@@ -1,5 +1,5 @@
 <template>
-  <div style="display: inline-block; margin: 0 10px;">
+  <div class="excel-upload">
     <input ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
     <el-button v-bind="$attrs" @click="handleUpload">
       <slot>导入</slot>
@@ -14,6 +14,7 @@
     name: 'ExcelUpload',
     props: {
       beforeUpload: Function,
+      onSuccess: Function,
     },
     data() {
       return {
@@ -35,7 +36,7 @@
       generateData({ header, results }) {
         this.excelData.header = header
         this.excelData.results = results
-        this.$emit('success', this.excelData)
+        this.onSuccess && this.onSuccess(this.excelData)
       },
       handleDrop(e) {
         e.stopPropagation()
@@ -122,7 +123,12 @@
   }
 </script>
 
-<style lang="scss">
+<style scoped>
+  .excel-upload {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
   .excel-upload-input {
     display: none;
     z-index: -9999;

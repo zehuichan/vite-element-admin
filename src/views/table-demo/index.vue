@@ -13,6 +13,7 @@
           :t-header="tHeader"
           :t-body="tBody"
         />
+        <uploader/>
       </template>
     </v-search>
     <div class="app-container">
@@ -43,6 +44,7 @@
   import VTable from '@/components/VTable'
   import ExcelUpload from '@/components/ExcelUpload'
   import ExcelExport from '@/components/ExcelExport'
+  import Uploader from '@/components/Uploader'
   // mapping
   import {columns} from './mapping'
 
@@ -224,7 +226,8 @@
       VSearch,
       VTable,
       ExcelUpload,
-      ExcelExport
+      ExcelExport,
+      Uploader
     }
   }
 </script>
