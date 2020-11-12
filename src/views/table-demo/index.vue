@@ -5,15 +5,17 @@
     </div>
     <v-search v-model.sync="dataForm" :options="options" @search="onSearch">
       <template #tools>
-        <excel-upload type="warning" icon="el-icon-upload2" @success="onSuccess"/>
+        <excel-upload type="warning" icon="el-icon-upload2" :on-success="onSuccess">前端导入</excel-upload>
         <excel-export
           type="success"
           icon="el-icon-download"
           :can-export="canExport"
           :t-header="tHeader"
           :t-body="tBody"
-        />
-        <uploader/>
+        >
+          前端导出
+        </excel-export>
+        <uploader type="info" icon="el-icon-upload" :on-success="onSuccess2">原生上传</uploader>
       </template>
     </v-search>
     <div class="app-container">
@@ -213,6 +215,7 @@
             name: each['人员名称']
           })
         }
+        console.log(this.upload_data)
       },
       transExcelRow(row) {
         const ret = {}
@@ -221,6 +224,9 @@
         }
         return ret
       },
+      onSuccess2(rawFile) {
+        console.log(rawFile)
+      }
     },
     components: {
       VSearch,

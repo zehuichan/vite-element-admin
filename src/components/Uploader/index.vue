@@ -1,8 +1,8 @@
 <template>
   <div class="uploader">
     <input ref="upload-input" class="upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
-    <el-button type="warning" icon="el-icon-upload2" @click="handleUpload">
-      <slot>导入人员</slot>
+    <el-button v-bind="$attrs" @click="handleUpload">
+      <slot>导入</slot>
     </el-button>
   </div>
 </template>
