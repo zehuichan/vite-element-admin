@@ -38,7 +38,8 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                value-format="yyyy-MM-dd"
+                :value-format="item.valueFormat || ''"
+                :default-time="item.defaultTime || ['00:00:00', '23:59:59']"
                 style="width:100%; height:33px;"
               />
             </el-form-item>
