@@ -18,12 +18,17 @@
                 v-model="value[item.key]"
                 :multiple="item.multiple"
                 :collapse-tags="item.multiple"
+                :filterable="item.remote"
+                :remote="item.remote"
+                :reserve-keyword="item.remote"
+                :remote-method="remoteMethod"
                 :placeholder="item.placeholder"
                 :disabled="item.disabled"
+                :loading="loading"
                 clearable
                 style="width:100%"
               >
-                <el-option label="全部" value=""/>
+                <el-option label="全部" value="" v-if="!item.remote"/>
                 <el-option
                   v-for="(sub, idx) in item.options"
                   :key="idx"
@@ -74,8 +79,10 @@
       },
       labelWidth: {
         type: String,
-        default: '100px'
+        default: '120px'
       },
+      remoteMethod: Function,
+      loading: Boolean
     },
     methods: {
       onSearch() {
@@ -85,9 +92,9 @@
       },
       onReset() {
         this.$refs.dataForm.resetFields()
-        this.$emit('update:value', {})
-        this.$emit('change', {})
-        this.$emit('reset', {})
+        this.$emit('update:value', this.value)
+        this.$emit('change', this.value)
+        this.$emit('reset', this.value)
       }
     }
   }
