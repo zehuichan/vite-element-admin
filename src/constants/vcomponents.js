@@ -1,6 +1,7 @@
 // components
 import VSearch from '@/components/VSearch'
 import VTable from '@/components/VTable'
+import VForm from '@/components/VForm'
 import ExcelUpload from '@/components/ExcelUpload'
 import ExcelExport from '@/components/ExcelExport'
 import Uploader from '@/components/Uploader'
@@ -9,6 +10,7 @@ import Countdown from '@/components/Countdown'
 const components = [
   VSearch,
   VTable,
+  VForm,
   ExcelUpload,
   ExcelExport,
   Uploader,

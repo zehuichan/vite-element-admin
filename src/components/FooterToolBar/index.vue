@@ -1,10 +1,12 @@
 <template>
-  <div class="footer-tool-bar" :style="{ width: barWidth }">
-    <div style="float: left">
-      <slot name="extra">{{ extra }}</slot>
-    </div>
-    <div style="float: right">
-      <slot></slot>
+  <div class="footer-tool-bar-placeholder">
+    <div class="footer-tool-bar" :style="{ width: barWidth }">
+      <div style="float: left">
+        <slot name="extra">{{ extra }}</slot>
+      </div>
+      <div style="float: right">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -41,7 +43,11 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
+<style lang="scss" scoped>
+  .footer-tool-bar-placeholder {
+    height: 56px;
+  }
+
   .footer-tool-bar {
     position: fixed;
     width: 100%;
