@@ -19,6 +19,9 @@
       </template>
     </v-search>
     <div class="app-container">
+      <code>
+        {{dataForm}}
+      </code>
       <v-table
         :loading="tableLoading"
         :data="tableData"
@@ -41,6 +44,8 @@
 </template>
 
 <script>
+  // utils
+  import {parseTime} from '@/utils'
   // components
   import VSearch from '@/components/VSearch'
   import VTable from '@/components/VTable'
@@ -63,11 +68,20 @@
           page: 1,
           limit: 10
         },
-        dataForm: {},
+        dataForm: {
+          count_date: [parseTime(new Date(), '{y}-{m}-{d} 00:00:00'), parseTime(new Date(), '{y}-{m}-{d} 23:59:59')]
+        },
         options: [
           { label: '渠道', key: 'channel_name', value: '', placeholder: '渠道', type: 'input' },
           { label: '推广员', key: 'promoter_name', value: '', placeholder: '推广员', type: 'input' },
-          { label: '日期', key: 'count_date', value: [], placeholder: '日期', type: 'daterange' },
+          {
+            label: '日期',
+            key: 'count_date',
+            value: [],
+            placeholder: '日期',
+            type: 'daterange',
+            valueFormat: 'yyyy-MM-dd hh:mm:ss'
+          },
         ],
         upload_data: [],
         // 导出相关
