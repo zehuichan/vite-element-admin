@@ -1,10 +1,16 @@
 // require('login/index').default   // 同步的方式
-// () => import('login/index')      // 异步的方式
+// () => import('login/index')      // 异步的方式，懒加载
 
 import Layout from '@/layout'
+// RouteView
+const RouteView = {
+  name: 'RouteView',
+  render: (h) => h('router-view')
+}
 
 const mapping = {
   Layout: Layout,
+  RouteView: RouteView,
 
   // index
   Dashboard: () => import('@/views/dashboard/index'),

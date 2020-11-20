@@ -21,10 +21,10 @@
         <el-button type="danger" icon="el-icon-download" v-action:export>导出</el-button>
       </div>
       <el-table
-          v-loading="loading"
-          :data="tableData"
-          stripe
-          style="width: 100%"
+        v-loading="loading"
+        :data="tableData"
+        stripe
+        style="width: 100%"
       >
         <el-table-column type="selection" width="55"/>
         <el-table-column prop="account" label="账号" min-width="120"/>
@@ -57,29 +57,28 @@
         <div class="fl">
           <el-select v-model="select" clearable placeholder="批量操作">
             <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
             </el-option>
           </el-select>
           <el-button type="primary">确定</el-button>
         </div>
         <el-pagination
-            class="fr"
-            background
-            :small="small"
-            :current-page="p"
-            :page-size="ps"
-            :page-sizes="[15, 20, 30, 50]"
-            :layout="layout"
-            :total="total"
-            @size-change="onSizeChange"
-            @current-change="onCurrentChange"
+          class="fr"
+          background
+          :small="small"
+          :current-page="p"
+          :page-size="ps"
+          :page-sizes="[15, 20, 30, 50]"
+          :layout="layout"
+          :total="total"
+          @size-change="onSizeChange"
+          @current-change="onCurrentChange"
         />
       </div>
     </div>
-
     <pass-word-dialog v-model="show"/>
   </div>
 </template>
@@ -111,7 +110,7 @@
         },
         select: '',
         options: [
-          {value: '选项1', label: '批量删除'},
+          { value: '选项1', label: '批量删除' },
         ],
         show: false
       }
@@ -132,11 +131,11 @@
     },
     methods: {
       navigateTo(path) {
-        this.$router.push({path})
+        this.$router.push({ path })
       },
       async _adminList() {
         this.loading = true
-        const res = await adminList({p: this.p, ps: this.ps})
+        const res = await adminList({ p: this.p, ps: this.ps })
         this.tableData = res.data.items
         this.total = res.data.total
         this.loading = false
@@ -149,7 +148,7 @@
         this.p = val
         this._adminList()
       },
-      onClick(){
+      onClick() {
         this.show = true
       },
     },
