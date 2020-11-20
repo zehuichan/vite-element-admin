@@ -29,7 +29,7 @@ function generatorDynamicRouter(serverRouter) {
 }
 
 /**
- * Use meta.role to determine if the current user has permission
+ * Use meta.roles to determine if the current user has permission
  * @param roles
  * @param route
  */
