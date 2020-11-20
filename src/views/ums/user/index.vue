@@ -1,83 +1,39 @@
 <template>
   <div>
-    <div class="app-container">
-      <el-form label-position="right" label-width="80px" :model="dataForm">
-        <el-row :gutter="20">
-          <el-col :xs="24" :sm="8" :md="6">
-            <el-form-item label="输入搜索">
-              <el-input v-model="dataForm.name" clearable placeholder="账号/姓名"/>
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="16" :md="18" class="text-right">
-            <el-button>重置</el-button>
-            <el-button type="primary">查询结果</el-button>
-          </el-col>
-        </el-row>
-      </el-form>
-    </div>
-    <div class="app-container">
-      <div class="btn-tools">
+    <v-search v-model.sync="dataForm" :options="options" @search="onSearch">
+      <template #tools>
         <el-button type="primary" icon="el-icon-plus" v-action:add>新增</el-button>
         <el-button type="danger" icon="el-icon-download" v-action:export>导出</el-button>
-      </div>
-      <el-table
-        v-loading="loading"
+      </template>
+    </v-search>
+    <div class="app-container">
+      <v-table
+        :loading="loading"
         :data="tableData"
-        stripe
-        style="width: 100%"
+        :columns="columns"
+        :total="total"
+        :page.sync="listQuery.p"
+        :limit.sync="listQuery.ps"
+        @pagination="_adminList"
       >
-        <el-table-column type="selection" width="55"/>
-        <el-table-column prop="account" label="账号" min-width="120"/>
-        <el-table-column prop="name" label="姓名"/>
-        <el-table-column prop="org" label="所属机构"/>
-        <el-table-column prop="mobile" label="手机号" min-width="120"/>
-        <el-table-column prop="email" label="邮箱" min-width="200"/>
-        <el-table-column prop="create_time" label="添加时间" min-width="140"/>
-        <el-table-column prop="login_time" label="最后登录" min-width="140"/>
-        <el-table-column label="状态" width="60">
-          <template slot-scope="scope">
-            <el-tag>{{scope.row.status ? '启用' : '禁用'}}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="260">
-          <template slot-scope="scope">
-            <el-button type="text" @click="navigateTo(`/ums/user/assign-role/${scope.row.id}`)">分配角色</el-button>
-            <el-divider direction="vertical"/>
-            <el-button type="text" @click="onClick">修改密码</el-button>
-            <el-divider direction="vertical"/>
-            <el-button type="text" v-action:edit>编辑</el-button>
-            <el-divider direction="vertical"/>
-            <el-popconfirm title="此操作将永久删除选择的用户, 是否继续?" icon="el-icon-info" iconColor="red">
-              <el-button slot="reference" type="text" v-action:delete>删除</el-button>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="page-container">
-        <div class="fl">
-          <el-select v-model="select" clearable placeholder="批量操作">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-          <el-button type="primary">确定</el-button>
-        </div>
-        <el-pagination
-          class="fr"
-          background
-          :small="small"
-          :current-page="p"
-          :page-size="ps"
-          :page-sizes="[15, 20, 30, 50]"
-          :layout="layout"
-          :total="total"
-          @size-change="onSizeChange"
-          @current-change="onCurrentChange"
-        />
-      </div>
+        <template #selection>
+          <el-table-column type="selection" width="55"/>
+        </template>
+        <template #status="{scope}">
+          <el-tag>{{scope.row.status ? '启用' : '禁用'}}</el-tag>
+        </template>
+        <template #actions="{scope}">
+          <el-button type="text" @click="navigateTo(`/ums/user/assign-role/${scope.row.id}`)">分配角色</el-button>
+          <el-divider direction="vertical"/>
+          <el-button type="text" @click="onClick">修改密码</el-button>
+          <el-divider direction="vertical"/>
+          <el-button type="text" v-action:edit>编辑</el-button>
+          <el-divider direction="vertical"/>
+          <el-popconfirm title="此操作将永久删除选择的用户, 是否继续?" icon="el-icon-info" iconColor="red">
+            <el-button slot="reference" type="text" v-action:delete>删除</el-button>
+          </el-popconfirm>
+        </template>
+      </v-table>
     </div>
     <pass-word-dialog v-model="show"/>
   </div>
@@ -86,12 +42,12 @@
 <script>
   // api
   import {adminList} from '@/api/ums'
-  // vuex
-  import {mapGetters} from 'vuex'
   // directives
   import action from '@/directive/action'
   // components
   import PassWordDialog from './components/PassWordDialog'
+  // mapping
+  import {options, columns} from './mapping'
 
   export default {
     name: 'User',
@@ -100,33 +56,23 @@
     },
     data() {
       return {
+        options: [],
+        total: 0,
+        listQuery: {
+          p: 1,
+          ps: 10
+        },
+        dataForm: {},
         loading: false,
         tableData: [],
-        total: 0,
-        p: 1,
-        ps: 15,
-        dataForm: {
-          name: ''
-        },
-        select: '',
-        options: [
-          { value: '选项1', label: '批量删除' },
-        ],
+        columns: [],
         show: false
       }
     },
-    computed: {
-      small() {
-        return ['screen-md', 'screen-xs', 'screen-sm'].includes(this.mediaQuery)
-      },
-      layout() {
-        return ['screen-md', 'screen-xs', 'screen-sm'].includes(this.mediaQuery) ? 'total, prev, pager, next' : 'total, sizes, prev, pager, next, jumper'
-      },
-      ...mapGetters([
-        'mediaQuery'
-      ])
-    },
     created() {
+      this.options = options
+      this.columns = columns
+
       this._adminList()
     },
     methods: {
@@ -135,17 +81,14 @@
       },
       async _adminList() {
         this.loading = true
-        const res = await adminList({ p: this.p, ps: this.ps })
+        const data = Object.assign({}, this.listQuery, this.dataForm)
+        const res = await adminList(data)
         this.tableData = res.data.items
         this.total = res.data.total
         this.loading = false
       },
-      onSizeChange(val) {
-        this.ps = val
-        this._adminList()
-      },
-      onCurrentChange(val) {
-        this.p = val
+      onSearch() {
+        this.listQuery.p = 1
         this._adminList()
       },
       onClick() {

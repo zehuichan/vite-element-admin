@@ -1,25 +1,16 @@
 <template>
   <div>
     <div class="app-container">
-      <div class="page-header-heading">
-        <span class="page-header-heading-title">{{$route.meta.title}}</span>
-      </div>
+      <el-table :data="tableData">
+        <el-table-column prop="meta.title" label="菜单名字"/>
+      </el-table>
     </div>
-    <div class="app-container">
-
-    </div>
-
-    <footer-tool-bar>
-      <el-button type="primary">保存</el-button>
-    </footer-tool-bar>
   </div>
 </template>
 
 <script>
   // api
   import {menuList} from '@/api/ums'
-  // components
-  import FooterToolBar from '@/components/FooterToolBar/index'
 
   export default {
     name: 'Menu',
@@ -35,11 +26,9 @@
     methods: {
       async _menuList() {
         const res = await menuList()
+        console.log(res)
         this.tableData = res.data
       },
-    },
-    components: {
-      FooterToolBar
     }
   }
 </script>

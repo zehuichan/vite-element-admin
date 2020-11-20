@@ -10,8 +10,8 @@
         :label="column.label"
         :width="column.width"
         :min-width="column.minWidth"
-        :align="column.align || 'center'"
-        :header-align="column.headerAlign"
+        :align="column.align || 'left'"
+        :header-align="column.headerAlign || 'left'"
         :sortable="column.sortable"
         v-if="column.hidden === undefined && !column.hidden"
       >

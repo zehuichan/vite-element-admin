@@ -53,7 +53,7 @@
       </el-form>
     </div>
     <div class="base-form-tools">
-      <el-button type="primary" icon="el-icon-search" @click="onSearch">搜索</el-button>
+      <el-button type="primary" icon="el-icon-search" @click="onSearch">查询</el-button>
       <el-button type="default" icon="el-icon-refresh" @click="onReset">重置</el-button>
       <slot name="tools"/>
     </div>

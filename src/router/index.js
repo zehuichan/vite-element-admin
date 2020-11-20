@@ -67,6 +67,7 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/500'),
     hidden: true
   },
+  {path: '/', redirect: '/dashboard'},
 ]
 
 
