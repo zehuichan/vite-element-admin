@@ -18,6 +18,7 @@ const mapping = {
   Permission: () => import('@/views/permission/index'),
   DynamicForm: () => import('@/views/dynamic-form/index'),
   TableDemo: () => import('@/views/table-demo/index'),
+  Test: () => import('@/views/nested/test'),
 
   // ums
   User: () => import('@/views/ums/user/index'),
