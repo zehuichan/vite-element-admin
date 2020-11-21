@@ -11,26 +11,20 @@ function generatorDynamicRouter(serverRouter) {
   const res = []
 
   serverRouter.forEach(route => {
-    const tmp = { ...route }
-    if (tmp.children === undefined) {
+    const tmp = {...route}
+    if (tmp.component === 'Layout') {
       tmp.component = mapping['Layout']
-      tmp.children = [
-        {
-          path: tmp.path,
-          component: mapping[tmp.name],
-          hidden: tmp.hidden,
-          name: tmp.name,
-          meta: tmp.meta
-        }
-      ]
-    } else if (tmp.children) {
+    } else {
+      tmp.component = mapping[tmp.component]
+    }
+
+    if (tmp.children) {
       tmp.children = generatorDynamicRouter(tmp.children)
     }
 
     res.push(tmp)
   })
 
-  console.log(res)
   return res
 }
 
@@ -56,7 +50,7 @@ export function filterAsyncRoutes(routes, roles) {
   const res = []
 
   routes.forEach(route => {
-    const tmp = { ...route }
+    const tmp = {...route}
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
         tmp.children = filterAsyncRoutes(tmp.children, roles)
@@ -81,14 +75,14 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({commit}, roles) {
     return new Promise(resolve => {
       let accessedRoutes
       let permissionRouters
       menuList().then(response => {
-        const { data } = response
+        const {data} = response
         permissionRouters = generatorDynamicRouter(data)
-        permissionRouters = [...permissionRouters, { path: '*', redirect: '/404', hidden: true }]
+        permissionRouters = [...permissionRouters, {path: '*', redirect: '/404', hidden: true}]
         if (roles.includes('admin')) {
           accessedRoutes = permissionRouters || []
         } else {

@@ -9,7 +9,6 @@ const admin = Mock.mock({
     create_time: '@datetime',
     login_time: '@datetime',
     mobile: /^1[385][1-9]\d{8}/,
-    org: '@ctitle',
     status: 1
   }]
 })
@@ -46,99 +45,194 @@ const role = Mock.mock({
 const menu = Mock.mock(
   [
     {
-      path: '/dashboard',
-      name: 'Dashboard',
+      path: '/',
+      component: 'Layout',
+      redirect: '/dashboard',
       hidden: false,
-      meta: {
-        title: '仪表板', icon: 'el-icon-odometer', affix: true, roles: ['admin'],
-        permissions: [
-          { action: 'add', desc: '新增' },
-          { action: 'delete', desc: '删除' },
-          { action: 'edit', desc: '修改' },
-          { action: 'query', desc: '查询' },
-          { action: 'import', desc: '导入' },
-          { action: 'export', desc: '导出' },
-        ]
-      }
+      children: [
+        {
+          path: '',
+          component: 'Dashboard',
+          hidden: false,
+          name: 'Dashboard',
+          meta: {
+            title: '仪表板', icon: 'el-icon-odometer', affix: true, roles: ['admin'],
+            permissions: [
+              { action: 'add', desc: '新增' },
+              { action: 'delete', desc: '删除' },
+              { action: 'edit', desc: '修改' },
+              { action: 'query', desc: '查询' },
+              { action: 'import', desc: '导入' },
+              { action: 'export', desc: '导出' },
+            ]
+          },
+        },
+      ]
     },
     {
       path: '/documentation',
-      name: 'Documentation',
+      component: 'Layout',
       hidden: false,
-      meta: { title: '文档', icon: 'el-icon-document', affix: true, roles: ['admin'], },
+      children: [
+        {
+          path: '',
+          component: 'Documentation',
+          hidden: false,
+          name: 'Documentation',
+          meta: { title: '文档', icon: 'el-icon-document', affix: true, roles: ['admin'], },
+        },
+      ]
     },
     {
       path: '/permission',
-      name: 'Permission',
+      component: 'Layout',
       hidden: false,
-      meta: {
-        title: '按钮权限测试页', icon: 'el-icon-lock', roles: ['admin'],
-        permissions: [
-          { action: 'add', desc: '新增' },
-          { action: 'delete', desc: '删除' },
-          { action: 'edit', desc: '修改' },
-          { action: 'query', desc: '查询' },
-          { action: 'import', desc: '导入' },
-          { action: 'export', desc: '导出' },
-        ]
-      }
+      children: [
+        {
+          path: '',
+          component: 'Permission',
+          hidden: false,
+          name: 'Permission',
+          meta: {
+            title: '按钮权限测试页', icon: 'el-icon-lock', roles: ['admin'],
+            permissions: [
+              { action: 'add', desc: '新增' },
+              { action: 'delete', desc: '删除' },
+              { action: 'edit', desc: '修改' },
+              { action: 'query', desc: '查询' },
+              { action: 'import', desc: '导入' },
+              { action: 'export', desc: '导出' },
+            ]
+          },
+        },
+      ]
     },
     {
       path: '/dynamicform',
-      name: 'DynamicForm',
+      component: 'Layout',
       hidden: false,
-      meta: { title: '动态配置表单', icon: 'el-icon-video-camera', roles: ['admin'], }
+      children: [
+        {
+          path: '',
+          component: 'DynamicForm',
+          hidden: false,
+          name: 'DynamicForm',
+          meta: { title: '动态配置表单', icon: 'el-icon-video-camera', roles: ['admin'], },
+        },
+      ]
     },
     {
       path: '/tableDemo',
+      component: 'Layout',
       hidden: false,
-      name: 'TableDemo',
-      meta: { title: '综合表格demo', icon: 'el-icon-s-grid', roles: ['admin'], },
+      children: [
+        {
+          path: '',
+          component: 'TableDemo',
+          hidden: false,
+          name: 'TableDemo',
+          meta: { title: '综合表格demo', icon: 'el-icon-s-grid', roles: ['admin'], },
+        },
+      ]
+    },
+    {
+      path: '/nested',
+      component: 'Layout',
+      redirect: '/nested/menu/menu1-1',
+      hidden: false,
+      meta: { title: '嵌套菜单', icon: 'el-icon-document', roles: ['admin'], },
+      children: [
+        {
+          path: '/nested/menu/menu1-1',
+          component: 'Test',
+          hidden: false,
+          name: 'Menu1-1',
+          meta: { title: 'Menu 1-1', roles: ['admin'], },
+        },
+        {
+          path: '/nested/menu/menu1-2',
+          component: 'RouteView',
+          hidden: false,
+          name: 'Menu1-2',
+          meta: { title: 'Menu 1-2', roles: ['admin'], },
+          children: [
+            {
+              path: '/nested/menu/menu1-2-1',
+              component: 'Test',
+              hidden: false,
+              name: 'Menu1-2-1',
+              meta: { title: 'Menu 1-2-1', roles: ['admin'], },
+            },
+            {
+              path: '/nested/menu/menu1-2-2',
+              component: 'Test',
+              hidden: false,
+              name: 'Menu1-2-2',
+              meta: { title: 'Menu 1-2-2', roles: ['admin'], },
+            }
+          ]
+        },
+        {
+          path: '/nested/menu/menu1-3',
+          component: 'Test',
+          hidden: false,
+          name: 'Menu1-3',
+          meta: { title: 'Menu 1-3', roles: ['admin'], },
+        },
+      ]
     },
     {
       path: '/ums',
+      component: 'Layout',
       hidden: false,
       redirect: 'noRedirect',
       meta: { title: '权限管理', icon: 'el-icon-setting', roles: ['admin'] },
       children: [
         {
           path: '/ums/user',
+          component: 'User',
           hidden: false,
           name: 'User',
           meta: { title: '用户管理', roles: ['admin'] }
         },
         {
-          path: '/ums/user/assign-role/:id',
+          path: '/ums/user/assign-roles/:id',
+          component: 'AssignRole',
           hidden: true,
           name: 'AssignRole',
           meta: { title: '分配角色', noCache: true, activeMenu: '/ums/user', roles: ['admin'] }
         },
         {
           path: '/ums/role',
+          component: 'Role',
           hidden: false,
           name: 'Role',
           meta: { title: '角色管理', roles: ['admin'] }
         },
         {
-          path: '/ums/roles/assign-menu/:id',
+          path: '/ums/role/assign-menu/:id',
+          component: 'AssignMenu',
           hidden: true,
           name: 'AssignMenu',
-          meta: { title: '分配菜单', noCache: true, activeMenu: '/ums/roles', roles: ['admin'] }
+          meta: { title: '分配菜单', noCache: true, activeMenu: '/ums/role', roles: ['admin'] }
         },
         {
-          path: '/ums/roles/assign-btn/:id',
+          path: '/ums/role/assign-btn/:id',
+          component: 'AssignBtn',
           hidden: true,
           name: 'AssignBtn',
-          meta: { title: '分配权限', noCache: true, activeMenu: '/ums/roles', roles: ['admin'] }
+          meta: { title: '分配权限', noCache: true, activeMenu: '/ums/role', roles: ['admin'] }
         },
         {
           path: '/ums/org',
+          component: 'Org',
           hidden: false,
           name: 'Org',
           meta: { title: '机构管理', roles: ['admin'] }
         },
         {
           path: '/ums/menu',
+          component: 'Menu',
           hidden: false,
           name: 'Menu',
           meta: { title: '菜单管理', roles: ['admin'] }
