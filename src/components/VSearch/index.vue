@@ -65,7 +65,7 @@
     name: 'VSearch',
     model: {
       prop: 'value',
-      event: 'update:value'
+      event: 'input'
     },
     props: {
       value: {
@@ -86,13 +86,13 @@
     },
     methods: {
       onSearch() {
-        this.$emit('update:value', this.value)
+        this.$emit('input', this.value)
         this.$emit('change', this.value)
         this.$emit('search', this.value)
       },
       onReset() {
         this.$refs.dataForm.resetFields()
-        this.$emit('update:value', this.value)
+        this.$emit('input', this.value)
         this.$emit('change', this.value)
         this.$emit('reset', this.value)
       }

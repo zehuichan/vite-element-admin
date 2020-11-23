@@ -7,6 +7,7 @@ import ExcelExport from '@/components/ExcelExport'
 import Uploader from '@/components/Uploader'
 import Countdown from '@/components/Countdown'
 import FooterToolBar from '@/components/FooterToolBar'
+import VIconSelect from '@/components/VIconSelect'
 
 const components = [
   VSearch,
@@ -17,6 +18,7 @@ const components = [
   Uploader,
   Countdown,
   FooterToolBar,
+  VIconSelect,
 ]
 
 function plugin(Vue, opt) {

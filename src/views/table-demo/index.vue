@@ -3,7 +3,7 @@
     <div class="app-header">
       <el-page-header @back="goBack" :content="$route.meta.title"/>
     </div>
-    <v-search v-model.sync="dataForm" :options="options" @search="onSearch">
+    <v-search v-model="dataForm" :options="options" @search="onSearch">
       <template #tools>
         <excel-upload type="warning" icon="el-icon-upload2" :on-success="onSuccess">前端导入</excel-upload>
         <excel-export

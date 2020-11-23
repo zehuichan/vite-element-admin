@@ -128,7 +128,7 @@
 
     .pagination-container {
       background: #fff;
-      padding: 32px 16px;
+      padding: 16px;
     }
   }
 </style>

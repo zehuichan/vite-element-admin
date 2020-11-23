@@ -45,9 +45,8 @@ const role = Mock.mock({
 const menu = Mock.mock(
   [
     {
-      path: '/',
+      path: '/dashboard',
       component: 'Layout',
-      redirect: '/dashboard',
       hidden: false,
       children: [
         {
@@ -118,6 +117,20 @@ const menu = Mock.mock(
           hidden: false,
           name: 'DynamicForm',
           meta: { title: '动态配置表单', icon: 'el-icon-video-camera', roles: ['admin'], },
+        },
+      ]
+    },
+    {
+      path: '/demo',
+      component: 'Layout',
+      hidden: false,
+      children: [
+        {
+          path: '',
+          component: 'Demo',
+          hidden: false,
+          name: 'Demo',
+          meta: { title: '组件demo', icon: 'el-icon-s-grid', roles: ['admin'], },
         },
       ]
     },

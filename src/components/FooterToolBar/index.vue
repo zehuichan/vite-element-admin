@@ -1,10 +1,10 @@
 <template>
   <div class="footer-tool-bar-placeholder">
     <div class="footer-tool-bar" :style="{ width: barWidth }">
-      <div style="float: left">
+      <div class="fl">
         <slot name="extra">{{ extra }}</slot>
       </div>
-      <div style="float: right">
+      <div class="fr">
         <slot></slot>
       </div>
     </div>
