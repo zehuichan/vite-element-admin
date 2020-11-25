@@ -1,6 +1,21 @@
 <template>
-  <div class="v-table">
-    <el-table v-loading="loading" :data="data" v-bind="$attrs" v-on="$listeners" style="width: 100%;">
+  <div class="v-table" v-loading="loading" element-loading-text="拼命加载中...">
+    <div class="v-table-list-toolbar" v-if="$slots['toolbar-title'] || $slots['toolbar-space']">
+      <div class="v-table-list-toolbar-container">
+        <div class="toolbar-title">
+          <slot name="toolbar-title"/>
+        </div>
+        <div class="toolbar-space">
+          <slot name="toolbar-space"/>
+        </div>
+      </div>
+    </div>
+    <el-table
+      :data="data"
+      v-bind="$attrs"
+      v-on="$listeners"
+      style="width: 100%;"
+    >
       <slot name="selection"/>
       <slot name="pre-column"/>
       <el-table-column
@@ -22,7 +37,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="pagination-container">
+    <div class="pagination-container text-right">
       <el-pagination
         :background="background"
         :current-page.sync="currentPage"
@@ -39,6 +54,7 @@
 </template>
 
 <script>
+  // utils
   import {scrollTo} from '@/utils/scrollTo'
 
   export default {
@@ -129,6 +145,29 @@
     .pagination-container {
       background: #fff;
       padding: 16px;
+    }
+  }
+
+  .v-table-list-toolbar {
+    .v-table-list-toolbar-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+    }
+
+    .toolbar-title {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      color: rgba(0, 0, 0, .85);
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .toolbar-space {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
     }
   }
 </style>

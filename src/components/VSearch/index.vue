@@ -3,59 +3,67 @@
     <div class="app-container">
       <el-form label-position="right" ref="dataForm" :model="value" :label-width="labelWidth">
         <el-row :gutter="32">
-          <el-col :span="8" v-for="(item, index) in options" :key="index" v-if="!item.hidden">
+          <el-col :span="8" v-for="(item, index) in _options" :key="item.key">
             <el-form-item :label="item.label" :prop="item.key">
-              <el-input
-                v-if="item.type == 'input'"
-                v-model="value[item.key]"
-                :placeholder="item.placeholder"
-                :disabled="item.disabled"
-                clearable
-                style="width:100%"
-              />
-              <el-select
-                v-if="item.type == 'select'"
-                v-model="value[item.key]"
-                :multiple="item.multiple"
-                :collapse-tags="item.multiple"
-                :filterable="item.remote"
-                :remote="item.remote"
-                :reserve-keyword="item.remote"
-                :remote-method="remoteMethod"
-                :placeholder="item.placeholder"
-                :disabled="item.disabled"
-                :loading="loading"
-                clearable
-                style="width:100%"
-              >
-                <el-option label="全部" value="" v-if="!item.remote"/>
-                <el-option
-                  v-for="(sub, idx) in item.options"
-                  :key="idx"
-                  :value="sub.value"
-                  :label="sub.label"
+              <template v-if="item.type == 'input'">
+                <el-input
+                  v-model="value[item.key]"
+                  :placeholder="item.placeholder"
+                  :disabled="item.disabled"
+                  clearable
+                  style="width:100%"
                 />
-              </el-select>
-              <el-date-picker
-                v-if="item.type == 'daterange'"
-                v-model="value[item.key]"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                :value-format="item.valueFormat || ''"
-                :default-time="item.defaultTime || ['00:00:00', '23:59:59']"
-                style="width:100%; height:33px;"
-              />
+              </template>
+              <template v-if="item.type == 'select'">
+                <el-select
+                  v-model="value[item.key]"
+                  :multiple="item.multiple"
+                  :collapse-tags="item.multiple"
+                  :filterable="item.remote"
+                  :remote="item.remote"
+                  :reserve-keyword="item.remote"
+                  :remote-method="remoteMethod"
+                  :placeholder="item.placeholder"
+                  :disabled="item.disabled"
+                  :loading="loading"
+                  clearable
+                  style="width:100%"
+                >
+                  <el-option label="全部" :value="null" v-if="!item.remote"/>
+                  <el-option
+                    v-for="(sub, idx) in item.options"
+                    :key="idx"
+                    :value="sub.value"
+                    :label="sub.label"
+                  />
+                </el-select>
+              </template>
+              <template v-if="item.type == 'daterange'">
+                <el-date-picker
+                  v-model="value[item.key]"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  :value-format="item.valueFormat || ''"
+                  :default-time="item.defaultTime || ['00:00:00', '23:59:59']"
+                  style="width:100%; height:33px;"
+                />
+              </template>
             </el-form-item>
           </el-col>
         </el-row>
       </el-form>
     </div>
-    <div class="base-form-tools">
-      <el-button type="primary" icon="el-icon-search" @click="onSearch">查询</el-button>
-      <el-button type="default" icon="el-icon-refresh" @click="onReset">重置</el-button>
-      <slot name="tools"/>
+    <div class="base-form-tools clearfix">
+      <div class="fl">
+        <el-button type="primary" icon="el-icon-search" @click="onSearch">查询</el-button>
+        <el-button type="default" icon="el-icon-refresh" @click="onReset">重置</el-button>
+        <slot name="tools"/>
+      </div>
+      <div class="extra fr" v-if="$slots && $slots.extra">
+        <slot name="extra"/>
+      </div>
     </div>
   </div>
 </template>
@@ -84,6 +92,11 @@
       remoteMethod: Function,
       loading: Boolean
     },
+    computed: {
+      _options() {
+        return this.options.filter(item => !item.hidden)
+      }
+    },
     methods: {
       onSearch() {
         this.$emit('update:value', this.value)
@@ -100,7 +113,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .v-search {
 
     .base-form-tools {

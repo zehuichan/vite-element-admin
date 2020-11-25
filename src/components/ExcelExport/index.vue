@@ -11,6 +11,9 @@
 </template>
 
 <script>
+  // utils
+  import {parseTime} from '@/utils'
+
   export default {
     name: 'ExcelExport',
     props: {
@@ -44,7 +47,7 @@
             excel.export_json_to_excel({
               header: tHeader,
               data: tBody,
-              filename: this.filename
+              filename: this.filename + '_' + parseTime(new Date(), '{y}{m}{d}')
             })
             this.loading = false
           })
