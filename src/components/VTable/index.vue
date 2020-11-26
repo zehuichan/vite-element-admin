@@ -11,6 +11,7 @@
       </div>
     </div>
     <el-table
+      ref="table"
       :data="data"
       v-bind="$attrs"
       v-on="$listeners"
@@ -133,6 +134,9 @@
         if (this.autoScroll) {
           scrollTo(0, 800)
         }
+      },
+      clearSelection() {
+        this.$refs.table.clearSelection()
       }
     }
   }
