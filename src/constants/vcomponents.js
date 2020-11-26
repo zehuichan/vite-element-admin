@@ -8,6 +8,7 @@ import Uploader from '@/components/Uploader'
 import Countdown from '@/components/Countdown'
 import FooterToolBar from '@/components/FooterToolBar'
 import VIconSelect from '@/components/VIconSelect'
+import VDialog from '@/components/VDialog'
 
 const components = [
   VSearch,
@@ -19,6 +20,7 @@ const components = [
   Countdown,
   FooterToolBar,
   VIconSelect,
+  VDialog,
 ]
 
 function plugin(Vue, opt) {
