@@ -63,3 +63,41 @@ export const supplier = [
     value: '10'
   }
 ]
+
+// 执行类型
+export const executeType = [
+  {
+    id: 1,
+    label: '拉黑',
+    value: '1'
+  },
+  {
+    id: 2,
+    label: '返白',
+    value: '2'
+  }
+]
+
+// 状态
+export const executeStatus = [
+  {
+    id: 1,
+    label: '待处理',
+    value: '1'
+  },
+  {
+    id: 2,
+    label: '完成',
+    value: '2'
+  },
+  {
+    id: 3,
+    label: '省方处理中',
+    value: '3'
+  },
+  {
+    id: 4,
+    label: '失败',
+    value: '4'
+  }
+]

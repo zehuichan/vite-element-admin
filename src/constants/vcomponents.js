@@ -8,6 +8,7 @@ import Uploader from '@/components/Uploader'
 import Countdown from '@/components/Countdown'
 import FooterToolBar from '@/components/FooterToolBar'
 import VIconSelect from '@/components/VIconSelect'
+import VIconSelect2 from '@/components/VIconSelect2'
 import VDialog from '@/components/VDialog'
 
 const components = [
@@ -20,6 +21,7 @@ const components = [
   Countdown,
   FooterToolBar,
   VIconSelect,
+  VIconSelect2,
   VDialog,
 ]
 

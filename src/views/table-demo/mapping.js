@@ -1,3 +1,36 @@
+import * as enums from '@/constants/enums'
+
+
+// 搜索框相关
+export const options = [
+  { label: '车辆号码', key: 'plateNumber', value: '', placeholder: '车辆号码', type: 'input' },
+  { label: 'uid', key: 'uid', value: '', placeholder: 'uid', type: 'input' },
+  {
+    label: '执行类型',
+    key: 'executeType',
+    value: [],
+    placeholder: '执行类型',
+    type: 'select',
+    options: enums.executeType,
+    multiple: true
+  },
+  {
+    label: '执行时间',
+    key: 'updateTime',
+    value: [],
+    placeholder: '执行时间',
+    type: 'daterange',
+    valueFormat: 'yyyy-MM-dd HH:mm:ss'
+  },
+  {
+    label: '状态',
+    key: 'executeStatus',
+    value: '',
+    placeholder: '状态',
+    type: 'select',
+    options: enums.executeStatus
+  }
+]
 
 // table相关
 export const columns = [

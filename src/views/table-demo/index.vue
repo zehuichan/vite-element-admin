@@ -19,9 +19,6 @@
       </template>
     </v-search>
     <div class="app-container">
-      <code>
-        {{dataForm}}
-      </code>
       <v-table
         :loading="tableLoading"
         :data="tableData"
@@ -44,16 +41,8 @@
 </template>
 
 <script>
-  // utils
-  import {parseTime} from '@/utils'
-  // components
-  import VSearch from '@/components/VSearch'
-  import VTable from '@/components/VTable'
-  import ExcelUpload from '@/components/ExcelUpload'
-  import ExcelExport from '@/components/ExcelExport'
-  import Uploader from '@/components/Uploader'
   // mapping
-  import {columns} from './mapping'
+  import {options, columns} from './mapping'
 
   export default {
     name: 'TableDemo',
@@ -68,21 +57,8 @@
           page: 1,
           limit: 10
         },
-        dataForm: {
-          count_date: [parseTime(new Date(), '{y}-{m}-{d} 00:00:00'), parseTime(new Date(), '{y}-{m}-{d} 23:59:59')]
-        },
-        options: [
-          { label: '渠道', key: 'channel_name', value: '', placeholder: '渠道', type: 'input' },
-          { label: '推广员', key: 'promoter_name', value: '', placeholder: '推广员', type: 'input' },
-          {
-            label: '日期',
-            key: 'count_date',
-            value: [],
-            placeholder: '日期',
-            type: 'daterange',
-            valueFormat: 'yyyy-MM-dd hh:mm:ss'
-          },
-        ],
+        dataForm: {},
+        options: [],
         upload_data: [],
         // 导出相关
         canExport: false,
@@ -103,6 +79,7 @@
     created() {
       this.tempRoute = Object.assign({}, this.$route)
 
+      this.options = options
       this.columns = columns
       this.getList()
     },
@@ -241,13 +218,6 @@
       onSuccess2(rawFile) {
         console.log(rawFile)
       }
-    },
-    components: {
-      VSearch,
-      VTable,
-      ExcelUpload,
-      ExcelExport,
-      Uploader
     }
   }
 </script>

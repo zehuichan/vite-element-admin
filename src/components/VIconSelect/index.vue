@@ -28,6 +28,7 @@
 </template>
 
 <script>
+  import Clickoutside from 'element-ui/lib/utils/clickoutside' // global directive
   // utils
   import {debounce} from '@/utils'
   // json
@@ -44,6 +45,7 @@
         default: 'el-icon-'
       },
     },
+    directives: { Clickoutside },
     data() {
       return {
         icon,

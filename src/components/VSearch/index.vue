@@ -1,22 +1,23 @@
 <template>
   <div class="v-search">
     <div class="app-container">
-      <el-form label-position="right" ref="dataForm" :model="value" :label-width="labelWidth">
+      <el-form label-position="right" ref="form" :model="value" :label-width="labelWidth">
         <el-row :gutter="32">
-          <el-col :span="8" v-for="(item, index) in _options" :key="item.key">
+          <el-col :span="8" v-for="item in _options" :key="item.key">
             <el-form-item :label="item.label" :prop="item.key">
               <template v-if="item.type == 'input'">
                 <el-input
-                  v-model="value[item.key]"
+                  :value="value[item.key]"
                   :placeholder="item.placeholder"
                   :disabled="item.disabled"
                   clearable
+                  @input="$_inputChange(item.key, $event)"
                   style="width:100%"
                 />
               </template>
               <template v-if="item.type == 'select'">
                 <el-select
-                  v-model="value[item.key]"
+                  :value="value[item.key]"
                   :multiple="item.multiple"
                   :collapse-tags="item.multiple"
                   :filterable="item.remote"
@@ -27,6 +28,7 @@
                   :disabled="item.disabled"
                   :loading="loading"
                   clearable
+                  @input="$_inputChange(item.key, $event)"
                   style="width:100%"
                 >
                   <el-option label="全部" :value="null" v-if="!item.remote"/>
@@ -40,13 +42,14 @@
               </template>
               <template v-if="item.type == 'daterange'">
                 <el-date-picker
-                  v-model="value[item.key]"
+                  :value="value[item.key]"
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
                   :value-format="item.valueFormat || ''"
                   :default-time="item.defaultTime || ['00:00:00', '23:59:59']"
+                  @input="$_inputChange(item.key, $event)"
                   style="width:100%; height:33px;"
                 />
               </template>
@@ -97,6 +100,9 @@
         return this.options.filter(item => !item.hidden)
       }
     },
+    created() {
+      this.$_setDefaultValue()
+    },
     methods: {
       onSearch() {
         this.$emit('update:value', this.value)
@@ -104,10 +110,18 @@
         this.$emit('search', this.value)
       },
       onReset() {
-        this.$refs.dataForm.resetFields()
+        this.$refs.form.resetFields()
         this.$emit('update:value', this.value)
         this.$emit('change', this.value)
         this.$emit('reset', this.value)
+      },
+      $_setDefaultValue() {
+        this._options.forEach((item) => {
+          this.value[item.key] = item.value
+        })
+      },
+      $_inputChange(key, event) {
+        this.$emit('update:value', { ...this.value, [key]: event })
       }
     }
   }
