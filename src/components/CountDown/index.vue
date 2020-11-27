@@ -10,7 +10,7 @@
   import {isSameSecond, parseTimeData, parseFormat} from './utils'
 
   export default {
-    name: 'Countdown',
+    name: 'CountDown',
     props: {
       millisecond: Boolean,
       time: {
@@ -32,10 +32,10 @@
       }
     },
     computed: {
-      timeData: function timeData() {
+      timeData() {
         return parseTimeData(this.remain)
       },
-      formattedTime: function formattedTime() {
+      formattedTime() {
         return parseFormat(this.format, this.timeData)
       }
     },
@@ -63,7 +63,7 @@
     },
     methods: {
       // @exposed-api
-      start: function start() {
+      start() {
         if (this.counting) {
           return
         }
@@ -73,12 +73,12 @@
         this.tick()
       },
       // @exposed-api
-      pause: function pause() {
+      pause() {
         this.counting = false
         cancelRaf(this.rafId)
       },
       // @exposed-api
-      reset: function reset() {
+      reset() {
         this.pause()
         this.remain = +this.time
 
@@ -86,55 +86,55 @@
           this.start()
         }
       },
-      tick: function tick() {
+      tick() {
         if (this.millisecond) {
           this.microTick()
         } else {
           this.macroTick()
         }
       },
-      microTick: function microTick() {
-        var _this = this
+      microTick() {
+        const self = this
 
         this.rafId = raf(function () {
           /* istanbul ignore if */
           // in case of call reset immediately after finish
-          if (!_this.counting) {
+          if (!self.counting) {
             return
           }
 
-          _this.setRemain(_this.getRemain())
+          self.setRemain(self.getRemain())
 
-          if (_this.remain > 0) {
-            _this.microTick()
+          if (self.remain > 0) {
+            self.microTick()
           }
         })
       },
-      macroTick: function macroTick() {
-        var _this2 = this
+      macroTick() {
+        const self = this
 
         this.rafId = raf(function () {
           /* istanbul ignore if */
           // in case of call reset immediately after finish
-          if (!_this2.counting) {
+          if (!self.counting) {
             return
           }
 
-          var remain = _this2.getRemain()
+          const remain = self.getRemain()
 
-          if (!isSameSecond(remain, _this2.remain) || remain === 0) {
-            _this2.setRemain(remain)
+          if (!isSameSecond(remain, self.remain) || remain === 0) {
+            self.setRemain(remain)
           }
 
-          if (_this2.remain > 0) {
-            _this2.macroTick()
+          if (self.remain > 0) {
+            self.macroTick()
           }
         })
       },
-      getRemain: function getRemain() {
+      getRemain() {
         return Math.max(this.endTime - Date.now(), 0)
       },
-      setRemain: function setRemain(remain) {
+      setRemain(remain) {
         this.remain = remain
         this.$emit('change', this.timeData)
 
@@ -150,8 +150,8 @@
 <style>
   .count-down {
     display: inline-block;
-    /*color: #323233;*/
-    font-size: 14px;
+    color: #323233;
+    font-size: 12px;
     line-height: 20px;
   }
 </style>
