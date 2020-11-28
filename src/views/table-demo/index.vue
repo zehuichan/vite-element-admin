@@ -7,11 +7,11 @@
       <template #tools>
         <excel-upload type="warning" icon="el-icon-upload2" :on-success="onSuccess">前端导入</excel-upload>
         <excel-export
-          type="success"
-          icon="el-icon-download"
-          :can-export="canExport"
-          :t-header="tHeader"
-          :t-body="tBody"
+            type="success"
+            icon="el-icon-download"
+            :can-export="canExport"
+            :t-header="tHeader"
+            :t-body="tBody"
         >
           前端导出
         </excel-export>
@@ -20,14 +20,14 @@
     </v-search>
     <div class="app-container">
       <v-table
-        :loading="tableLoading"
-        :data="tableData"
-        :columns="columns"
-        :total="total"
-        :page.sync="listQuery.page"
-        :limit.sync="listQuery.limit"
-        @pagination="getList"
-        @selection-change="handleSelectionChange"
+          :loading="tableLoading"
+          :data="tableData"
+          :columns="columns"
+          :total="total"
+          :page.sync="listQuery.page"
+          :limit.sync="listQuery.limit"
+          @pagination="getList"
+          @selection-change="handleSelectionChange"
       >
         <template #selection>
           <el-table-column type="selection" width="55"/>
@@ -35,14 +35,21 @@
         <template #date="{scope}">
           {{scope.row.date}}
         </template>
+        <template #actions="{scope}">
+          <el-button type="text" @click="onAction('delivery', scope.row)">发货</el-button>
+        </template>
       </v-table>
     </div>
+
+    <v-drawer v-model="show" title="订单发货" size="500px">
+      <v-form v-model="form" :options="formOptions"/>
+    </v-drawer>
   </div>
 </template>
 
 <script>
   // mapping
-  import {options, columns} from './mapping'
+  import {options, columns, formOptions} from './mapping'
 
   export default {
     name: 'TableDemo',
@@ -63,7 +70,12 @@
         // 导出相关
         canExport: false,
         tHeader: ['发行方', '车辆类型', '售后订单号', '车牌号', '收件人姓名', '收货人电话', '收货地址', '模式', '快递公司', '快递单号'],
-        tFilters: ['supplierId', 'vehicleTypeDesc', 'id', 'plateNumber', 'consignee', 'consigneePhone', 'receivingAddress', 'patternDesc', 'expressCompany', 'deliveryNumber']
+        tFilters: ['supplierId', 'vehicleTypeDesc', 'id', 'plateNumber', 'consignee', 'consigneePhone', 'receivingAddress', 'patternDesc', 'expressCompany', 'deliveryNumber'],
+
+        // drawer相关
+        show: false,
+        formOptions: [],
+        form: {}
       }
     },
     computed: {
@@ -81,6 +93,7 @@
 
       this.options = options
       this.columns = columns
+      this.formOptions = formOptions
       this.getList()
     },
     methods: {
@@ -196,7 +209,7 @@
         console.log('search')
         this.getList()
       },
-      onSuccess({ results, header }) {
+      onSuccess({results, header}) {
         for (let i = 0; i < results.length; i++) {
           let each = results[i]
           each = this.transExcelRow(each)
@@ -217,6 +230,15 @@
       },
       onSuccess2(rawFile) {
         console.log(rawFile)
+      },
+      onAction(type, row) {
+        switch (type) {
+          case 'delivery':
+            this.show = true
+            break
+          case 'cancel':
+            break
+        }
       }
     }
   }

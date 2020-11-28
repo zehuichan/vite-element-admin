@@ -9,8 +9,8 @@
   >
     <slot/>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="onClose">取消</el-button>
-      <el-button type="primary" @click="onConfirm">保存</el-button>
+      <el-button type="default" size="medium" @click="onClose">{{cancelButtonText}}</el-button>
+      <el-button type="primary" size="medium" @click="onConfirm">{{confirmButtonText}}</el-button>
     </div>
   </el-dialog>
 </template>
@@ -24,6 +24,14 @@
     },
     props: {
       value: Boolean,
+      confirmButtonText: {
+        type: String,
+        default: '确认'
+      },
+      cancelButtonText: {
+        type: String,
+        default: '取消'
+      },
     },
     methods: {
       onClose() {

@@ -10,6 +10,7 @@ import FooterToolBar from '@/components/FooterToolBar'
 import VIconSelect from '@/components/VIconSelect'
 import VIconSelect2 from '@/components/VIconSelect2'
 import VDialog from '@/components/VDialog'
+import VDrawer from '@/components/VDrawer'
 
 const components = [
   VSearch,
@@ -23,6 +24,7 @@ const components = [
   VIconSelect,
   VIconSelect2,
   VDialog,
+  VDrawer,
 ]
 
 function plugin(Vue, opt) {
