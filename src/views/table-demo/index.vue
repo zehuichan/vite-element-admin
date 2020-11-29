@@ -41,8 +41,17 @@
       </v-table>
     </div>
 
-    <v-drawer v-model="show" title="订单发货" size="500px">
-      <v-form v-model="form" :options="formOptions"/>
+    <v-drawer
+        v-model="show"
+        title="订单发货"
+        :loading="loading"
+        confirm-button-text="确定发货"
+        size="500px"
+        @confirm="onConfirm"
+        @cancel="onCancel"
+    >
+      <v-form ref="form" v-model="form" :options="formOptions"/>
+      <code>{{form}}</code>
     </v-drawer>
   </div>
 </template>
@@ -64,7 +73,9 @@
           page: 1,
           limit: 10
         },
-        dataForm: {},
+        dataForm: {
+          id: '773503440538783744'
+        },
         options: [],
         upload_data: [],
         // 导出相关
@@ -74,6 +85,7 @@
 
         // drawer相关
         show: false,
+        loading: false,
         formOptions: [],
         form: {}
       }
@@ -234,11 +246,26 @@
       onAction(type, row) {
         switch (type) {
           case 'delivery':
+            this.form.orderId = row.id
             this.show = true
             break
           case 'cancel':
             break
         }
+      },
+      onConfirm() {
+        this.$refs.form.validate((valid) => {
+          if (valid) {
+            this.loading = true
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+      },
+      onCancel() {
+        this.$refs.form.resetFields()
+        this.loading = false
       }
     }
   }

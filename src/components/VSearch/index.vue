@@ -6,7 +6,7 @@
           <el-col :span="22">
             <el-col :span="8" v-for="item in _options" :key="item.key">
               <el-form-item :label="item.label" :prop="item.key">
-                <template v-if="item.type == 'input'">
+                <template v-if="item.type === 'input'">
                   <el-input
                       :value="value[item.key]"
                       :placeholder="item.placeholder"
@@ -16,7 +16,7 @@
                       style="width:100%"
                   />
                 </template>
-                <template v-if="item.type == 'select'">
+                <template v-if="item.type === 'select'">
                   <el-select
                       :value="value[item.key]"
                       :multiple="item.multiple"
@@ -41,7 +41,7 @@
                     />
                   </el-select>
                 </template>
-                <template v-if="item.type == 'daterange'">
+                <template v-if="item.type === 'daterange'">
                   <el-date-picker
                       :value="value[item.key]"
                       type="daterange"
@@ -83,12 +83,14 @@
     name: 'VSearch',
     model: {
       prop: 'value',
-      event: 'update:value'
+      event: 'input'
     },
     props: {
       value: {
         type: Object,
-        default: () => ({})
+        default: () => {
+          return {}
+        }
       },
       options: {
         type: Array,
@@ -122,30 +124,30 @@
       },
     },
     watch: {
-      _options: '$_setDefaultValue'
-    },
-    created() {
-      this.$_setDefaultValue()
+      _options: {
+        handler: '$_setDefaultValue',
+        immediate: true
+      }
     },
     methods: {
       onSearch() {
-        this.$emit('update:value', this.value)
-        this.$emit('change', this.value)
-        this.$emit('search', this.value)
+        this.$emit('input', {...this.value})
+        this.$emit('change', {...this.value})
+        this.$emit('search', {...this.value})
       },
       onReset() {
         this.$refs.form.resetFields()
-        this.$emit('update:value', this.value)
-        this.$emit('change', this.value)
-        this.$emit('reset', this.value)
+        this.$emit('input', {...this.value})
+        this.$emit('change', {...this.value})
+        this.$emit('reset', {...this.value})
       },
       $_setDefaultValue() {
         this._options.forEach((item) => {
-          this.value[item.key] = item.value
+          this.value[item.key] = this.value[item.key] || item.value
         })
       },
       $_inputChange(key, event) {
-        this.$emit('update:value', {...this.value, [key]: event})
+        this.$emit('input', {...this.value, [key]: event})
       }
     }
   }

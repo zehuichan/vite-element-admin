@@ -1,23 +1,23 @@
 <template>
   <el-form
       class="v-form"
-      ref="dataForm"
+      ref="form"
       :model="value"
       label-position="right"
-      label-width="80px"
   >
     <el-form-item
         v-for="item in _options"
         :key="item.key"
-        v-if="!item.hidden"
         :label="item.label"
         :prop="item.key"
+        :rules="item.rules"
     >
       <template v-if="item.type === 'input'">
         <el-input
             :value="value[item.key]"
             :placeholder="item.placeholder"
             :disabled="item.disabled"
+            :readonly="item.readonly"
             clearable
             @input="$_inputChange(item.key, $event)"
             style="width:100%"
@@ -39,7 +39,6 @@
             @input="$_inputChange(item.key, $event)"
             style="width:100%"
         >
-          <el-option label="全部" value="" v-if="!item.remote"/>
           <el-option
               v-for="(sub, idx) in item.options"
               :key="idx"
@@ -70,12 +69,14 @@
     name: 'VForm',
     model: {
       prop: 'value',
-      event: 'update:value'
+      event: 'input'
     },
     props: {
       value: {
         type: Object,
-        default: () => ({})
+        default: () => {
+          return {}
+        }
       },
       options: {
         type: Array,
@@ -84,7 +85,7 @@
       },
       labelWidth: {
         type: String,
-        default: '120px'
+        default: '80px'
       },
       remoteMethod: Function,
       loading: Boolean
@@ -94,15 +95,37 @@
         return this.options.filter(item => !item.hidden)
       }
     },
+    created() {
+      this.$_setDefaultValue()
+    },
     methods: {
+      $_setDefaultValue() {
+        this._options.forEach((item) => {
+          this.value[item.key] = this.value[item.key] || item.value
+        })
+      },
       $_inputChange(key, event) {
-        this.$emit('update:value', {...this.value, [key]: event})
-      }
+        this.$emit('input', {...this.value, [key]: event})
+      },
+      // v-form api
+      validate(cb) {
+        return this.$refs.form.validate(cb)
+      },
+      validateField(props, cb) {
+        return this.$refs.form.validateField(props, cb)
+      },
+      resetFields() {
+        return this.$refs.form.resetFields()
+      },
+      clearValidate(props, cb) {
+        return this.$refs.form.clearValidate(props, cb)
+      },
     }
   }
 </script>
 
 <style lang="scss" scoped>
   .v-form {
+
   }
 </style>
