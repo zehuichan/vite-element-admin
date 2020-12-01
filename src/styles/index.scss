@@ -88,7 +88,7 @@ div:focus {
 
 .app-container {
   padding: 20px;
-  margin: 24px;
+  margin: 24px 24px 0;
   background-color: #fff;
 }
 
@@ -146,18 +146,28 @@ div:focus {
 
 code {
   padding: 12px;
-  border-radius: 2px;
+  border-radius: 3px;
   position: relative;
   display: block;
   font-size: 12px;
   font-weight: 400;
   overflow-x: auto;
-  line-height: 22px;
+  line-height: 1.45;
   word-break: break-all;
   white-space: pre-wrap;
-  color: #455a64;
-  font-family: Consolas, Menlo, Courier, monospace;
-  background: #f7f7f7;
+  color: rgba(0, 0, 0, .85);
+  background-color: rgb(246, 248, 250);
+  font-family: sfmono-regular, Consolas, liberation mono, Menlo, Courier, monospace;
+
+  &.light {
+    color: rgba(0, 0, 0, .85);
+    background-color: rgb(246, 248, 250);
+  }
+
+  &.dark {
+    color: #ccc;
+    background: #282c34;
+  }
 
   & + code {
     margin-top: 12px;
