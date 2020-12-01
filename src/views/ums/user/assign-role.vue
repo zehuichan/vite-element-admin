@@ -27,7 +27,7 @@
       this.id = this.$route.params && this.$route.params.id
       this.tempRoute = Object.assign({}, this.$route)
 
-      // set tagsview title
+      // set tagsView title
       this.setTagsViewTitle()
 
       // set page title
