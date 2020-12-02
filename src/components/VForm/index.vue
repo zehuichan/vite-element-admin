@@ -47,6 +47,17 @@
           style="width:100%"
         />
       </template>
+      <template v-if="item.type === 'radio'">
+        <el-radio-group :value="value[item.key]" @input="$_inputChange(item, $event)">
+          <el-radio
+            v-for="(sub, idx) in item.options"
+            :key="idx"
+            :label="sub.label"
+          >
+            {{sub.value}}
+          </el-radio>
+        </el-radio-group>
+      </template>
       <template v-if="item.type === 'select'">
         <el-select
           :value="value[item.key]"
