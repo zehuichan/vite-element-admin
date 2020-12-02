@@ -12,6 +12,8 @@ import VIconSelect2 from '@/components/VIconSelect2'
 import VDialog from '@/components/VDialog'
 import VDrawer from '@/components/VDrawer'
 import VDescriptions from '@/components/VDescriptions'
+import VFooter from '@/components/VFooter'
+import SvgIcon from '@/components/SvgIcon'
 
 const components = [
   VSearch,
@@ -27,6 +29,8 @@ const components = [
   VDialog,
   VDrawer,
   VDescriptions,
+  VFooter,
+  SvgIcon,
 ]
 
 function plugin(Vue, opt) {

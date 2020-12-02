@@ -66,15 +66,15 @@
     },
     methods: {
       handleClickOutside() {
-        this.$store.dispatch('app/closeSideBar', {withoutAnimation: false})
+        this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/mixin.scss";
-  @import "~@/styles/variables.scss";
+  @import "~@/styles/scss/mixin.scss";
+  @import "~@/styles/scss/variables.scss";
 
   .app-wrapper {
     @include clearfix;

@@ -5,10 +5,14 @@
       <router-view :key="key"/>
     </keep-alive>
     <!--    </transition>-->
+    <v-footer :copyright="copyright"/>
   </section>
 </template>
 
 <script>
+  // settings
+  import defaultSettings from '@/settings'
+
   export default {
     name: 'AppMain',
     computed: {
@@ -17,6 +21,9 @@
       },
       key() {
         return this.$route.path
+      },
+      copyright() {
+        return defaultSettings.copyright
       }
     }
   }

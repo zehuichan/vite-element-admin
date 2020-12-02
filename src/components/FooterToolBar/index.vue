@@ -13,7 +13,7 @@
 
 <script>
   // styles
-  import variables from '@/styles/variables.scss'
+  import variables from '@/styles/scss/variables.scss'
 
   export default {
     name: 'FooterToolBar',

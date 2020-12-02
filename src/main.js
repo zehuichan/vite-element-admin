@@ -8,7 +8,7 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 import VComponents from '@/constants/vcomponents' // global components
-import '@/styles/index.scss' // global css
+import '@/styles/scss/index.scss' // global css
 
 import App from './App'
 import store from './store'

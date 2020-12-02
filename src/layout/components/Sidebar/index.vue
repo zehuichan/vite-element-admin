@@ -25,7 +25,7 @@
   import Logo from './Logo'
   import SidebarItem from './SidebarItem'
   // styles
-  import variables from '@/styles/variables.scss'
+  import variables from '@/styles/scss/variables.scss'
 
   export default {
     components: {SidebarItem, Logo},

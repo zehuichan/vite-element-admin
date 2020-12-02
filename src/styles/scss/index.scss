@@ -1,9 +1,9 @@
-@import './variables.scss';
-@import './mixin.scss';
-@import './transition.scss';
-@import './element-ui.scss';
-@import './sidebar.scss';
-@import './tap.scss';
+@import 'variables';
+@import 'mixin';
+@import 'transition';
+@import 'element-ui';
+@import 'sidebar';
+@import 'tap';
 
 body {
   height: 100%;
@@ -78,6 +78,15 @@ div:focus {
 
 .text-right {
   text-align: right;
+}
+
+.iconfont {
+  width: 1em;
+  height: 1em;
+  min-width: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }
 
 // main-container global css

@@ -2,6 +2,8 @@ module.exports = {
 
   title: 'vant mall admin',
 
+  copyright: '2018 - present Zehui Chan',
+
   /**
    * @type {boolean} true | false
    * @description Whether show the settings right-panel
