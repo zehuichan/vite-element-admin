@@ -4,7 +4,6 @@
     :visible="value"
     v-bind="$attrs"
     v-on="$listeners"
-    :show-close="false"
     @close="onClose"
   >
     <slot/>

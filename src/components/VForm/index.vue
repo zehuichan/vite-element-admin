@@ -41,7 +41,7 @@
           clearable
           maxlength="200"
           show-word-limit
-          :autosize="{ minRows: 6}"
+          :autosize="{ minRows: 5}"
           resize="none"
           @input="$_inputChange(item, $event)"
           style="width:100%"
