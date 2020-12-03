@@ -57,7 +57,7 @@
               </el-form-item>
             </el-col>
           </el-col>
-          <el-col :span="2" class="text-right">
+          <el-col :span="2" class="text-right" v-if="options.length > threshold">
             <el-button type="text" @click="ellipsis = !ellipsis">
               {{ellipsis ? '收起' : '展开'}}<i class="el-icon--right" :class="_icon"/>
             </el-button>
