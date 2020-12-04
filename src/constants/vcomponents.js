@@ -5,7 +5,7 @@ import VForm from '@/components/VForm'
 import ExcelUpload from '@/components/ExcelUpload'
 import ExcelExport from '@/components/ExcelExport'
 import Uploader from '@/components/Uploader'
-import CountDown from '@/components/CountDown'
+import VCountDown from '@/components/VCountDown'
 import FooterToolBar from '@/components/FooterToolBar'
 import VIconSelect from '@/components/VIconSelect'
 import VIconSelect2 from '@/components/VIconSelect2'
@@ -22,7 +22,7 @@ const components = [
   ExcelUpload,
   ExcelExport,
   Uploader,
-  CountDown,
+  VCountDown,
   FooterToolBar,
   VIconSelect,
   VIconSelect2,

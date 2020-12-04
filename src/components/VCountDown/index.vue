@@ -1,7 +1,6 @@
 <template>
-  <div class="count-down">
-    <slot v-if="$slots.default"></slot>
-    <div v-else>{{formattedTime}}</div>
+  <div class="v-count-down">
+    <slot :timeData="timeData">{{formattedTime}}</slot>
   </div>
 </template>
 
@@ -148,7 +147,7 @@
 </script>
 
 <style>
-  .count-down {
+  .v-count-down {
     display: inline-block;
     color: #323233;
     font-size: 12px;
