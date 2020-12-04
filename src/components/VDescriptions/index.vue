@@ -1,6 +1,10 @@
 <template>
   <div class="v-descriptions">
-    <div class="v-descriptions-header"></div>
+    <div class="v-descriptions-header" v-if="title">
+      <div class="title">
+        <slot name="title">{{title}}</slot>
+      </div>
+    </div>
     <div class="v-descriptions-view">
       <table>
         <tbody>
@@ -9,7 +13,7 @@
             <div class="v-descriptions-item__container">
               <span class="label">{{sub.label}}</span>
               <span class="content">
-                 <slot :scope="data[sub.key]" :name="sub.key">{{data[sub.key]}}</slot>
+                 <slot :scope="data[sub.key]" :name="sub.key">{{data[sub.key] || '_'}}</slot>
               </span>
             </div>
           </td>
@@ -41,10 +45,10 @@
         required: true,
         default: () => []
       },
+      title: String
     },
     computed: {
       _columns() {
-        console.log(chunk(this.columns, this.column))
         return chunk(this.columns, this.column)
       }
     }
@@ -52,6 +56,23 @@
 </script>
 
 <style lang="scss" scoped>
+  .v-descriptions-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .title {
+      flex: auto;
+      overflow: hidden;
+      color: rgba(0, 0, 0, .85);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.5715;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
   .v-descriptions-view {
     table {
       width: 100%;
