@@ -30,7 +30,7 @@ import './constants'
  * please remove it before going online ! ! !
  */
 // if (process.env.NODE_ENV === 'production') {
-const { mockXHR } = require('../mock')
+const {mockXHR} = require('../mock')
 mockXHR()
 // }
 
@@ -48,13 +48,17 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-Vue.prototype.$navigateTo = function (url, json) {
-  router.push({
-    path: url,
-    query: json
-  })
+// 跳转
+Vue.prototype.$navigateTo = function (url, json, target = '_self') {
+  if (target === '_self') {
+    router.push({path: url, query: json})
+  } else {
+    const {href} = router.resolve({path: url, query: json})
+    window.open(href, '_blank')
+  }
 }
 
+// 返回
 Vue.prototype.$navigateBack = function () {
   router.back()
 }
