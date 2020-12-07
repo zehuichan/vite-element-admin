@@ -17,15 +17,15 @@
         </div>
       </div>
     </div>
-    <footer-tool-bar>
+    <v-footer-tool-bar>
       <el-button type="primary" @click="submit">保存</el-button>
-    </footer-tool-bar>
+    </v-footer-tool-bar>
   </div>
 </template>
 
 <script>
   // components
-  import FooterToolBar from '@/components/FooterToolBar/index'
+  import FooterToolBar from '@/components/VFooterToolBar/index'
   // mapping
   import {options} from './mapping'
 

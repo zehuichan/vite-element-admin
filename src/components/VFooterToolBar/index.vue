@@ -16,7 +16,7 @@
   import variables from '@/styles/scss/variables.scss'
 
   export default {
-    name: 'FooterToolBar',
+    name: 'VFooterToolBar',
     props: {
       isMobile: {
         type: Boolean,
@@ -46,6 +46,12 @@
 <style lang="scss" scoped>
   .footer-tool-bar-placeholder {
     height: 56px;
+  }
+
+  .el-popup-parent--hidden {
+    .footer-tool-bar {
+      padding-right: 41px;
+    }
   }
 
   .footer-tool-bar {

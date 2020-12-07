@@ -6,7 +6,7 @@ import ExcelUpload from '@/components/ExcelUpload'
 import ExcelExport from '@/components/ExcelExport'
 import Uploader from '@/components/Uploader'
 import VCountDown from '@/components/VCountDown'
-import FooterToolBar from '@/components/FooterToolBar'
+import VFooterToolBar from '@/components/VFooterToolBar'
 import VIconSelect from '@/components/VIconSelect'
 import VIconSelect2 from '@/components/VIconSelect2'
 import VDialog from '@/components/VDialog'
@@ -23,7 +23,7 @@ const components = [
   ExcelExport,
   Uploader,
   VCountDown,
-  FooterToolBar,
+  VFooterToolBar,
   VIconSelect,
   VIconSelect2,
   VDialog,

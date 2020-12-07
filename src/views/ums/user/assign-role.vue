@@ -4,16 +4,16 @@
       {{id}}
     </div>
 
-    <footer-tool-bar>
+    <v-footer-tool-bar>
       <el-button type="default" @click="navigateBack">取消</el-button>
       <el-button type="primary">保存</el-button>
-    </footer-tool-bar>
+    </v-footer-tool-bar>
   </div>
 </template>
 
 <script>
   // components
-  import FooterToolBar from '@/components/FooterToolBar/index'
+  import FooterToolBar from '@/components/VFooterToolBar/index'
 
   export default {
     name: 'AssignRole',

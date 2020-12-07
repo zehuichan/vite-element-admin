@@ -25,10 +25,10 @@
         </template>
       </v-descriptions>
     </el-card>
-    <footer-tool-bar>
+    <v-footer-tool-bar>
       <el-button type="default" @click="onReset">取消</el-button>
       <el-button type="primary">确认保存</el-button>
-    </footer-tool-bar>
+    </v-footer-tool-bar>
   </div>
 </template>
 
