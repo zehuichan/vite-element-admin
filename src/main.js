@@ -21,6 +21,8 @@ import '@/permission' // permission control
 import * as filters from './filters' // global filters
 import './constants'
 
+import {judgeAlert, judgeConfirm} from '@/utils/judge-info'
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -47,6 +49,10 @@ Vue.use(VComponents)
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
+// 统一消息提示
+Vue.prototype.$judgeAlert = judgeAlert
+Vue.prototype.$judgeConfirm = judgeConfirm
 
 // 跳转
 Vue.prototype.$navigateTo = function (url, json, target = '_self') {
