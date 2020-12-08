@@ -14,6 +14,7 @@ import VDrawer from '@/components/VDrawer'
 import VDescriptions from '@/components/VDescriptions'
 import VFooter from '@/components/VFooter'
 import SvgIcon from '@/components/SvgIcon'
+import VImageViewer from '@/components/VImageViewer'
 
 const components = [
   VSearch,
@@ -31,6 +32,7 @@ const components = [
   VDescriptions,
   VFooter,
   SvgIcon,
+  VImageViewer,
 ]
 
 function plugin(Vue, opt) {
