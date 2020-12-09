@@ -1,8 +1,8 @@
 <template>
   <div class="footer-tool-bar-placeholder">
-    <div class="footer-tool-bar" :style="{ width: barWidth }">
+    <div class="footer-tool-bar">
       <div class="fl">
-        <slot name="extra">{{ extra }}</slot>
+        <slot name="extra"/>
       </div>
       <div class="fr">
         <slot/>
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+  // vuex
+  import {mapGetters} from 'vuex'
   // styles
   import variables from '@/styles/scss/variables.scss'
 
@@ -22,13 +24,9 @@
         type: Boolean,
         default: false
       },
-      siderWidth: {
+      sideBarWidth: {
         type: Number,
         default: undefined
-      },
-      extra: {
-        type: [String, Object],
-        default: ''
       }
     },
     computed: {
@@ -36,8 +34,9 @@
         return variables
       },
       barWidth() {
-        return this.isMobile ? undefined : `calc(100% - ${this.collapsed ? 80 : this.siderWidth || this.variables.sideBarWidth})`
-      }
+        return this.device !== 'desktop' ? undefined : `calc(100% - ${this.sidebar.opened ?  (this.sideBarWidth || this.variables.sideBarWidth) : '54px'})`
+      },
+      ...mapGetters(['device', 'sidebar'])
     }
   }
 </script>
