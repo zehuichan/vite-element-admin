@@ -29,7 +29,7 @@
                     :disabled="item.disabled"
                     :loading="loading"
                     clearable
-                    @change="$_inputChange(item.key, $event)"
+                    @input="$_inputChange(item.key, $event)"
                     style="width:100%"
                   >
                     <el-option label="全部" value="全部" @click.native="value[item.key] = null"/>
