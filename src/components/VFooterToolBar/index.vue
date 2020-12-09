@@ -5,7 +5,7 @@
         <slot name="extra">{{ extra }}</slot>
       </div>
       <div class="fr">
-        <slot></slot>
+        <slot/>
       </div>
     </div>
   </div>
@@ -36,7 +36,7 @@
         return variables
       },
       barWidth() {
-        return this.isMobile ? undefined : `calc(100% - ${this.collapsed ? 80 : this.siderWidth || this.variables.sideBarWidth}px)`
+        return this.isMobile ? undefined : `calc(100% - ${this.collapsed ? 80 : this.siderWidth || this.variables.sideBarWidth})`
       }
     }
   }

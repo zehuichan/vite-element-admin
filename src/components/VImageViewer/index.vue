@@ -1,6 +1,12 @@
 <template>
-  <transition name="viewer-fade" v-if="value">
-    <div tabindex="-1" ref="el-image-viewer__wrapper" class="el-image-viewer__wrapper" :style="{ 'z-index': zIndex }">
+  <transition name="viewer-fade">
+    <div
+      tabindex="-1"
+      ref="el-image-viewer__wrapper"
+      class="el-image-viewer__wrapper"
+      :style="{ 'z-index': zIndex }"
+      v-show="value"
+    >
       <div class="el-image-viewer__mask"></div>
       <!-- CLOSE -->
       <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
@@ -45,7 +51,8 @@
           :style="imgStyle"
           @load="handleImgLoad"
           @error="handleImgError"
-          @mousedown="handleMouseDown">
+          @mousedown="handleMouseDown"
+        />
       </div>
     </div>
   </transition>
@@ -74,7 +81,7 @@
     name: 'VImageViewer',
     model: {
       prop: 'value',
-      event: 'input'
+      event: 'update:value'
     },
     props: {
       value: {
@@ -91,7 +98,7 @@
       },
       onSwitch: {
         type: Function,
-        default: () => {
+        default: (index) => {
         }
       },
       onClose: {
@@ -155,6 +162,9 @@
           this.unlock()
         }
       },
+      initialIndex(val) {
+        this.index = val
+      },
       index(val) {
         this.reset()
         this.onSwitch(val)
@@ -172,13 +182,12 @@
       show() {
         this.$nextTick(() => {
           this.deviceSupportInstall()
-          this.lock()
           this.$refs['el-image-viewer__wrapper'].focus()
         })
       },
       hide() {
         this.deviceSupportUninstall()
-        this.$emit('input', false)
+        this.$emit('update:value', false)
       },
       deviceSupportInstall() {
         console.log('install')
