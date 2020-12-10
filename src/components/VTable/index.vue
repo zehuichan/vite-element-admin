@@ -28,6 +28,7 @@
         :min-width="column.minWidth"
         :align="column.align || 'left'"
         :header-align="column.headerAlign || 'left'"
+        :fixed="column.fixed"
         :sortable="column.sortable"
         v-if="column.hidden === undefined && !column.hidden"
       >
