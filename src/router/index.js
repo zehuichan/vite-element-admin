@@ -67,7 +67,8 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/500'),
     hidden: true
   },
-  {path: '/', redirect: '/dashboard'},
+  // {path: '/', redirect: '/dashboard'},
+  { path: '/', redirect: '/all' },
 ]
 
 
@@ -77,12 +78,12 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   // 404 page must be placed at the end !!!
-  {path: '*', redirect: '/404', hidden: true}
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({y: 0}),
+  scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
 

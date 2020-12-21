@@ -11,6 +11,7 @@ const RouteView = {
 const mapping = {
   Layout: Layout,
   RouteView: RouteView,
+  Test: () => import('@/views/test/index'),
 
   // index
   Dashboard: () => import('@/views/dashboard/index'),
@@ -19,7 +20,7 @@ const mapping = {
   DynamicForm: () => import('@/views/dynamic-form/index'),
   Demo: () => import('@/views/demo'),
   TableDemo: () => import('@/views/table-demo/index'),
-  Test: () => import('@/views/nested/test'),
+  Nested: () => import('@/views/nested/index'),
 
   // ums
   User: () => import('@/views/ums/user/index'),

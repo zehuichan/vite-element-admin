@@ -127,6 +127,9 @@
         ]
       }
     },
+    created() {
+      console.log(this.$route)
+    },
     methods: {
       onReset() {
         this.$refs.dataForm.resetFields()

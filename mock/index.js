@@ -1,16 +1,22 @@
 const Mock = require('mockjs')
-const {param2Obj} = require('./utils')
+const { param2Obj } = require('./utils')
 
 const user = require('./user')
 const mms = require('./mms')
 const pms = require('./pms')
 const ums = require('./ums')
+// 测试需求
+const zhongshi = require('./zhongshi')
+const zhongshiUser = require('./zhongshi-user')
 
 const mocks = [
   ...user,
   ...mms,
   ...pms,
-  ...ums
+  ...ums,
+  // 测试需求
+  ...zhongshi,
+  ...zhongshiUser,
 ]
 
 // for front mock
@@ -35,7 +41,7 @@ function mockXHR() {
     return function (options) {
       let result = null
       if (respond instanceof Function) {
-        const {body, type, url} = options
+        const { body, type, url } = options
         // https://expressjs.com/en/4x/api.html#req
         result = respond({
           method: type,

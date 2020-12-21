@@ -157,7 +157,7 @@ const menu = Mock.mock(
       children: [
         {
           path: '/nested/menu/menu1-1',
-          component: 'Test',
+          component: 'Nested',
           hidden: false,
           name: 'Menu1-1',
           meta: { title: 'Menu 1-1', roles: ['admin'], },
@@ -171,14 +171,14 @@ const menu = Mock.mock(
           children: [
             {
               path: '/nested/menu/menu1-2-1',
-              component: 'Test',
+              component: 'Nested',
               hidden: false,
               name: 'Menu1-2-1',
               meta: { title: 'Menu 1-2-1', roles: ['admin'], },
             },
             {
               path: '/nested/menu/menu1-2-2',
-              component: 'Test',
+              component: 'Nested',
               hidden: false,
               name: 'Menu1-2-2',
               meta: { title: 'Menu 1-2-2', roles: ['admin'], },
@@ -187,7 +187,7 @@ const menu = Mock.mock(
         },
         {
           path: '/nested/menu/menu1-3',
-          component: 'Test',
+          component: 'Nested',
           hidden: false,
           name: 'Menu1-3',
           meta: { title: 'Menu 1-3', roles: ['admin'], },
