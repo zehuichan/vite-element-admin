@@ -18,8 +18,8 @@ export function roleList(params) {
 
 export function menuList() {
   return request({
-    // url: '/vue-admin-template/ums/menu/list',
-    url: '/vue-admin-template/zhongshi/menu/list',
+    url: '/vue-admin-template/ums/menu/list',
+    // url: '/vue-admin-template/zhongshi/menu/list',
     method: 'get'
   })
 }

@@ -67,8 +67,8 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/500'),
     hidden: true
   },
-  // {path: '/', redirect: '/dashboard'},
-  { path: '/', redirect: '/all' },
+  {path: '/', redirect: '/dashboard'},
+  // { path: '/', redirect: '/all' },
 ]
 
 

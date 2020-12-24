@@ -6,6 +6,8 @@
       class="el-image-viewer__wrapper"
       :style="{ 'z-index': zIndex }"
       v-show="value"
+      @focus="onFocus"
+      @blur="onBlur"
     >
       <div class="el-image-viewer__mask"></div>
       <!-- CLOSE -->
@@ -51,6 +53,8 @@
           :style="imgStyle"
           @load="handleImgLoad"
           @error="handleImgError"
+          @mouseover="handleMouseOver"
+          @mouseout="handleMouseOut"
           @mousedown="handleMouseDown"
         />
       </div>
@@ -181,7 +185,6 @@
     methods: {
       show() {
         this.$nextTick(() => {
-          this.deviceSupportInstall()
           this.$refs['el-image-viewer__wrapper'].focus()
         })
       },
@@ -189,8 +192,23 @@
         this.deviceSupportUninstall()
         this.$emit('update:value', false)
       },
+      onFocus() {
+        console.log('onFocus')
+        this.$nextTick(() => {
+          this.deviceSupportInstall()
+        })
+      },
+      onBlur() {
+        console.log('onBlur')
+        this.mousewheelSupportUninstall()
+      },
+      mousewheelSupportUninstall() {
+        console.log('mousewheelSupportUninstall')
+        off(document, mousewheelEventName, this._mouseWheelHandler)
+        this._mouseWheelHandler = null
+      },
       deviceSupportInstall() {
-        console.log('install')
+        // 键盘事件
         this._keyDownHandler = rafThrottle(e => {
           const keyCode = e.keyCode
           switch (keyCode) {
@@ -208,7 +226,7 @@
               break
             // UP_ARROW
             case 38:
-              this.handleActions('zoomIn')
+              // this.handleActions('zoomIn')
               break
             // RIGHT_ARROW
             case 39:
@@ -216,10 +234,12 @@
               break
             // DOWN_ARROW
             case 40:
-              this.handleActions('zoomOut')
+              // this.handleActions('zoomOut')
               break
           }
         })
+        on(document, 'keydown', this._keyDownHandler)
+        // 滚轮事件
         this._mouseWheelHandler = rafThrottle(e => {
           const delta = e.wheelDelta ? e.wheelDelta : -e.detail
           if (delta > 0) {
@@ -234,11 +254,9 @@
             })
           }
         })
-        on(document, 'keydown', this._keyDownHandler)
         on(document, mousewheelEventName, this._mouseWheelHandler)
       },
       deviceSupportUninstall() {
-        console.log('uninstall')
         off(document, 'keydown', this._keyDownHandler)
         off(document, mousewheelEventName, this._mouseWheelHandler)
         this._keyDownHandler = null
@@ -250,6 +268,16 @@
       handleImgError(e) {
         this.loading = false
         e.target.alt = '加载失败'
+      },
+      handleMouseOver(e) {
+        if (this.loading) return
+        console.log('lock')
+        this.lock()
+      },
+      handleMouseOut(e) {
+        if (this.loading) return
+
+        this.unlock()
       },
       handleMouseDown(e) {
         if (this.loading || e.button !== 0) return
@@ -329,7 +357,7 @@
       },
       unlock() {
         document.body.classList.remove(className)
-      },
+      }
     }
   }
 </script>

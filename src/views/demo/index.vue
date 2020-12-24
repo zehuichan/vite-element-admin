@@ -2,7 +2,13 @@
   <div>
     <div class="app-container">
       <el-button @click="preview = true">大图展示{{preview}}</el-button>
-      <v-image-viewer v-model="preview" :url-list="url_list"/>
+      <div class="image-preview-container">
+        <v-image-viewer
+          v-model="preview"
+          :url-list="url_list"
+          style="position: absolute;"
+        />
+      </div>
     </div>
     <div class="app-container">
       <el-form ref="dataForm" :model="dataForm" label-width="110px">
@@ -127,9 +133,6 @@
         ]
       }
     },
-    created() {
-      console.log(this.$route)
-    },
     methods: {
       onReset() {
         this.$refs.dataForm.resetFields()
@@ -138,8 +141,18 @@
   }
 </script>
 
-<style>
+<style lang="scss">
   .block-card {
     margin: 24px 24px 0;
+  }
+
+  .image-preview-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    width: calc(100vw - 599px);
+    height: 100vh;
+    overflow: hidden;
   }
 </style>
