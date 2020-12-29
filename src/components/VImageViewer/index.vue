@@ -4,12 +4,10 @@
       tabindex="-1"
       ref="el-image-viewer__wrapper"
       class="el-image-viewer__wrapper"
-      :style="{ 'z-index': zIndex }"
+      :style="{ 'z-index': zIndex , ...wrapperStyle}"
       v-show="value"
-      @focus="onFocus"
-      @blur="onBlur"
     >
-      <div class="el-image-viewer__mask"></div>
+      <div class="el-image-viewer__mask" v-if="overlay"></div>
       <!-- CLOSE -->
       <span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
         <i class="el-icon-circle-close"></i>
@@ -53,8 +51,6 @@
           :style="imgStyle"
           @load="handleImgLoad"
           @error="handleImgError"
-          @mouseover="handleMouseOver"
-          @mouseout="handleMouseOut"
           @mousedown="handleMouseDown"
         />
       </div>
@@ -79,7 +75,7 @@
 
   const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
 
-  const className = 'v-overflow-hidden'
+  let prevOverflow = ''
 
   export default {
     name: 'VImageViewer',
@@ -92,6 +88,14 @@
         type: Boolean,
         default: false
       },
+      overlay: {
+        type: Boolean,
+        default: true
+      },
+      lockScroll: {
+        type: Boolean,
+        default: true
+      },
       urlList: {
         type: Array,
         default: () => []
@@ -99,6 +103,10 @@
       zIndex: {
         type: Number,
         default: 2000
+      },
+      wrapperStyle: {
+        type: Object,
+        default: () => ({})
       },
       onSwitch: {
         type: Function,
@@ -160,11 +168,7 @@
     },
     watch: {
       value(val) {
-        if (val) {
-          this.show()
-        } else {
-          this.unlock()
-        }
+        val && this.show()
       },
       initialIndex(val) {
         this.index = val
@@ -184,26 +188,18 @@
     },
     methods: {
       show() {
+        this.lockScroll && this.lock()
         this.$nextTick(() => {
+          this.deviceSupportInstall()
           this.$refs['el-image-viewer__wrapper'].focus()
         })
       },
       hide() {
+        this.lockScroll && this.unlock()
         this.deviceSupportUninstall()
         this.$emit('update:value', false)
       },
-      onFocus() {
-        console.log('onFocus')
-        this.$nextTick(() => {
-          this.deviceSupportInstall()
-        })
-      },
-      onBlur() {
-        console.log('onBlur')
-        this.mousewheelSupportUninstall()
-      },
       mousewheelSupportUninstall() {
-        console.log('mousewheelSupportUninstall')
         off(document, mousewheelEventName, this._mouseWheelHandler)
         this._mouseWheelHandler = null
       },
@@ -226,7 +222,7 @@
               break
             // UP_ARROW
             case 38:
-              // this.handleActions('zoomIn')
+              this.handleActions('zoomIn')
               break
             // RIGHT_ARROW
             case 39:
@@ -234,7 +230,7 @@
               break
             // DOWN_ARROW
             case 40:
-              // this.handleActions('zoomOut')
+              this.handleActions('zoomOut')
               break
           }
         })
@@ -254,11 +250,11 @@
             })
           }
         })
-        on(document, mousewheelEventName, this._mouseWheelHandler)
+        on(this.$el, mousewheelEventName, this._mouseWheelHandler)
       },
       deviceSupportUninstall() {
         off(document, 'keydown', this._keyDownHandler)
-        off(document, mousewheelEventName, this._mouseWheelHandler)
+        off(this.$el, mousewheelEventName, this._mouseWheelHandler)
         this._keyDownHandler = null
         this._mouseWheelHandler = null
       },
@@ -268,16 +264,6 @@
       handleImgError(e) {
         this.loading = false
         e.target.alt = '加载失败'
-      },
-      handleMouseOver(e) {
-        if (this.loading) return
-        console.log('lock')
-        this.lock()
-      },
-      handleMouseOut(e) {
-        if (this.loading) return
-
-        this.unlock()
       },
       handleMouseDown(e) {
         if (this.loading || e.button !== 0) return
@@ -353,18 +339,13 @@
         transform.enableTransition = enableTransition
       },
       lock() {
-        document.body.classList.add(className)
+        // prevent body scroll
+        prevOverflow = document.body.style.overflow
+        document.body.style.overflow = 'hidden'
       },
       unlock() {
-        document.body.classList.remove(className)
+        document.body.style.overflow = prevOverflow
       }
     }
   }
 </script>
-
-<style>
-  .v-overflow-hidden {
-    padding-right: 17px;
-    overflow: hidden !important;
-  }
-</style>
