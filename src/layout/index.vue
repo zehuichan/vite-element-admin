@@ -1,5 +1,5 @@
 <template>
-  <div :class="[classObj,query]" class="app-wrapper">
+  <div :class="[classObj, mediaQuery]" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
     <sidebar class="sidebar-container"/>
     <div :class="{hasTagsView:needTagsView}" class="main-container">
@@ -36,18 +36,14 @@
     },
     mixins: [ResizeMixin],
     computed: {
-      sidebar() {
-        return this.$store.state.app.sidebar
-      },
-      device() {
-        return this.$store.state.app.device
-      },
-      query() {
-        return this.$store.state.app.query
-      },
-      fixedHeader() {
-        return this.$store.state.settings.fixedHeader
-      },
+      ...mapState({
+        sidebar: state => state.app.sidebar,
+        device: state => state.app.device,
+        mediaQuery: state => state.app.mediaQuery,
+        showSettings: state => state.settings.showSettings,
+        needTagsView: state => state.settings.tagsView,
+        fixedHeader: state => state.settings.fixedHeader
+      }),
       classObj() {
         return {
           hideSidebar: !this.sidebar.opened,
@@ -56,13 +52,6 @@
           mobile: this.device === 'mobile'
         }
       },
-      ...mapState({
-        sidebar: state => state.app.sidebar,
-        device: state => state.app.device,
-        showSettings: state => state.settings.showSettings,
-        needTagsView: state => state.settings.tagsView,
-        fixedHeader: state => state.settings.fixedHeader
-      }),
     },
     methods: {
       handleClickOutside() {
