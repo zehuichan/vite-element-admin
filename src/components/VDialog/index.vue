@@ -8,10 +8,12 @@
   >
     <slot/>
     <div slot="footer" class="dialog-footer">
-      <el-button type="default" size="medium" @click="onClose">{{cancelButtonText}}</el-button>
-      <el-button v-bind="$attrs" type="primary" size="medium" @click="onConfirm">
-        {{$attrs.loading ? '提交中...' : confirmButtonText}}
-      </el-button>
+      <slot name="footer">
+        <el-button type="default" size="medium" @click="onClose">{{cancelButtonText}}</el-button>
+        <el-button v-bind="$attrs" type="primary" size="medium" @click="onConfirm">
+          {{$attrs.loading ? '提交中...' : confirmButtonText}}
+        </el-button>
+      </slot>
     </div>
   </el-dialog>
 </template>
