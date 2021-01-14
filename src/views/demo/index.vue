@@ -27,6 +27,25 @@
     <div class="app-container">
       <code>{{dataForm}}</code>
     </div>
+    <div class="app-container">
+      <v-badge>Success</v-badge>
+      <br/>
+      <v-badge status="error">Error</v-badge>
+      <br/>
+      <v-badge status="default">Default</v-badge>
+      <br/>
+      <v-badge status="processing">Processing</v-badge>
+      <br/>
+      <v-badge status="warning">Warning</v-badge>
+      <br/>
+      <v-badge color="#f50">Custom #f50</v-badge>
+      <br/>
+      <v-badge color="#2db7f5">Custom #2db7f5</v-badge>
+      <br/>
+      <v-badge color="#87d068">Custom #87d068</v-badge>
+      <br/>
+      <v-badge color="#108ee9">Custom #108ee9</v-badge>
+    </div>
     <el-card class="block-card" shadow="never">
       <div slot="header">VDescriptions</div>
       <v-descriptions :data="json" :columns="columns">
