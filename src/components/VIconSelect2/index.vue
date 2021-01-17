@@ -1,10 +1,10 @@
 <template>
   <el-select class="v-icon-select2" filterable v-bind="$attrs" v-on="$listeners">
     <el-option
-      v-for="item in icon"
-      :key="item"
-      :value="item"
-      :label="item"
+        v-for="item in icon"
+        :key="item"
+        :value="item"
+        :label="item"
     >
       <div class="v-icon-select2__item">
         <i :class="classPrefix + item"></i>

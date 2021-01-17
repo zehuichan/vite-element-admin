@@ -2,13 +2,10 @@
   <div>
     <div class="app-container">
       <el-button @click="preview = true">大图展示{{preview}}</el-button>
-      <div class="image-preview-container">
-        <v-image-viewer
+      <v-image-viewer
           v-model="preview"
           :url-list="url_list"
-          style="position: absolute;"
-        />
-      </div>
+      />
     </div>
     <div class="app-container">
       <el-form ref="dataForm" :model="dataForm" label-width="110px">
@@ -130,19 +127,19 @@
           'channelSource': 3
         },
         columns: [
-          { label: '订单编号', key: 'id' },
-          { label: '通行流水号', key: 'bindCardSn' },
-          { label: '发行方名称', key: 'channelSource' },
-          { label: '扣费类型', key: 'deductType' },
-          { label: '订单状态', key: 'payStatus' },
-          { label: '高速入口', key: 'entryStation' },
-          { label: '高速出口', key: 'exitStation' },
-          { label: '交易类型', key: 'consumeType' },
-          { label: '订单金额', key: 'totalFee' },
-          { label: '支付机构', key: 'payOrg' },
-          { label: '交易时间', key: 'payTime' },
-          { label: '进单时间', key: 'createDate' },
-          { label: '记账时间', key: 'genTime' },
+          {label: '订单编号', key: 'id'},
+          {label: '通行流水号', key: 'bindCardSn'},
+          {label: '发行方名称', key: 'channelSource'},
+          {label: '扣费类型', key: 'deductType'},
+          {label: '订单状态', key: 'payStatus'},
+          {label: '高速入口', key: 'entryStation'},
+          {label: '高速出口', key: 'exitStation'},
+          {label: '交易类型', key: 'consumeType'},
+          {label: '订单金额', key: 'totalFee'},
+          {label: '支付机构', key: 'payOrg'},
+          {label: '交易时间', key: 'payTime'},
+          {label: '进单时间', key: 'createDate'},
+          {label: '记账时间', key: 'genTime'},
         ],
         url_list: [
           'http://gdzs.oss-cn-shenzhen.aliyuncs.com/202010/903c1652-5ee3-4734-9d32-8e0698fc95d0.PNG',
@@ -163,15 +160,5 @@
 <style lang="scss">
   .block-card {
     margin: 24px 24px 0;
-  }
-
-  .image-preview-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 10;
-    width: calc(100vw - 599px);
-    height: 100vh;
-    overflow: hidden;
   }
 </style>
