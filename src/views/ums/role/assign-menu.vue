@@ -21,9 +21,9 @@
 
   export default {
     name: 'AssignMenu',
+    props: ['id'],
     data() {
       return {
-        id: undefined,
         tempRoute: {}
       }
     },
@@ -44,7 +44,7 @@
       },
       setTagsViewTitle() {
         const title = '分配菜单'
-        const route = Object.assign({}, this.tempRoute, {title: `${title} - ${this.id}`})
+        const route = Object.assign({}, this.tempRoute, { title: `${title} - ${this.id}` })
         this.$store.dispatch('tagsView/updateVisitedView', route)
       },
       setPageTitle() {
@@ -52,7 +52,7 @@
         document.title = `${title} - ${this.id}`
       },
     },
-    components:{
+    components: {
       FooterToolBar
     }
   }

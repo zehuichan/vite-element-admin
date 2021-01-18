@@ -6,16 +6,14 @@
       </div>
     </div>
     <div class="app-container">
-      <div class="clearfix">
-        <div class="fl">
-          <v-form v-model.sync="dataForm" :options="options"/>
-        </div>
-        <div class="fr">
-          <code>
-            {{dataForm}}
-          </code>
-        </div>
-      </div>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <v-form v-model.sync="dataForm" :options="options" label-position="left" label-width="80px"/>
+        </el-col>
+        <el-col :span="12">
+          <code>{{dataForm}}</code>
+        </el-col>
+      </el-row>
     </div>
     <v-footer-tool-bar>
       <el-button type="primary" @click="submit">保存</el-button>
@@ -42,6 +40,14 @@
     },
     methods: {
       submit() {
+        this.$refs.dataForm.validate((valid) => {
+          if (valid) {
+            alert('submit!')
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
       }
     },
     components: {
