@@ -4,21 +4,27 @@
     <transition name="el-zoom-in-top" @before-enter="handleMenuEnter">
       <div class="v-icon-select-menu" v-show="visible">
         <el-scrollbar
-          wrap-class="el-select-dropdown__wrap"
-          view-class="el-select-dropdown__list"
+            wrap-class="el-select-dropdown__wrap"
+            view-class="el-select-dropdown__list"
         >
-          <div class="icon-list clearfix">
+          <div class="icon-list clearfix" v-infinite-scroll="load">
             <div
-              class="icon-list__item tap-active"
-              :class="classPrefix + item === value ? 'active' : ''"
-              v-for="(item, index) in icon"
-              :key="index"
-              @click="handleSelect(item, index)"
+                class="icon-list__item tap-active"
+                :class="classPrefix + item === value ? 'active' : ''"
+                v-for="(item, index) in icon"
+                :key="index"
+                @click="handleSelect(item, index)"
             >
               <i :class="classPrefix + item"></i>
               <span class="icon-name">{{classPrefix}}{{item}}</span>
             </div>
           </div>
+          <view class="v-icon-select__loading" v-if="loading && !finished">
+            <van-loading type="spinner" size="16">
+              {{ loadingText }}
+            </van-loading>
+          </view>
+          <view class="v-icon-select__finished-text" v-if="finished">{{ finishedText }}</view>
         </el-scrollbar>
         <div v-if="icon.length === 0" class="el-select-dropdown__empty">无匹配数据</div>
         <div x-arrow class="arrow" style="left: 35px;"></div>
@@ -44,12 +50,22 @@
         type: String,
         default: 'el-icon-'
       },
+      loadingText: {
+        type: String,
+        default: '加载中...'
+      },
+      finishedText: {
+        type: String,
+        default: '没有更多了'
+      }
     },
-    directives: { Clickoutside },
+    directives: {Clickoutside},
     data() {
       return {
         icon,
-        visible: false
+        visible: false,
+        loading: false,
+        finished: false,
       }
     },
     computed: {
@@ -68,6 +84,9 @@
       }
     },
     methods: {
+      load() {
+        console.log('load')
+      },
       handleInputChange: debounce(function () {
         if (this.selectedLabel !== '') {
           this.icon = this.icon.filter(item => {

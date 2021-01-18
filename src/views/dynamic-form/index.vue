@@ -8,7 +8,7 @@
     <div class="app-container">
       <el-row :gutter="20">
         <el-col :span="12">
-          <v-form v-model.sync="dataForm" :options="options" label-position="left" label-width="80px"/>
+          <v-form ref="dataForm" v-model.sync="dataForm" :options="options" label-position="left" label-width="80px"/>
         </el-col>
         <el-col :span="12">
           <code>{{dataForm}}</code>
