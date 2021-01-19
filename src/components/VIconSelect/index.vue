@@ -19,12 +19,6 @@
               <span class="icon-name">{{classPrefix}}{{item}}</span>
             </div>
           </div>
-          <view class="v-icon-select__loading" v-if="loading && !finished">
-            <van-loading type="spinner" size="16">
-              {{ loadingText }}
-            </van-loading>
-          </view>
-          <view class="v-icon-select__finished-text" v-if="finished">{{ finishedText }}</view>
         </el-scrollbar>
         <div v-if="icon.length === 0" class="el-select-dropdown__empty">无匹配数据</div>
         <div x-arrow class="arrow" style="left: 35px;"></div>
