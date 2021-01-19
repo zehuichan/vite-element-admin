@@ -44,9 +44,9 @@
           :placeholder="item.placeholder"
           :disabled="item.disabled"
           clearable
-          maxlength="200"
+          :maxlength="item.maxlength || 200"
           show-word-limit
-          :autosize="{ minRows: 5}"
+          :autosize="item.autosize || { minRows: 5}"
           resize="none"
           @input="$_inputChange(item, $event)"
           style="width:100%"
@@ -100,13 +100,14 @@
           style="width:100%; height:33px;"
         />
       </template>
+      <slot :scope="item" :name="item.key"/>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
   // utils
-  import {formatNumber} from '@/utils/formate-number'
+  import {formatNumber} from './formate-number'
 
   export default {
     name: 'VForm',

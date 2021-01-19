@@ -21,5 +21,6 @@ export const options = [
     placeholder: '创建时间',
     type: 'daterange',
     valueFormat: 'yyyy-MM-dd HH:mm:ss'
-  }
+  },
+  {label: '自定义', key: 'custom'},
 ]

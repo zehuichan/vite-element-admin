@@ -8,7 +8,21 @@
     <div class="app-container">
       <el-row :gutter="20">
         <el-col :span="12">
-          <v-form ref="dataForm" v-model.sync="dataForm" :options="options" label-position="left" label-width="80px"/>
+          <v-form ref="dataForm" v-model.sync="dataForm" :options="options" label-position="left" label-width="80px">
+            <template #custom="{scope}">
+              <el-image
+                style="width: 100px; height: 100px"
+                lazy
+                fit="contain"
+                :preview-src-list="pics"
+              >
+                <div slot="placeholder" class="image-slot">
+                  <i class="el-icon-loading"></i>
+                </div>
+              </el-image>
+              {{scope}}
+            </template>
+          </v-form>
         </el-col>
         <el-col :span="12">
           <code>{{dataForm}}</code>
@@ -32,7 +46,8 @@
     data() {
       return {
         options: [],
-        dataForm: {}
+        dataForm: {},
+        pics: [],
       }
     },
     created() {
@@ -56,7 +71,19 @@
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+  .el-image {
+    margin-right: 8px;
+  }
 
+  .image-slot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: #f5f7fa;
+    color: #409eff;
+    font-size: 16px;
+  }
 </style>
