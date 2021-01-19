@@ -7,7 +7,7 @@
             wrap-class="el-select-dropdown__wrap"
             view-class="el-select-dropdown__list"
         >
-          <div class="icon-list clearfix" v-infinite-scroll="load">
+          <div class="icon-list clearfix">
             <div
                 class="icon-list__item tap-active"
                 :class="classPrefix + item === value ? 'active' : ''"
@@ -49,14 +49,6 @@
       classPrefix: {
         type: String,
         default: 'el-icon-'
-      },
-      loadingText: {
-        type: String,
-        default: '加载中...'
-      },
-      finishedText: {
-        type: String,
-        default: '没有更多了'
       }
     },
     directives: {Clickoutside},
@@ -64,8 +56,6 @@
       return {
         icon,
         visible: false,
-        loading: false,
-        finished: false,
       }
     },
     computed: {
@@ -84,9 +74,6 @@
       }
     },
     methods: {
-      load() {
-        console.log('load')
-      },
       handleInputChange: debounce(function () {
         if (this.selectedLabel !== '') {
           this.icon = this.icon.filter(item => {
