@@ -2,9 +2,9 @@
   <div class="v-search">
     <div class="app-container">
       <el-form label-position="right" ref="form" :model="value" :label-width="labelWidth">
-        <el-row>
-          <el-col :span="22">
-            <el-col :span="8" v-for="item in _options" :key="item.key">
+        <el-row :gutter="20">
+          <el-col :span="23">
+            <el-col :span="6" v-for="item in _options" :key="item.key">
               <el-form-item :label="item.label" :prop="item.key">
                 <template v-if="item.type === 'input'">
                   <el-input
@@ -57,7 +57,7 @@
               </el-form-item>
             </el-col>
           </el-col>
-          <el-col :span="2" class="text-right" v-if="options.length > threshold">
+          <el-col :span="1" class="text-right" v-if="options.length > threshold">
             <el-button type="text" @click="ellipsis = !ellipsis">
               {{ellipsis ? '收起' : '展开'}}<i class="el-icon--right" :class="_icon"/>
             </el-button>
@@ -106,7 +106,7 @@
       // 阈值
       threshold: {
         type: String | Number,
-        default: 5
+        default: 8
       }
     },
     data() {

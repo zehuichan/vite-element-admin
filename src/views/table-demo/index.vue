@@ -5,29 +5,29 @@
     </div>
     <v-search v-model="dataForm" :options="options" @search="onSearch">
       <template #tools>
-        <excel-upload type="warning" icon="el-icon-upload2" :on-success="onSuccess">前端导入</excel-upload>
-        <excel-export
-            type="success"
-            icon="el-icon-download"
-            :can-export="canExport"
-            :t-header="tHeader"
-            :t-body="tBody"
+        <v-excel-upload type="warning" icon="el-icon-upload2" :on-success="onSuccess">前端导入</v-excel-upload>
+        <v-excel-export
+          type="success"
+          icon="el-icon-download"
+          :can-export="canExport"
+          :t-header="tHeader"
+          :t-body="tBody"
         >
           前端导出
-        </excel-export>
-        <uploader type="info" icon="el-icon-upload" :on-success="onSuccess2">原生上传</uploader>
+        </v-excel-export>
+        <v-uploader type="info" icon="el-icon-upload" :on-success="onSuccess2">原生上传</v-uploader>
       </template>
     </v-search>
     <div class="app-container">
       <v-table
-          :loading="tableLoading"
-          :data="tableData"
-          :columns="columns"
-          :total="total"
-          :page.sync="listQuery.page"
-          :limit.sync="listQuery.limit"
-          @pagination="getList"
-          @selection-change="handleSelectionChange"
+        :loading="tableLoading"
+        :data="tableData"
+        :columns="columns"
+        :total="total"
+        :page.sync="listQuery.page"
+        :limit.sync="listQuery.limit"
+        @pagination="getList"
+        @selection-change="handleSelectionChange"
       >
         <template #selection>
           <el-table-column type="selection" width="55"/>
@@ -42,13 +42,13 @@
     </div>
 
     <v-drawer
-        v-model="show"
-        title="订单发货"
-        :loading="loading"
-        confirm-button-text="确定发货"
-        size="500px"
-        @confirm="onConfirm"
-        @cancel="onCancel"
+      v-model="show"
+      title="订单发货"
+      :loading="loading"
+      confirm-button-text="确定发货"
+      size="500px"
+      @confirm="onConfirm"
+      @cancel="onCancel"
     >
       <v-form ref="form" v-model="form" :options="formOptions"/>
       <code>{{form}}</code>
@@ -215,13 +215,14 @@
             'deliveryStateDesc': '待寄回',
             'consigneePhone': '123456'
           }]
+        this.total = 1
         this.canExport = true
       },
       onSearch() {
         console.log('search')
         this.getList()
       },
-      onSuccess({results, header}) {
+      onSuccess({ results, header }) {
         for (let i = 0; i < results.length; i++) {
           let each = results[i]
           each = this.transExcelRow(each)

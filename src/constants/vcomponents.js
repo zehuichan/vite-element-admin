@@ -2,9 +2,9 @@
 import VSearch from '@/components/VSearch'
 import VTable from '@/components/VTable'
 import VForm from '@/components/VForm'
-import ExcelUpload from '@/components/ExcelUpload'
-import ExcelExport from '@/components/ExcelExport'
-import Uploader from '@/components/Uploader'
+import VExcelUpload from '@/components/VExcelUpload'
+import VExcelExport from '@/components/VExcelExport'
+import VUploader from '@/components/VUploader'
 import VCountDown from '@/components/VCountDown'
 import VFooterToolBar from '@/components/VFooterToolBar'
 import VIconSelect from '@/components/VIconSelect'
@@ -21,9 +21,9 @@ const components = [
   VSearch,
   VTable,
   VForm,
-  ExcelUpload,
-  ExcelExport,
-  Uploader,
+  VExcelUpload,
+  VExcelExport,
+  VUploader,
   VCountDown,
   VFooterToolBar,
   VIconSelect,

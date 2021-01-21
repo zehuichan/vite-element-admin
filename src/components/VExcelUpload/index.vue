@@ -11,7 +11,7 @@
   import XLSX from 'xlsx'
 
   export default {
-    name: 'ExcelUpload',
+    name: 'VExcelUpload',
     props: {
       beforeUpload: Function,
       onSuccess: Function,

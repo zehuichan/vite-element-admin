@@ -15,7 +15,7 @@
   import {parseTime} from '@/utils'
 
   export default {
-    name: 'ExcelExport',
+    name: 'VExcelExport',
     props: {
       canExport: Boolean,
       loadingText: {

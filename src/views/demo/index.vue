@@ -142,10 +142,10 @@
           {label: '记账时间', key: 'genTime'},
         ],
         url_list: [
-          'http://gdzs.oss-cn-shenzhen.aliyuncs.com/202010/903c1652-5ee3-4734-9d32-8e0698fc95d0.PNG',
-          'http://gdzs.oss-cn-shenzhen.aliyuncs.com/202010/944d528c-e6f4-4c55-b4c6-b17bace63ab6.PNG',
-          'http://gdzs.oss-cn-shenzhen.aliyuncs.com/202010/8e9d33a3-e74a-41a2-bc64-d5c50a6d9743.PNG',
-          'http://gdzs.oss-cn-shenzhen.aliyuncs.com/202010/423160cb-4c32-44c5-b0ee-e688442498c7.PNG'
+          'https://img.yzcdn.cn/vant/cat.jpeg',
+          'https://img.yzcdn.cn/vant/ipad.jpeg',
+          'https://img.yzcdn.cn/vant/cat.jpeg',
+          'https://img.yzcdn.cn/vant/ipad.jpeg'
         ]
       }
     },

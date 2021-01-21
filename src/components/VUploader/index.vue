@@ -9,7 +9,7 @@
 
 <script>
   export default {
-    name: 'Uploader',
+    name: 'VUploader',
     props: {
       beforeUpload: Function,
       onSuccess: Function,
