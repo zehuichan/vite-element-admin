@@ -48,29 +48,6 @@
   box-sizing: content-box;
 }
 
-.v-dialog.el-dialog {
-  border-radius: 2px;
-
-  .el-dialog__header {
-    background-color: #F6FAFF;
-    padding: 12px 24px;
-    border-radius: 2px 2px 0 0;
-  }
-
-  .el-dialog__title {
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .el-dialog__headerbtn {
-    top: 16px;
-  }
-
-  .el-dialog__body {
-    padding: 24px 20px 20px;
-  }
-}
-
 .el-message.custom-alert {
   width: 426px;
   padding: 32px 24px;

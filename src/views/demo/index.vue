@@ -3,8 +3,8 @@
     <div class="app-container">
       <el-button @click="preview = true">大图展示{{preview}}</el-button>
       <v-image-viewer
-          v-model="preview"
-          :url-list="url_list"
+        v-model="preview"
+        :url-list="url_list"
       />
     </div>
     <div class="app-container">
@@ -53,17 +53,22 @@
     </el-card>
     <v-footer-tool-bar>
       <el-button type="default" @click="onReset">取消</el-button>
-      <el-button type="primary">确认保存</el-button>
+      <el-button type="primary" @click="show = true">确认保存</el-button>
     </v-footer-tool-bar>
+
+    <custom-dialog v-model="show"/>
   </div>
 </template>
 
 <script>
+  import CustomDialog from './components/custom-dialog'
+
   export default {
     name: 'Demo',
     data() {
       return {
         preview: false,
+        show: false,
         dataForm: {
           icon: 'el-icon-orange',
           icon2: 'platform-eleme'
@@ -127,19 +132,19 @@
           'channelSource': 3
         },
         columns: [
-          {label: '订单编号', key: 'id'},
-          {label: '通行流水号', key: 'bindCardSn'},
-          {label: '发行方名称', key: 'channelSource'},
-          {label: '扣费类型', key: 'deductType'},
-          {label: '订单状态', key: 'payStatus'},
-          {label: '高速入口', key: 'entryStation'},
-          {label: '高速出口', key: 'exitStation'},
-          {label: '交易类型', key: 'consumeType'},
-          {label: '订单金额', key: 'totalFee'},
-          {label: '支付机构', key: 'payOrg'},
-          {label: '交易时间', key: 'payTime'},
-          {label: '进单时间', key: 'createDate'},
-          {label: '记账时间', key: 'genTime'},
+          { label: '订单编号', key: 'id' },
+          { label: '通行流水号', key: 'bindCardSn' },
+          { label: '发行方名称', key: 'channelSource' },
+          { label: '扣费类型', key: 'deductType' },
+          { label: '订单状态', key: 'payStatus' },
+          { label: '高速入口', key: 'entryStation' },
+          { label: '高速出口', key: 'exitStation' },
+          { label: '交易类型', key: 'consumeType' },
+          { label: '订单金额', key: 'totalFee' },
+          { label: '支付机构', key: 'payOrg' },
+          { label: '交易时间', key: 'payTime' },
+          { label: '进单时间', key: 'createDate' },
+          { label: '记账时间', key: 'genTime' },
         ],
         url_list: [
           'https://img.yzcdn.cn/vant/cat.jpeg',
@@ -153,6 +158,9 @@
       onReset() {
         this.$refs.dataForm.resetFields()
       },
+    },
+    components: {
+      CustomDialog
     }
   }
 </script>
