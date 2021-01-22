@@ -56,12 +56,15 @@
       <el-button type="primary" @click="show = true">确认保存</el-button>
     </v-footer-tool-bar>
 
-    <custom-dialog v-model="show"/>
+    <v-dialog v-model="show" title="jsx dialog">
+      131321
+    </v-dialog>
   </div>
 </template>
 
 <script>
   import CustomDialog from './components/custom-dialog'
+  import VDialog from '@/components/VDialog/index'
 
   export default {
     name: 'Demo',
@@ -160,7 +163,7 @@
       },
     },
     components: {
-      CustomDialog
+      VDialog
     }
   }
 </script>

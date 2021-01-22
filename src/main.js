@@ -75,6 +75,8 @@ Vue.prototype.$navigateBack = function () {
 }
 
 Vue.config.productionTip = false
+console.log('Vue', Vue.version)
+console.log('Element', Element.version)
 
 new Vue({
   el: '#app',
