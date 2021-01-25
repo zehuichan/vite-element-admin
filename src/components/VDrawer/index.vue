@@ -1,10 +1,10 @@
 <template>
   <el-drawer
-      custom-class="v-drawer"
-      :visible="value"
-      v-bind="$attrs"
-      v-on="$listeners"
-      @close="onClose"
+    custom-class="v-drawer"
+    :visible="value"
+    v-bind="$attrs"
+    v-on="$listeners"
+    @close="onClose"
   >
     <div class="drawer-content">
       <div class="drawer-body">
@@ -21,32 +21,11 @@
 </template>
 
 <script>
+  import popup from '@/components/utils/popup'
+
   export default {
     name: 'VDrawer',
-    model: {
-      prop: 'value',
-      event: 'input'
-    },
-    props: {
-      value: Boolean,
-      confirmButtonText: {
-        type: String,
-        default: '确认'
-      },
-      cancelButtonText: {
-        type: String,
-        default: '取消'
-      },
-    },
-    methods: {
-      onClose() {
-        this.$emit('input', false)
-        this.$emit('cancel', false)
-      },
-      onConfirm() {
-        this.$emit('confirm')
-      },
-    }
+    mixins: [popup]
   }
 </script>
 

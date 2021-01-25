@@ -7,27 +7,7 @@
       :prop="item.key"
       :rules="item.rules"
     >
-      <template v-if="item.type === 'input'">
-        <el-input
-          :value="value[item.key]"
-          :placeholder="item.placeholder"
-          :disabled="item.disabled"
-          clearable
-          @input="$_inputChange(item, $event)"
-          style="width:100%"
-        />
-      </template>
-      <template v-if="item.type === 'digit'">
-        <el-input
-          :value="value[item.key]"
-          :placeholder="item.placeholder"
-          :disabled="item.disabled"
-          clearable
-          @input="$_inputChange(item, $event)"
-          style="width:100%"
-        />
-      </template>
-      <template v-if="item.type === 'number'">
+      <template v-if="item.type === 'input' || item.type === 'digit' || item.type === 'number'">
         <el-input
           :value="value[item.key]"
           :placeholder="item.placeholder"
