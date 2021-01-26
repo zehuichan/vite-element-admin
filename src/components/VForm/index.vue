@@ -67,6 +67,16 @@
           />
         </el-select>
       </template>
+      <template v-if="item.type === 'date'">
+        <el-date-picker
+          :value="value[item.key]"
+          type="date"
+          :placeholder="item.placeholder"
+          :value-format="item.valueFormat || ''"
+          @change="$_inputChange(item, $event)"
+          style="width:100%; height:33px;"
+        />
+      </template>
       <template v-if="item.type === 'daterange'">
         <el-date-picker
           :value="value[item.key]"
