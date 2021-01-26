@@ -34,7 +34,7 @@
       >
         <template slot-scope="scope">
           <slot :scope="scope" :name="column.key">
-            {{scope.row[column.key]}}
+            {{setPropsData(scope.row, column.key)}}
           </slot>
         </template>
       </el-table-column>
@@ -124,6 +124,19 @@
       }
     },
     methods: {
+      setPropsData(row, rowKey) {
+        if (typeof rowKey === 'string') {
+          if (rowKey.indexOf('.') < 0) {
+            return row[rowKey]
+          }
+          let key = rowKey.split('.')
+          let current = row
+          for (let i = 0; i < key.length; i++) {
+            current = current[key[i]]
+          }
+          return current
+        }
+      },
       handleSizeChange(val) {
         this.$emit('pagination', { page: this.currentPage, limit: val })
         if (this.autoScroll) {
@@ -135,9 +148,6 @@
         if (this.autoScroll) {
           scrollTo(0, 800)
         }
-      },
-      clearSelection() {
-        this.$refs.table.clearSelection()
       }
     }
   }

@@ -122,6 +122,10 @@
         console.log(data)
         this.tableData = [
           {
+            'obj': {
+              'id': 123,
+              'text': 'chenzehui'
+            },
             'id': '773503440538783744',
             'supplierId': '1',
             'usersCardId': '735519894377598976',
@@ -137,84 +141,8 @@
             'deliveryState': 1,
             'deliveryStateDesc': '待寄回',
             'userReturnTime': '2020-11-06 10:52:00'
-          }, {
-            'id': '773907776538759168',
-            'supplierId': '1',
-            'usersCardId': '727115169764880384',
-            'uid': '725374275825049600',
-            'plateNumber': '豫A999RA',
-            'plateColor': 1,
-            'afterSaleState': 1,
-            'afterSaleStateDesc': '新建',
-            'vehicleType': 1,
-            'vehicleTypeDesc': '货车',
-            'pattern': 3,
-            'patternDesc': '更换ETC卡片和ETC设备',
-            'deliveryState': 2,
-            'deliveryStateDesc': '待签收',
-            'consigneePhone': '123456'
-          }, {
-            'id': '773907785304854528',
-            'supplierId': '1',
-            'usersCardId': '729792163518492672',
-            'uid': '729787520035987456',
-            'plateNumber': '苏AJS923',
-            'plateColor': 1,
-            'afterSaleState': 1,
-            'afterSaleStateDesc': '新建',
-            'vehicleType': 1,
-            'vehicleTypeDesc': '货车',
-            'pattern': 1,
-            'patternDesc': '仅更换ETC卡片',
-            'deliveryState': 3,
-            'deliveryStateDesc': '待发货',
-            'consigneePhone': '123456'
-          }, {
-            'id': '773907789083922432',
-            'supplierId': '1',
-            'usersCardId': '730084611715137536',
-            'uid': '729787520035987456',
-            'plateNumber': '苏AJS92A',
-            'plateColor': 1,
-            'afterSaleState': 1,
-            'afterSaleStateDesc': '新建',
-            'vehicleType': 1,
-            'vehicleTypeDesc': '货车',
-            'pattern': 2,
-            'patternDesc': '仅更换ETC设备',
-            'deliveryState': 1,
-            'deliveryStateDesc': '待寄回',
-            'consigneePhone': '123456'
-          }, {
-            'id': '773948896324964352',
-            'supplierId': '1',
-            'usersCardId': '773863039853813760',
-            'uid': '108',
-            'plateNumber': '粤ATKT77',
-            'plateColor': 1,
-            'afterSaleState': 1,
-            'afterSaleStateDesc': '新建',
-            'vehicleType': 2,
-            'vehicleTypeDesc': '客车'
-          }, {
-            'id': '773503465847214080',
-            'supplierId': '1',
-            'usersCardId': '735572009561100288',
-            'uid': '734416496691912704',
-            'plateNumber': '湘EFC396',
-            'plateColor': 1,
-            'cancelState': 2,
-            'cancelStateDesc': '取消成功',
-            'afterSaleState': 4,
-            'afterSaleStateDesc': '已取消',
-            'vehicleType': 2,
-            'vehicleTypeDesc': '客车',
-            'pattern': 2,
-            'patternDesc': '仅更换ETC设备',
-            'deliveryState': 1,
-            'deliveryStateDesc': '待寄回',
-            'consigneePhone': '123456'
-          }]
+          },
+        ]
         this.total = 1
         this.canExport = true
       },

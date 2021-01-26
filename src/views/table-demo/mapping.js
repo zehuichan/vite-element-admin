@@ -75,6 +75,7 @@ export const options = [
 
 // table相关
 export const columns = [
+  {label: '组合json', key: 'obj.id'},
   {label: '售后单号', key: 'id'},
   {label: '发行方', key: 'supplierId'},
   {label: '车型', key: 'vehicleType'},
