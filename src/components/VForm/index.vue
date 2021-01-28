@@ -25,7 +25,7 @@
           :disabled="item.disabled"
           clearable
           :maxlength="item.maxlength || 200"
-          show-word-limit
+          :show-word-limit="item.showWordLimit"
           :autosize="item.autosize || { minRows: 5}"
           resize="none"
           @input="$_inputChange(item, $event)"
@@ -86,6 +86,16 @@
           end-placeholder="结束日期"
           :value-format="item.valueFormat || ''"
           :default-time="item.defaultTime || ['00:00:00', '23:59:59']"
+          @change="$_inputChange(item, $event)"
+          style="width:100%; height:33px;"
+        />
+      </template>
+      <template v-if="item.type === 'datetime'">
+        <el-date-picker
+          :value="value[item.key]"
+          type="datetime"
+          :placeholder="item.placeholder"
+          :value-format="item.valueFormat || ''"
           @change="$_inputChange(item, $event)"
           style="width:100%; height:33px;"
         />
