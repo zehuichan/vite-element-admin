@@ -1,5 +1,5 @@
 <template>
-  <div class="uploader">
+  <div class="v-uploader">
     <input ref="upload-input" class="upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
     <el-button v-bind="$attrs" @click="handleUpload">
       <slot>导入</slot>
@@ -46,9 +46,8 @@
 </script>
 
 <style scoped>
-  .uploader {
+  .v-uploader {
     display: inline-block;
-    margin: 0 10px;
   }
 
   .upload-input {

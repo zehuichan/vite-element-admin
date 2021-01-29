@@ -33,7 +33,7 @@
         />
       </template>
       <template v-if="item.type === 'radio'">
-        <el-radio-group :value="value[item.key]" @change="$_inputChange(item, $event)">
+        <el-radio-group :value="value[item.key]" @input="$_inputChange(item, $event)">
           <el-radio
             v-for="(sub, idx) in item.options"
             :key="idx"
@@ -56,7 +56,7 @@
           :disabled="item.disabled"
           :loading="loading"
           clearable
-          @change="$_inputChange(item, $event)"
+          @input="$_inputChange(item, $event)"
           style="width:100%"
         >
           <el-option
@@ -73,7 +73,7 @@
           type="date"
           :placeholder="item.placeholder"
           :value-format="item.valueFormat || ''"
-          @change="$_inputChange(item, $event)"
+          @input="$_inputChange(item, $event)"
           style="width:100%; height:33px;"
         />
       </template>
@@ -86,7 +86,7 @@
           end-placeholder="结束日期"
           :value-format="item.valueFormat || ''"
           :default-time="item.defaultTime || ['00:00:00', '23:59:59']"
-          @change="$_inputChange(item, $event)"
+          @input="$_inputChange(item, $event)"
           style="width:100%; height:33px;"
         />
       </template>
@@ -96,7 +96,7 @@
           type="datetime"
           :placeholder="item.placeholder"
           :value-format="item.valueFormat || ''"
-          @change="$_inputChange(item, $event)"
+          @input="$_inputChange(item, $event)"
           style="width:100%; height:33px;"
         />
       </template>

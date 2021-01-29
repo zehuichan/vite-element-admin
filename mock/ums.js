@@ -107,48 +107,6 @@ const menu = Mock.mock(
       ]
     },
     {
-      path: '/dynamicform',
-      component: 'Layout',
-      hidden: false,
-      children: [
-        {
-          path: '',
-          component: 'DynamicForm',
-          hidden: false,
-          name: 'DynamicForm',
-          meta: { title: '动态配置表单', icon: 'el-icon-video-camera', roles: ['admin'], },
-        },
-      ]
-    },
-    {
-      path: '/demo',
-      component: 'Layout',
-      hidden: false,
-      children: [
-        {
-          path: '',
-          component: 'Demo',
-          hidden: false,
-          name: 'Demo',
-          meta: { title: '组件demo', icon: 'el-icon-s-grid', roles: ['admin'], },
-        },
-      ]
-    },
-    {
-      path: '/tableDemo',
-      component: 'Layout',
-      hidden: false,
-      children: [
-        {
-          path: '',
-          component: 'TableDemo',
-          hidden: false,
-          name: 'TableDemo',
-          meta: { title: '综合表格demo', icon: 'el-icon-s-grid', roles: ['admin'], },
-        },
-      ]
-    },
-    {
       path: '/nested',
       component: 'Layout',
       redirect: '/nested/menu/menu1-1',

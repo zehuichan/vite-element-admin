@@ -5,18 +5,12 @@ const user = require('./user')
 const mms = require('./mms')
 const pms = require('./pms')
 const ums = require('./ums')
-// 测试需求
-const zhongshi = require('./zhongshi')
-const zhongshiUser = require('./zhongshi-user')
 
 const mocks = [
   ...user,
   ...mms,
   ...pms,
   ...ums,
-  // 测试需求
-  ...zhongshi,
-  ...zhongshiUser,
 ]
 
 // for front mock

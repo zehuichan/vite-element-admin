@@ -1,8 +1,8 @@
 <template>
-  <div class="excel-upload">
-    <input ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
+  <div class="v-excel-upload">
+    <input ref="excel-upload-input" class="v-excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
     <el-button v-bind="$attrs" @click="handleUpload">
-      <slot>导入</slot>
+      <slot>上传</slot>
     </el-button>
   </div>
 </template>
@@ -124,12 +124,11 @@
 </script>
 
 <style scoped>
-  .excel-upload {
+  .v-excel-upload {
     display: inline-block;
-    margin: 0 10px;
   }
 
-  .excel-upload-input {
+  .v-excel-upload-input {
     display: none;
     z-index: -9999;
   }

@@ -43,6 +43,11 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/vcomponents',
+    component: () => import('@/views/vcomponents/index'),
+    hidden: true
+  },
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
@@ -67,8 +72,7 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/500'),
     hidden: true
   },
-  {path: '/', redirect: '/dashboard'},
-  // { path: '/', redirect: '/all' },
+  { path: '/', redirect: '/dashboard' },
 ]
 
 

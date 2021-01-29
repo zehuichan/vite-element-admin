@@ -9,7 +9,7 @@
   import {isSameSecond, parseTimeData, parseFormat} from './utils'
 
   export default {
-    name: 'CountDown',
+    name: 'VCountDown',
     props: {
       millisecond: Boolean,
       time: {
@@ -150,7 +150,7 @@
   .v-count-down {
     display: inline-block;
     color: #323233;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
   }
 </style>

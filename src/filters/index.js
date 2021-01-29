@@ -66,3 +66,8 @@ export function toThousandFilter(num) {
 export function uppercaseFirst(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+// 不足补0
+export function padStart(str = '') {
+  return String(str).padStart(2, '0')
+}
