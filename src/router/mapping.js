@@ -11,15 +11,12 @@ const RouteView = {
 const mapping = {
   Layout: Layout,
   RouteView: RouteView,
-  Test: () => import('@/views/test/index'),
+  VComponents: () => import('@/views/vcomponents/index'),
 
   // index
   Dashboard: () => import('@/views/dashboard/index'),
   Documentation: () => import('@/views/documentation/index'),
   Permission: () => import('@/views/permission/index'),
-  DynamicForm: () => import('@/views/dynamic-form/index'),
-  Demo: () => import('@/views/demo'),
-  TableDemo: () => import('@/views/table-demo/index'),
   Nested: () => import('@/views/nested/index'),
 
   // ums

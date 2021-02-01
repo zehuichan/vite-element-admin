@@ -14,29 +14,40 @@ const users = {
       {
         permissionId: 'dashboard',
         actionList: [
-          {action: 'add', desc: '新增'},
-          {action: 'delete', desc: '删除'},
-          {action: 'edit', desc: '修改'},
-          {action: 'query', desc: '查询'},
-          {action: 'import', desc: '导入'},
-          {action: 'export', desc: '导出'},
+          { action: 'add', desc: '新增' },
+          { action: 'delete', desc: '删除' },
+          { action: 'edit', desc: '修改' },
+          { action: 'query', desc: '查询' },
+          { action: 'import', desc: '导入' },
+          { action: 'export', desc: '导出' },
         ],
       },
       {
         permissionId: 'permission',
         actionList: [
-          {action: 'query', desc: '查询'},
-          {action: 'import', desc: '导入'},
-          {action: 'export', desc: '导出'},
+          { action: 'query', desc: '查询' },
+          { action: 'import', desc: '导入' },
+          { action: 'export', desc: '导出' },
         ]
       },
       {
         permissionId: 'user',
         actionList: [
-          {action: 'add', desc: '新增'},
-          {action: 'delete', desc: '删除'},
-          {action: 'edit', desc: '修改'},
-          {action: 'export', desc: '导出'},
+          { action: 'add', desc: '新增' },
+          { action: 'delete', desc: '删除' },
+          { action: 'edit', desc: '修改' },
+          { action: 'export', desc: '导出' },
+        ]
+      },
+      {
+        permissionId: 'vcomponents',
+        actionList: [
+          { action: 'add', desc: '新增' },
+          { action: 'delete', desc: '删除' },
+          { action: 'edit', desc: '修改' },
+          { action: 'query', desc: '查询' },
+          { action: 'import', desc: '导入' },
+          { action: 'export', desc: '导出' },
         ]
       }
     ],
@@ -58,7 +69,7 @@ module.exports = [
     url: '/vue-admin-template/user/login',
     type: 'post',
     response: config => {
-      const {username} = config.body
+      const { username } = config.body
       const token = tokens[username]
 
       // mock error
@@ -81,7 +92,7 @@ module.exports = [
     url: '/vue-admin-template/user/info\.*',
     type: 'get',
     response: config => {
-      const {token} = config.query
+      const { token } = config.query
       const info = users[token]
 
       // mock error

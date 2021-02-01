@@ -210,6 +210,23 @@ const menu = Mock.mock(
         },
       ]
     },
+    {
+      path: '/vcomponents',
+      component: 'VComponents',
+      hidden: true,
+      name: 'VComponents',
+      meta: {
+        title: 'vcomponents', icon: 'el-icon-odometer', affix: true, role: ['admin'],
+        permissions: [
+          {action: 'add', desc: '新增'},
+          {action: 'delete', desc: '删除'},
+          {action: 'edit', desc: '修改'},
+          {action: 'query', desc: '查询'},
+          {action: 'import', desc: '导入'},
+          {action: 'export', desc: '导出'},
+        ]
+      },
+    },
   ]
 )
 

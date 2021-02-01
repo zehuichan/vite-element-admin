@@ -105,6 +105,7 @@ export const descriptions = {
     amount: '$80.00',
     discount: '$20.00',
     official: '$60.00',
+    custom: 'custom',
   },
   columns: [
     { label: 'Product', key: 'product' },
@@ -113,5 +114,6 @@ export const descriptions = {
     { label: 'Amount', key: 'amount' },
     { label: 'Discount', key: 'discount' },
     { label: 'Official', key: 'official' },
+    { label: 'Custom', key: 'custom' },
   ]
 }

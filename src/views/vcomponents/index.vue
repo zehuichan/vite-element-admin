@@ -3,7 +3,11 @@
     <h1>业务组件</h1>
     <div class="card">
       <h3>v-search</h3>
-      <v-search v-model="searchForm" :options="search.options"/>
+      <v-search v-model="searchForm" :options="search.options">
+        <template #tools>
+          自定义额外插槽 #tools
+        </template>
+      </v-search>
     </div>
     <div class="card">
       <h3>v-table</h3>
@@ -15,6 +19,15 @@
         :page.sync="query.page"
         :limit.sync="query.limit"
       >
+        <template #toolbar-title>
+          插槽#toolbar-title
+        </template>
+        <template #toolbar-space>
+          插槽#toolbar-space
+        </template>
+        <template #selection>
+          <el-table-column type="selection" width="55"/>
+        </template>
         <template #tags="{scope}">
           <el-tag v-for="tag in scope.row.tags" :key="tag" :type="tag.length > 5 ? 'warning' : 'success'">
             {{tag}}
@@ -110,9 +123,24 @@
     </div>
     <div class="card">
       <h3>v-descriptions</h3>
-      <v-descriptions :data="descriptions.data" :columns="descriptions.columns"/>
+      <v-descriptions :data="descriptions.data" :columns="descriptions.columns">
+        <template #custom>
+          自定义插槽
+        </template>
+      </v-descriptions>
     </div>
     <h1>未完待续...</h1>
+    <v-footer-tool-bar>
+      <template #extra>
+        权限指令v-action
+      </template>
+      <el-button type="default" v-action:add>新增 v-action:add</el-button>
+      <el-button type="primary" v-action:delete>删除 v-action:delete</el-button>
+      <el-button type="success" v-action:edit>修改 v-action:edit</el-button>
+      <el-button type="info" v-action:query>查询 v-action:query</el-button>
+      <el-button type="warning" v-action:import>导入 v-action:import</el-button>
+      <el-button type="danger" v-action:export>导出 v-action:export</el-button>
+    </v-footer-tool-bar>
   </div>
 </template>
 
@@ -150,7 +178,7 @@
 
 <style lang="scss">
   body {
-    background-color: #f7f8fa;
+    background-color: #f5f5f5;
   }
 
   h1, h2, h3, h4, h5, h6 {

@@ -13,6 +13,8 @@ import '@/styles/scss/element-variables.scss'
 
 import VComponents from '@/constants/vcomponents' // global components
 
+import VAction from '@/directive/action'
+
 import '@/styles/scss/index.scss' // global css
 
 import App from './App'
@@ -49,6 +51,7 @@ Vue.use(Element, {
 
 // 常用自定义组件全量引入使用
 Vue.use(VComponents)
+Vue.use(VAction)
 
 // register global utility filters
 Object.keys(filters).forEach(key => {

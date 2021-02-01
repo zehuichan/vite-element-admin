@@ -43,11 +43,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/vcomponents',
-    component: () => import('@/views/vcomponents/index'),
-    hidden: true
-  },
-  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
