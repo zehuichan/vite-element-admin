@@ -65,7 +65,7 @@
         <v-excel-export type="warning" icon="el-icon-upload2">前端导出excel</v-excel-export>
       </demo-block>
       <demo-block title="v-excel-upload前端上传excel数据转json">
-        <v-excel-upload type="success" icon="el-icon-download"/>
+        <v-excel-upload type="success" icon="el-icon-download" :on-success="onSuccess"/>
       </demo-block>
       <demo-block title="v-uploader前端原生上传">
         <v-uploader type="info" icon="el-icon-upload"/>
@@ -159,8 +159,29 @@
         query: {
           page: 1,
           limit: 10
-        }
+        },
+        upload_data: [],
       }
+    },
+    methods: {
+      onSuccess({ results, header }) {
+        for (let i = 0; i < results.length; i++) {
+          let each = results[i]
+          each = this.transExcelRow(each)
+          this.upload_data.push({
+            deliveryNumber: each['快递单号'],
+            expressCompanyId: 1,
+            orderId: each['订单号']
+          })
+        }
+      },
+      transExcelRow(row) {
+        const ret = {}
+        for (const i in row) {
+          ret[i.trim()] = row[i]
+        }
+        return ret
+      },
     },
     components: {
       DemoCard,
