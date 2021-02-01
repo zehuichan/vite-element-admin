@@ -1,16 +1,14 @@
 <template>
   <div class="v-components">
     <h1>业务组件</h1>
-    <div class="card">
-      <h3>v-search</h3>
+    <demo-card title="v-search">
       <v-search v-model="searchForm" :options="search.options">
         <template #tools>
           自定义额外插槽 #tools
         </template>
       </v-search>
-    </div>
-    <div class="card">
-      <h3>v-table</h3>
+    </demo-card>
+    <demo-card title="v-table">
       <v-table
         :loading="loading"
         :data="table.data"
@@ -38,9 +36,8 @@
           <el-button type="text">Delete</el-button>
         </template>
       </v-table>
-    </div>
-    <div class="card">
-      <h3>v-form</h3>
+    </demo-card>
+    <demo-card title="v-form">
       <div class="clearfix">
         <v-form class="fl" v-model="dataForm" :options="form" label-position="right" label-width="80px">
           <template #custom="{scope}">
@@ -56,17 +53,14 @@
           {{dataForm}}
         </code>
       </div>
-    </div>
-    <div class="card">
-      <h3>v-dialog</h3>
+    </demo-card>
+    <demo-card title="v-dialog">
       <el-button type="primary">打开dialog</el-button>
-    </div>
-    <div class="card">
-      <h3>v-drawer</h3>
+    </demo-card>
+    <demo-card title="v-drawer">
       <el-button type="primary">打开drawer</el-button>
-    </div>
-    <div class="card">
-      <h3>上传下载Excel</h3>
+    </demo-card>
+    <demo-card title="上传下载Excel">
       <demo-block title="v-excel-export前端导出excel">
         <v-excel-export type="warning" icon="el-icon-upload2">前端导出excel</v-excel-export>
       </demo-block>
@@ -76,10 +70,9 @@
       <demo-block title="v-uploader前端原生上传">
         <v-uploader type="info" icon="el-icon-upload"/>
       </demo-block>
-    </div>
+    </demo-card>
     <h1>展示组件</h1>
-    <div class="card">
-      <h3>v-badge</h3>
+    <demo-card title="v-badge">
       <v-badge/>
       <v-badge status="error"/>
       <v-badge status="default"/>
@@ -103,9 +96,8 @@
       <v-badge color="#87d068">Custom #87d068</v-badge>
       <br/>
       <v-badge color="#108ee9">Custom #108ee9</v-badge>
-    </div>
-    <div class="card">
-      <h3>v-count-down</h3>
+    </demo-card>
+    <demo-card title="v-count-down">
       <demo-block title="毫秒级渲染">
         <v-count-down millisecond :time="time" format="HH:mm:ss:SS"/>
       </demo-block>
@@ -120,15 +112,14 @@
           </template>
         </v-count-down>
       </demo-block>
-    </div>
-    <div class="card">
-      <h3>v-descriptions</h3>
+    </demo-card>
+    <demo-card title="v-descriptions">
       <v-descriptions :data="descriptions.data" :columns="descriptions.columns">
         <template #custom>
           自定义插槽
         </template>
       </v-descriptions>
-    </div>
+    </demo-card>
     <h1>未完待续...</h1>
     <v-footer-tool-bar>
       <template #extra>
@@ -146,6 +137,7 @@
 
 <script>
   // components
+  import DemoCard from './components/DemoCard'
   import DemoBlock from './components/DemoBlock'
   // mapping
   import {search, table, form, descriptions} from './mapping'
@@ -171,7 +163,8 @@
       }
     },
     components: {
-      DemoBlock
+      DemoCard,
+      DemoBlock,
     }
   }
 </script>
@@ -188,29 +181,21 @@
     line-height: 1.5;
   }
 
+  h1 {
+    margin: 0 0 30px;
+    font-size: 30px;
+    cursor: default;
+  }
+
+  h3 {
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-size: 18px;
+  }
+
   .v-components {
     padding: 30px;
     overflow: hidden;
-
-    h1 {
-      margin: 0 0 30px;
-      font-size: 30px;
-      cursor: default;
-    }
-
-    h3 {
-      margin-bottom: 16px;
-      font-weight: 600;
-      font-size: 18px;
-    }
-
-    .card {
-      margin-bottom: 24px;
-      padding: 24px;
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 8px 12px #ebedf0;
-    }
 
     .colon {
       display: inline-block;
