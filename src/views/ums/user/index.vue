@@ -1,11 +1,13 @@
 <template>
   <div>
-    <v-search v-model.sync="dataForm" :options="options" @search="onSearch">
-      <template #tools>
-        <el-button type="primary" icon="el-icon-plus" v-action:add>新增</el-button>
-        <el-button type="danger" icon="el-icon-download" v-action:export>导出</el-button>
-      </template>
-    </v-search>
+    <div class="app-container">
+      <v-search v-model="dataForm" :options="options" @search="onSearch">
+        <template #tools>
+          <el-button type="primary" icon="el-icon-plus" v-action:add>新增</el-button>
+          <el-button type="danger" icon="el-icon-download" v-action:export>导出</el-button>
+        </template>
+      </v-search>
+    </div>
     <div class="app-container">
       <v-table
         :loading="loading"
