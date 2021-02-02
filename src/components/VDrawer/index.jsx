@@ -1,5 +1,5 @@
 import './index.scss'
-import popup from '@/components/utils/popup'
+import popup from '../utils/popup'
 
 const VDrawer = {
   name: 'VDrawer',

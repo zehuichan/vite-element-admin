@@ -107,7 +107,7 @@
 
 <script>
   // utils
-  import {formatNumber} from './formate-number'
+  import {formatNumber} from '../utils/formate-number'
 
   export default {
     name: 'VForm',
