@@ -55,10 +55,10 @@
       </div>
     </demo-card>
     <demo-card title="v-dialog">
-      <el-button type="primary">打开dialog</el-button>
+      <el-button type="primary" @click="showDialog = true">打开dialog</el-button>
     </demo-card>
     <demo-card title="v-drawer">
-      <el-button type="primary">打开drawer</el-button>
+      <el-button type="primary" @click="showDrawer = true">打开drawer</el-button>
     </demo-card>
     <demo-card title="上传下载Excel">
       <demo-block title="v-excel-export前端导出excel">
@@ -132,6 +132,30 @@
       <el-button type="warning" v-action:import>导入 v-action:import</el-button>
       <el-button type="danger" v-action:export>导出 v-action:export</el-button>
     </v-footer-tool-bar>
+    <v-dialog v-model="showDialog" title="v-dialog">
+      <demo-block title="template">
+        <code>
+          {{dialog.template}}
+        </code>
+      </demo-block>
+      <demo-block title="javascript">
+        <code>
+          {{dialog.javascript}}
+        </code>
+      </demo-block>
+    </v-dialog>
+    <v-drawer v-model="showDrawer" title="v-drawer" size="600px">
+      <demo-block title="template">
+        <code>
+          {{drawer.template}}
+        </code>
+      </demo-block>
+      <demo-block title="javascript">
+        <code>
+          {{drawer.javascript}}
+        </code>
+      </demo-block>
+    </v-drawer>
   </div>
 </template>
 
@@ -141,9 +165,12 @@
   import DemoBlock from './components/DemoBlock'
   // mapping
   import {search, table, form, descriptions} from './mapping'
+  // code
+  import {dialog, drawer} from './code'
 
   export default {
     name: 'vcomponents',
+
     data() {
       return {
         time: 30 * 60 * 60 * 1000,
@@ -151,6 +178,10 @@
         table,
         form,
         descriptions,
+
+        // code
+        dialog,
+        drawer,
 
         searchForm: {},
         dataForm: {},
@@ -161,6 +192,8 @@
           limit: 10
         },
         upload_data: [],
+        showDialog: false,
+        showDrawer: false,
       }
     },
     methods: {

@@ -9,7 +9,7 @@ const VDialog = {
       return (
         <div slot="footer" class="dialog-footer">
           <el-button type="default" onClick={this.onClose}>{this.cancelButtonText}</el-button>
-          <el-button {...{ props: this.$attrs }} type="primary" onClick={this.onConfirm}>
+          <el-button type="primary" loading={this.$attrs.loading} onClick={this.onConfirm}>
             {this.confirmButtonText}
           </el-button>
         </div>
