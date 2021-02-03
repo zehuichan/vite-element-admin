@@ -100,7 +100,7 @@
 
     .label {
       color: rgba(0, 0, 0, .85);
-      font-weight: 400;
+      font-weight: 500;
       font-size: 14px;
       line-height: 1.5715;
       text-align: start;
