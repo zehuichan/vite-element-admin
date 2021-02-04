@@ -141,7 +141,10 @@
       },
       $_setDefaultValue() {
         this._options.forEach((item) => {
-          this.value[item.key] = this.value[item.key] || item.value
+          // 1. 填充默认值
+          this.value[item.key] = this.value[item.key]
+          // 2. 映射回配置项
+          item.value = this.value[item.key]
         })
       },
       $_inputChange(key, event) {

@@ -9,7 +9,7 @@
       <table>
         <tbody>
         <tr class="v-descriptions-row" v-for="(item, index) in _columns" :key="index">
-          <td class="v-descriptions-item" colspan="1" v-for="(sub, idx) in item" :key="idx">
+          <td class="v-descriptions-item" :colspan="span(item, idx)" v-for="(sub, idx) in item" :key="idx">
             <div class="v-descriptions-item__container">
               <span class="label">{{sub.label}}</span>
               <span class="content">
@@ -38,7 +38,8 @@
       },
       column: {
         type: Number,
-        default: 3
+        default: 3,
+        validator: (val) => [1, 2, 3].includes(val)
       },
       columns: {
         type: Array,
@@ -50,6 +51,17 @@
     computed: {
       _columns() {
         return chunk(this.columns, this.column)
+      }
+    },
+    methods: {
+      span(row, idx) {
+        if (row.length === this.column) {
+          return 1
+        } else if (row.length === 2) {
+          return idx === 0 ? 1 : 2
+        } else {
+          return this.column
+        }
       }
     }
   }
