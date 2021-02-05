@@ -10,7 +10,7 @@
         <tbody>
         <tr class="v-descriptions-row" v-for="(item, index) in _columns" :key="index">
           <td class="v-descriptions-item" :colspan="span(item, idx)" v-for="(sub, idx) in item" :key="idx">
-            <div class="v-descriptions-item__container">
+            <div class="v-descriptions-item__container" :class="item.className">
               <span class="label">{{sub.label}}</span>
               <span class="content">
                  <slot :scope="data[sub.key]" :name="sub.key">{{data[sub.key] || '_'}}</slot>
