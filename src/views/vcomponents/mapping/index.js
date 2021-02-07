@@ -16,7 +16,7 @@ export const search = {
         { value: '9', label: '备选项' },
       ]
     },
-    {label: 'Daterange', key: 'daterange', value: [], placeholder: 'Daterange', type: 'daterange'},
+    { label: 'Daterange', key: 'daterange', value: [], placeholder: 'Daterange', type: 'daterange' },
   ],
 }
 
@@ -56,9 +56,9 @@ export const form = [
     placeholder: '单选框组',
     type: 'radio',
     options: [
-      { label: '3', value: '备选项' },
-      { label: '6', value: '备选项' },
-      { label: '9', value: '备选项' },
+      { label: '备选项', value: '3', },
+      { label: '备选项', value: '6', },
+      { label: '备选项', value: '9', },
     ]
   },
   {

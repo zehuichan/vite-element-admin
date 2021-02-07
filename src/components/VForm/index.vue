@@ -37,9 +37,9 @@
           <el-radio
             v-for="(sub, idx) in item.options"
             :key="idx"
-            :label="sub.label"
+            :label="sub.value"
           >
-            {{sub.value}}
+            {{sub.label}}
           </el-radio>
         </el-radio-group>
       </template>
