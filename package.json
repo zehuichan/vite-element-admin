@@ -13,7 +13,8 @@
     "lint": "eslint --ext .js,.vue src",
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "test:ci": "npm run lint && npm run test:unit",
-    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
+    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
+    "release": "release-it && git push --follow-tags origin master"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -53,7 +54,7 @@
     "html-webpack-plugin": "3.2.0",
     "mockjs": "1.0.1-beta3",
     "regenerator-runtime": "^0.13.7",
-    "release-it": "^14.2.2",
+    "release-it": "^14.3.0",
     "runjs": "^4.3.2",
     "sass": "^1.32.5",
     "sass-loader": "8.0.2",
@@ -71,5 +72,15 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "release-it": {
+    "npm": {
+      "publish": false
+    },
+    "git": {
+      "push": false,
+      "tagName": "v${version}",
+      "commitMessage": "chore: release v${version}"
+    }
+  }
 }
