@@ -132,7 +132,7 @@
           let key = rowKey.split('.')
           let current = row
           for (let i = 0; i < key.length; i++) {
-            current = current[key[i]]
+            current = current?.[key[i]]
           }
           return current
         }
