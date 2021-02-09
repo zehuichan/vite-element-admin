@@ -30,5 +30,4 @@ const VDialog = {
   }
 }
 
-
 export default VDialog

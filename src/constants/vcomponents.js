@@ -16,6 +16,7 @@ import VFooter from '@/components/VFooter'
 import SvgIcon from '@/components/SvgIcon'
 import VImageViewer from '@/components/VImageViewer'
 import VBadge from '@/components/VBadge'
+import VQrcode from '@/components/VQrcode'
 
 const components = [
   VSearch,
@@ -35,6 +36,7 @@ const components = [
   SvgIcon,
   VImageViewer,
   VBadge,
+  VQrcode,
 ]
 
 function plugin(Vue, opt) {

@@ -120,6 +120,14 @@
         </template>
       </v-descriptions>
     </demo-card>
+    <demo-card title="v-qrcode">
+      <demo-block title="默认">
+        <v-qrcode v-model="str" :onSuccess="loaded"/>
+      </demo-block>
+      <demo-block title="带logo">
+        <v-qrcode v-model="str" :logo="logo" :onSuccess="loaded1"/>
+      </demo-block>
+    </demo-card>
     <h1>未完待续...</h1>
     <v-footer-tool-bar>
       <template #extra>
@@ -167,6 +175,7 @@
   import {search, table, form, descriptions} from './mapping'
   // code
   import {dialog, drawer} from './code'
+  import VQrcode from '@/components/VQrcode/index'
 
   export default {
     name: 'vcomponents',
@@ -194,6 +203,9 @@
         upload_data: [],
         showDialog: false,
         showDrawer: false,
+
+        str: 'https://translate.google.cn/?sl=auto&tl=en&text=%E4%BA%8C%E7%BB%B4%E7%A0%81&op=translate',
+        logo: require('./logo.jpg')
       }
     },
     methods: {
@@ -215,6 +227,12 @@
         }
         return ret
       },
+      loaded(event) {
+        console.log(event)
+      },
+      loaded1(event) {
+        console.log(event)
+      }
     },
     components: {
       DemoCard,
