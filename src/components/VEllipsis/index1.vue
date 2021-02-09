@@ -32,9 +32,9 @@
   }
 </script>
 
-display: flex;
 <style scoped>
   .v-ellipsis {
+    display: flex;
     align-items: center;
   }
 </style>

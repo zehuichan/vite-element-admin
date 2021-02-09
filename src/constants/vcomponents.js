@@ -16,6 +16,7 @@ import VFooter from '@/components/VFooter'
 import SvgIcon from '@/components/SvgIcon'
 import VImageViewer from '@/components/VImageViewer'
 import VBadge from '@/components/VBadge'
+import VEllipsis from '@/components/VEllipsis'
 import VQrcode from '@/components/VQrcode'
 
 const components = [
@@ -36,6 +37,7 @@ const components = [
   SvgIcon,
   VImageViewer,
   VBadge,
+  VEllipsis,
   VQrcode,
 ]
 

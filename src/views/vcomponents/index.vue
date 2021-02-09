@@ -120,6 +120,9 @@
         </template>
       </v-descriptions>
     </demo-card>
+    <demo-card title="v-ellipsis">
+      <v-ellipsis content="123123123123123123131" style="width: 100px;"/>
+    </demo-card>
     <demo-card title="v-qrcode">
       <demo-block title="默认">
         <v-qrcode v-model="str" :onSuccess="loaded"/>
@@ -228,10 +231,8 @@
         return ret
       },
       loaded(event) {
-        console.log(event)
       },
       loaded1(event) {
-        console.log(event)
       }
     },
     components: {
