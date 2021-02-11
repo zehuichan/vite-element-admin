@@ -28,7 +28,7 @@
                   :disabled="item.disabled"
                   :loading="loading"
                   clearable
-                  @change="$_inputChange(item.key, $event)"
+                  @input="$_inputChange(item.key, $event)"
                   style="width:100%"
                 >
                   <el-option label="全部" value="全部" @click.native="value[item.key] = null"/>
@@ -49,7 +49,7 @@
                   end-placeholder="结束日期"
                   :value-format="item.valueFormat || ''"
                   :default-time="item.defaultTime || ['00:00:00', '23:59:59']"
-                  @change="$_inputChange(item.key, $event)"
+                  @input="$_inputChange(item.key, $event)"
                   style="width:100%; height:33px;"
                 />
               </template>
