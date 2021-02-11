@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h3>{{title}}</h3>
+    <h3 v-if="title">{{title}}</h3>
     <slot/>
   </div>
 </template>

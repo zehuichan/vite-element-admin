@@ -31,27 +31,26 @@ const VQrcode = {
     gutter: {
       type: [String, Number],
       default: 8
-    },
-    onSuccess: Function
+    }
   },
   mounted() {
     this.generate()
   },
   methods: {
     async generate() {
-      const { width, height, margin } = this
+      const {width, height, margin} = this
       const value = String(this.value)
-      toCanvas(this.$el, value, { width, height, margin }, (error) => {
+      toCanvas(this.$el, value, {width, height, margin}, (error) => {
         if (error) {
           throw error
         }
       })
       const canvas = this.$el
       this.logo && await this.drawLogo()
-      this.onSuccess && this.onSuccess(canvas.toDataURL())
+      this.$emit('load', canvas.toDataURL())
     },
     async drawLogo() {
-      const { width, height, logo, size, gutter } = this
+      const {width, height, logo, size, gutter} = this
       const canvas = this.$el
       const ctx = canvas.getContext('2d')
       ctx.beginPath()

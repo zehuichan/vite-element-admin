@@ -1,7 +1,29 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import {MessageBox, Message} from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import {getToken} from '@/utils/auth'
+
+
+// 格式化url，返回形参
+export function formatUrl(url = '', json) {
+  return url.replace(/\{(\w+)\}/g, ($0, $1) => json?.[$1])
+}
+
+// 格式化入参，[] 转成 null
+export function transformRequest(data, headers) {
+  Object.keys(data).forEach((key) => {
+    let val = data[key]
+    // 处理Array
+    if (_typeof(val) === '[object Array]' && val.length === 0) {
+      data[key] = null
+    }
+    // 处理空str
+    if (_typeof(val) === '[object String]' && val.length === 0) {
+      data[key] = null
+    }
+  })
+  return JSON.stringify(data)
+}
 
 // create an axios instance
 const service = axios.create({
@@ -35,7 +57,7 @@ service.interceptors.response.use(
   /**
    * If you want to get http information such as headers or status
    * Please return  response => response
-  */
+   */
 
   /**
    * Determine the request status by custom code

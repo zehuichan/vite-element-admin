@@ -1,7 +1,7 @@
 <template>
-  <div class="v-doc-demo-block">
-    <h2 v-if="title" class="v-doc-demo-block__title">{{ title }}</h2>
-    <div v-if="card" class="v-doc-demo-block__card">
+  <div class="demo-block">
+    <h2 v-if="title" class="demo-block__title">{{ title }}</h2>
+    <div v-if="card" class="demo-block__card">
       <slot/>
     </div>
     <slot v-else/>
@@ -20,7 +20,7 @@
 </script>
 
 <style lang="scss">
-  .v-doc-demo-block {
+  .demo-block {
     &__title {
       margin: 0;
       padding: 32px 0 16px;
@@ -41,9 +41,14 @@
     }
 
     &:first-of-type {
-      .v-doc-demo-block__title {
+      .demo-block__title {
         padding-top: 20px;
       }
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 1.517;
     }
   }
 </style>

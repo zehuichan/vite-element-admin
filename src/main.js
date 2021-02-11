@@ -11,6 +11,9 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import Element from 'element-ui'
 import '@/styles/scss/element-variables.scss'
 
+import hljs from 'highlight.js'
+import 'highlight.js/styles/default.css'
+
 import VComponents from '@/constants/vcomponents' // global components
 
 import VAction from '@/directive/action'
@@ -50,6 +53,7 @@ Vue.use(Element, {
 })
 
 // 常用自定义组件全量引入使用
+Vue.use(hljs.vuePlugin)
 Vue.use(VComponents)
 Vue.use(VAction)
 
