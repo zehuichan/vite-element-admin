@@ -1,11 +1,22 @@
+import './index.scss'
+
 const VEllipsis = {
   name: 'VEllipsis',
   props: {
     clamp: {
-      type: Number,
-      default: 1
+      type: [String, Number],
+      default: 3
     },
-    content: String
+    // 关闭时的提示文字
+    closeText: {
+      type: String,
+      default: '展开全部'
+    },
+    // 展开时的提示文字
+    openText: {
+      type: String,
+      default: '收起'
+    },
   },
   data() {
     return {
@@ -14,7 +25,13 @@ const VEllipsis = {
   },
   computed: {
     className() {
-      return this.ellipsis && this.clamp > 1 ? `multi-ellipsis--l${this.clamp}` : 'ellipsis'
+      return this.ellipsis ? '' : this.clamp > 1 ? `multi-ellipsis--l${this.clamp}` : 'ellipsis'
+    },
+    btnClassName() {
+      return this.ellipsis ? '' : 'mask'
+    },
+    text() {
+      return this.ellipsis ? this.openText : this.closeText
     }
   },
   methods: {
@@ -23,15 +40,18 @@ const VEllipsis = {
     }
   },
   render() {
-    const { content } = this
     const renderBtn = () => (
-      <el-button type="text" onClick={this.onClick}>{this.ellipsis ? '展开' : '收起'}</el-button>
+      <el-button type="text" onClick={this.onClick}>{this.text}</el-button>
     )
     return (
-        <div class="ellipsis">
-          {content}
-          {renderBtn()}
+      <div class="v-ellipsis">
+        <div class={['content', this.className]}>
+          {this.$slots.default}
         </div>
+        <div class={['btn', this.btnClassName]}>
+          {this.$slots.footer ? this.$slots.footer : renderBtn()}
+        </div>
+      </div>
     )
   }
 }
