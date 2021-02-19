@@ -11,7 +11,22 @@ const RouteView = {
 const mapping = {
   Layout: Layout,
   RouteView: RouteView,
+
+  // vcomponents
   VComponents: () => import('@/views/vcomponents/index'),
+  VSearch: () => import('@/views/vcomponents/vsearch'),
+  VTable: () => import('@/views/vcomponents/vtable'),
+  VForm: () => import('@/views/vcomponents/vform'),
+  VDialog: () => import('@/views/vcomponents/vdialog'),
+  VDrawer: () => import('@/views/vcomponents/vdrawer'),
+  VImageviewer: () => import('@/views/vcomponents/vimageviewer'),
+  VExcel: () => import('@/views/vcomponents/vexcel'),
+  VBadge: () => import('@/views/vcomponents/vbadge'),
+  VEllipsis: () => import('@/views/vcomponents/vellipsis'),
+  VCountdown: () => import('@/views/vcomponents/vcountdown'),
+  VDescriptions: () => import('@/views/vcomponents/vdescriptions'),
+  VQrcode: () => import('@/views/vcomponents/vqrcode'),
+  VAction: () => import('@/views/vcomponents/vaction'),
 
   // index
   Dashboard: () => import('@/views/dashboard/index'),

@@ -1,0 +1,70 @@
+<template>
+  <div class="v-components">
+    <!--v-qrcode-->
+    <demo-section>
+      <demo-card title="v-qrcode">
+        <demo-block title="默认">
+          <v-qrcode v-model="str" @load="onAction('load1', $event)"/>
+          <el-button type="primary" @click="onAction('download1')">下载二维码</el-button>
+        </demo-block>
+        <demo-block title="带logo">
+          <v-qrcode v-model="str" :logo="logo" @load="onAction('load2', $event)"/>
+          <el-button type="primary" @click="onAction('download2')">下载二维码</el-button>
+        </demo-block>
+      </demo-card>
+      <demo-card style="width: 1200px;">
+        <demo-block title="template">
+          <highlightjs language="html" :code="vqrcode.template"/>
+        </demo-block>
+        <demo-block title="javascript">
+          <highlightjs language="javascript" :code="vqrcode.javascript"/>
+        </demo-block>
+      </demo-card>
+    </demo-section>
+  </div>
+</template>
+
+<script>
+  // mixins
+  import comp from './comp'
+  // utils
+  import {download} from '@/utils/download'
+  // code
+  import {vqrcode} from './code'
+
+  export default {
+    name: 'vqrcode',
+    mixins: [comp],
+    data() {
+      return {
+        vqrcode,
+
+        str: 'https://translate.google.cn/?sl=auto&tl=en&text=%E4%BA%8C%E7%BB%B4%E7%A0%81&op=translate',
+        logo: require('./logo.jpg')
+      }
+    },
+    methods: {
+      onAction(type, event) {
+        switch (type) {
+          case 'load1':
+            this.url1 = event
+            break
+          case 'load2':
+            this.url2 = event
+            break
+          case 'download1':
+            download(this.url1, 'qrcode.png')
+            break
+          case 'download2':
+            download(this.url2, 'qrcode_logo.png')
+            break
+        }
+      }
+    }
+  }
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss">
+  @import "./index.scss";
+</style>

@@ -13,6 +13,10 @@
       to: {
         type: String,
         required: true
+      },
+      target: {
+        type: String,
+        default: '_self'
       }
     },
     methods: {
@@ -27,7 +31,8 @@
         }
         return {
           is: 'router-link',
-          to: url
+          to: url,
+          target: this.target
         }
       }
     }
