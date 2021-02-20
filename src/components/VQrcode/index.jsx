@@ -33,24 +33,29 @@ const VQrcode = {
       default: 8
     }
   },
-  mounted() {
-    this.generate()
+  watch: {
+    value: {
+      handler: '$_generate',
+      immediate: true
+    }
   },
   methods: {
-    async generate() {
-      const {width, height, margin} = this
-      const value = String(this.value)
-      toCanvas(this.$el, value, {width, height, margin}, (error) => {
-        if (error) {
-          throw error
-        }
+    $_generate() {
+      this.$nextTick(async () => {
+        const { width, height, margin } = this
+        const value = String(this.value)
+        toCanvas(this.$el, value, { width, height, margin }, (error) => {
+          if (error) {
+            throw error
+          }
+        })
+        const canvas = this.$el
+        this.logo && await this.drawLogo()
+        this.$emit('load', canvas.toDataURL())
       })
-      const canvas = this.$el
-      this.logo && await this.drawLogo()
-      this.$emit('load', canvas.toDataURL())
     },
     async drawLogo() {
-      const {width, height, logo, size, gutter} = this
+      const { width, height, logo, size, gutter } = this
       const canvas = this.$el
       const ctx = canvas.getContext('2d')
       ctx.beginPath()
