@@ -28,7 +28,7 @@
   // mixins
   import comp from './comp'
   // utils
-  import {download} from '@/utils/download'
+  import download from '@/utils/download'
   // code
   import {vqrcode} from './code'
 

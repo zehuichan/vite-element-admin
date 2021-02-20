@@ -1,5 +1,5 @@
 // 基础前端下载文件
-export function download(url, filename) {
+export default function download(url, filename) {
   const a = document.createElement('a')
   const event = new MouseEvent('click')
   a.target = '_blank'

@@ -311,7 +311,7 @@
 
 <script>
   // utils
-  import {download} from '@/utils/download'
+  import download from '@/utils/download'
   // components
   import DemoSection from './components/DemoSection'
   import DemoCard from './components/DemoCard'
