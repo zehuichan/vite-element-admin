@@ -65,9 +65,9 @@
     top: 250px;
     right: 0;
     padding: 16px 0 16px 0;
-    border-radius: 12px;
+    border-radius: 2px;
     background-color: #fff;
-    box-shadow: 0 6px 16px -8px rgba(0, 0, 0, 0.08), 0 9px 28px 0px rgba(0, 0, 0, 0.05), 0 12px 48px 16px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 
     ul {
       position: relative;
