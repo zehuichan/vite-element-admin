@@ -304,6 +304,8 @@
     </v-drawer>
 
     <v-image-viewer v-model="showViewer" :urlList="urlList"/>
+
+    <demo-affix/>
   </div>
 </template>
 
@@ -314,6 +316,7 @@
   import DemoSection from './components/DemoSection'
   import DemoCard from './components/DemoCard'
   import DemoBlock from './components/DemoBlock'
+  import DemoAffix from './components/DemoAffix'
   // mapping
   import {search, table, form, descriptions} from './mapping'
   // code
@@ -424,6 +427,7 @@
       DemoSection,
       DemoCard,
       DemoBlock,
+      DemoAffix,
     }
   }
 </script>
