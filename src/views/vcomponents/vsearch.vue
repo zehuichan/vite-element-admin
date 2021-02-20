@@ -1,6 +1,5 @@
 <template>
-  <div class="v-components">
-    <h1>业务组件</h1>
+  <demo-wrapper title="业务组件">
     <!--v-search-->
     <demo-card title="v-search">
       <v-search v-model="searchForm" :options="search.options">
@@ -15,9 +14,7 @@
         <highlightjs language="javascript" :code="vsearch.javascript"/>
       </demo-block>
     </demo-card>
-
-    <demo-affix/>
-  </div>
+  </demo-wrapper>
 </template>
 
 <script>
@@ -41,8 +38,3 @@
     }
   }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-  @import "./index.scss";
-</style>

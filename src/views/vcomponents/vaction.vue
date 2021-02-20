@@ -1,5 +1,5 @@
 <template>
-  <div class="v-components">
+  <demo-wrapper title="权限指令">
     <demo-card title="v-action">
       <el-button type="default" v-action:add>新增 v-action:add</el-button>
       <el-button type="primary" v-action:delete>删除 v-action:delete</el-button>
@@ -11,7 +11,7 @@
         <highlightjs language="html" :code="vaction.template"/>
       </demo-block>
     </demo-card>
-  </div>
+  </demo-wrapper>
 </template>
 
 <script>
@@ -30,8 +30,3 @@
     }
   }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-  @import "./index.scss";
-</style>

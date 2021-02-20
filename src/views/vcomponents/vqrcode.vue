@@ -1,5 +1,5 @@
 <template>
-  <div class="v-components">
+  <demo-wrapper title="展示组件">
     <!--v-qrcode-->
     <demo-section>
       <demo-card title="v-qrcode">
@@ -21,7 +21,7 @@
         </demo-block>
       </demo-card>
     </demo-section>
-  </div>
+  </demo-wrapper>
 </template>
 
 <script>
@@ -63,8 +63,3 @@
     }
   }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-  @import "./index.scss";
-</style>

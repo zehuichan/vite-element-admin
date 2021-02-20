@@ -1,6 +1,5 @@
 <template>
-  <div class="v-components">
-    <h1>业务组件</h1>
+  <demo-wrapper title="业务组件">
     <!--v-table-->
     <demo-card title="v-table">
       <v-table
@@ -37,7 +36,7 @@
         <highlightjs language="javascript" :code="vtable.javascript"/>
       </demo-block>
     </demo-card>
-  </div>
+  </demo-wrapper>
 </template>
 
 <script>
@@ -66,8 +65,3 @@
     }
   }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-  @import "./index.scss";
-</style>
