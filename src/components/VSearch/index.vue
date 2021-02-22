@@ -1,8 +1,8 @@
 <template>
   <div class="v-search">
     <el-form label-position="right" ref="form" :model="value" :label-width="labelWidth">
-      <el-row :gutter="20">
-        <el-col :span="23">
+      <el-row :gutter="24">
+        <el-col :span="22">
           <el-col :span="6" v-for="item in _options" :key="item.key">
             <el-form-item :label="item.label" :prop="item.key">
               <template v-if="item.type === 'input'">
@@ -56,7 +56,7 @@
             </el-form-item>
           </el-col>
         </el-col>
-        <el-col :span="1" class="text-right" v-if="options.length > threshold">
+        <el-col :span="2" class="text-right" v-if="options.length > threshold">
           <el-button type="text" @click="ellipsis = !ellipsis">
             {{ellipsis ? '收起' : '展开'}}<i class="el-icon--right" :class="_icon"/>
           </el-button>
@@ -97,7 +97,7 @@
       },
       labelWidth: {
         type: String,
-        default: '100px'
+        default: '105px'
       },
       remoteMethod: Function,
       loading: Boolean,
