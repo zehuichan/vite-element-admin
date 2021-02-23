@@ -7,7 +7,7 @@ const VDialog = {
   render() {
     const renderFooter = () => {
       return (
-        <div slot="footer" class="dialog-footer">
+        <div class="dialog-footer">
           <el-button type="default" onClick={this.onClose}>{this.cancelButtonText}</el-button>
           <el-button type="primary" loading={this.$attrs.loading} onClick={this.onConfirm}>
             {this.confirmButtonText}
@@ -24,7 +24,9 @@ const VDialog = {
         onClose={this.onClose}
       >
         {this.$slots.default}
-        {this.$slots.footer ? this.$slots.footer : renderFooter()}
+        <div slot="footer">
+          {this.$slots.footer ? this.$slots.footer : renderFooter()}
+        </div>
       </el-dialog>
     )
   }
