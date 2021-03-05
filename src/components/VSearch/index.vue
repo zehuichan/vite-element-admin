@@ -101,6 +101,10 @@
       },
       remoteMethod: Function,
       loading: Boolean,
+      simple: {
+        type: Boolean,
+        default: false
+      },
       // 阈值
       threshold: {
         type: String | Number,
