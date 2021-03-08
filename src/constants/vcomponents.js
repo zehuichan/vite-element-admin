@@ -18,6 +18,7 @@ import VImageViewer from '@/components/VImageViewer'
 import VBadge from '@/components/VBadge'
 import VEllipsis from '@/components/VEllipsis'
 import VQrcode from '@/components/VQrcode'
+import VConfirm from '@/components/VConfirm'
 
 const components = [
   VSearch,
@@ -39,6 +40,7 @@ const components = [
   VBadge,
   VEllipsis,
   VQrcode,
+  VConfirm,
 ]
 
 function plugin(Vue, opt) {

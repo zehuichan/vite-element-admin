@@ -19,12 +19,12 @@
     <!--v-table-->
     <demo-card title="v-table">
       <v-table
-          :loading="loading"
-          :data="table.data"
-          :columns="table.columns"
-          :total="total"
-          :page.sync="query.page"
-          :limit.sync="query.limit"
+        :loading="loading"
+        :data="table.data"
+        :columns="table.columns"
+        :total="total"
+        :page.sync="query.page"
+        :limit.sync="query.limit"
       >
         <template #toolbar-title>
           插槽#toolbar-title
@@ -70,7 +70,7 @@
           </template>
         </v-form>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vform.template"/>
         </demo-block>
@@ -89,7 +89,7 @@
           <p>公共基础组件，可再次封装。</p>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vdialog.template"/>
         </demo-block>
@@ -108,7 +108,7 @@
           <p>公共基础组件，可再次封装。</p>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vdialog.template"/>
         </demo-block>
@@ -127,7 +127,7 @@
           <p>相同api，方便使用。</p>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vimageviewer.template"/>
         </demo-block>
@@ -150,13 +150,29 @@
           <v-uploader type="info" icon="el-icon-upload">原生上传</v-uploader>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vexcel.template"/>
         </demo-block>
         <demo-block title="javascript">
           <highlightjs language="javascript" :code="vexcel.javascript"/>
         </demo-block>
+      </demo-card>
+    </demo-section>
+
+    <!--v-confirm-->
+    <demo-section>
+      <demo-card title="v-confirm">
+        <v-confirm
+          title="删除吗？"
+        >
+          <el-button type="danger">删除</el-button>
+        </v-confirm>
+        <v-confirm
+          title="停用吗？"
+        >
+          <el-button type="warning">停用</el-button>
+        </v-confirm>
       </demo-card>
     </demo-section>
 
@@ -192,7 +208,7 @@
           <p>支持自定义具体的色值。</p>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vbadge.template"/>
         </demo-block>
@@ -206,7 +222,7 @@
           浔阳江头夜送客，枫叶荻花秋瑟瑟。主人下马客在船，举酒欲饮无管弦。醉不成欢惨将别，别时茫茫江浸月。忽闻水上琵琶声，主人忘归客不发。寻声暗问弹者谁，琵琶声停欲语迟。移船相近邀相见，添酒回灯重开宴。千呼万唤始出来，犹抱琵琶半遮面。转轴拨弦三两声，未成曲调先有情。弦弦掩抑声声思，似诉平生不得志。低眉信手续续弹，说尽心中无限事。轻拢慢捻抹复挑，初为《霓裳》后《六幺》。大弦嘈嘈如急雨，小弦切切如私语。嘈嘈切切错杂弹，大珠小珠落玉盘。间关莺语花底滑，幽咽泉流冰下难。冰泉冷涩弦凝绝，凝绝不通声暂歇。别有幽愁暗恨生，此时无声胜有声。银瓶乍破水浆迸，铁骑突出刀枪鸣。曲终收拨当心画，四弦一声如裂帛。东船西舫悄无言，唯见江心秋月白。
         </v-ellipsis>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vellipsis.template"/>
         </demo-block>
@@ -231,7 +247,7 @@
           </v-count-down>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vcountdown.template"/>
         </demo-block>
@@ -262,7 +278,7 @@
           <el-button type="primary" @click="onAction('download2')">下载二维码</el-button>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vqrcode.template"/>
         </demo-block>
@@ -388,7 +404,7 @@
       }
     },
     methods: {
-      onSuccess({results, header}) {
+      onSuccess({ results, header }) {
         for (let i = 0; i < results.length; i++) {
           let each = results[i]
           each = this.transExcelRow(each)
