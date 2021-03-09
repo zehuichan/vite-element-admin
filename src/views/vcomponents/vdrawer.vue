@@ -9,7 +9,7 @@
           <p>公共基础组件，可再次封装。</p>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vdrawer.template"/>
         </demo-block>

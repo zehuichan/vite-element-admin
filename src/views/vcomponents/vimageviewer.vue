@@ -9,7 +9,7 @@
           <p>相同api，方便使用。</p>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vimageviewer.template"/>
         </demo-block>

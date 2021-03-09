@@ -3,7 +3,7 @@ export const search = {
     {label: 'Name', key: 'name', value: null, placeholder: 'Name', type: 'input'},
     {label: 'Age', key: 'age', value: null, placeholder: 'Age', type: 'input'},
     {label: 'Address', key: 'address', value: null, placeholder: 'Address', type: 'input'},
-    {label: 'Tags', key: 'tags', value: null, placeholder: 'Address', type: 'input'},
+    {label: 'Tags', key: 'tags', value: null, placeholder: 'tags', type: 'input'},
     {
       label: 'Select',
       key: 'select',

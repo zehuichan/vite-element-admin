@@ -31,7 +31,7 @@
           <p>支持自定义具体的色值。</p>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vbadge.template"/>
         </demo-block>

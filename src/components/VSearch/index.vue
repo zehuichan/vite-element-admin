@@ -1,6 +1,6 @@
 <template>
   <div class="v-search">
-    <el-form label-position="right" ref="form" :model="value" :label-width="labelWidth">
+    <el-form ref="form" :model="value" label-position="right" :label-width="labelWidth">
       <el-row :gutter="24">
         <el-col :span="22">
           <el-col :span="6" v-for="item in _options" :key="item.key">
@@ -144,10 +144,8 @@
         this.$emit('reset', { ...this.value })
       },
       $_setDefaultValue() {
-        this._options.forEach((item) => {
-          // 1. 填充默认值
-          this.value[item.key] = this.value[item.key]
-          // 2. 映射回配置项
+        this.options.forEach((item) => {
+          this.$emit('input', { ...this.value })
           item.value = this.value[item.key]
         })
       },

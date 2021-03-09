@@ -153,8 +153,6 @@
     methods: {
       $_setDefaultValue() {
         this._options.forEach((item) => {
-          // 1. 填充默认值
-          // 2. 映射回配置项
           item.value = this.value[item.key] = this.value[item.key] || item.value
         })
       },

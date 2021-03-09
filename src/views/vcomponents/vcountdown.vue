@@ -18,7 +18,7 @@
           </v-count-down>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vcountdown.template"/>
         </demo-block>

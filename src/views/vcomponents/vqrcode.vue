@@ -12,7 +12,7 @@
           <el-button type="primary" @click="onAction('download2')">下载二维码</el-button>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vqrcode.template"/>
         </demo-block>

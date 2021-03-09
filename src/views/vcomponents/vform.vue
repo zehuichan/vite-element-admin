@@ -17,7 +17,7 @@
           </template>
         </v-form>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vform.template"/>
         </demo-block>

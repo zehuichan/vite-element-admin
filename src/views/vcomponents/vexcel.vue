@@ -13,7 +13,7 @@
           <v-uploader type="info" icon="el-icon-upload">原生上传</v-uploader>
         </demo-block>
       </demo-card>
-      <demo-card style="width: 1200px;">
+      <demo-card style="width: 60%;">
         <demo-block title="template">
           <highlightjs language="html" :code="vexcel.template"/>
         </demo-block>
