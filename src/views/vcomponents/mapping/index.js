@@ -4,6 +4,10 @@ export const search = {
     {label: 'Age', key: 'age', value: null, placeholder: 'Age', type: 'input'},
     {label: 'Address', key: 'address', value: null, placeholder: 'Address', type: 'input'},
     {label: 'Tags', key: 'tags', value: null, placeholder: 'tags', type: 'input'},
+    {label: 'Tags1', key: 'tags1', value: null, placeholder: 'tags1', type: 'input'},
+    {label: 'Tags2', key: 'tags2', value: null, placeholder: 'tags2', type: 'input'},
+    {label: 'Tags3', key: 'tags3', value: null, placeholder: 'tags3', type: 'input'},
+    {label: 'Tags4', key: 'tags4', value: null, placeholder: 'tags4', type: 'input'},
     {
       label: 'Select',
       key: 'select',

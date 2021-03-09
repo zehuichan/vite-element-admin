@@ -101,10 +101,6 @@
       },
       remoteMethod: Function,
       loading: Boolean,
-      simple: {
-        type: Boolean,
-        default: false
-      },
       // 阈值
       threshold: {
         type: String | Number,
@@ -125,12 +121,6 @@
         return this.ellipsis ? 'el-icon-arrow-up' : 'el-icon-arrow-down'
       },
     },
-    watch: {
-      _options: {
-        handler: '$_setDefaultValue',
-        immediate: true
-      }
-    },
     methods: {
       onSearch() {
         this.$emit('input', { ...this.value })
@@ -143,12 +133,6 @@
         this.$emit('change', { ...this.value })
         this.$emit('reset', { ...this.value })
       },
-      $_setDefaultValue() {
-        this.options.forEach((item) => {
-          this.$emit('input', { ...this.value })
-          item.value = this.value[item.key]
-        })
-      },
       $_inputChange(key, event) {
         this.$emit('input', { ...this.value, [key]: event })
       }
@@ -160,7 +144,6 @@
   .v-search {
 
     .base-form-tools {
-
     }
   }
 </style>

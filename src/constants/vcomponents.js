@@ -19,6 +19,7 @@ import VBadge from '@/components/VBadge'
 import VEllipsis from '@/components/VEllipsis'
 import VQrcode from '@/components/VQrcode'
 import VConfirm from '@/components/VConfirm'
+import VSticky from '@/components/VSticky'
 
 const components = [
   VSearch,
@@ -41,6 +42,7 @@ const components = [
   VEllipsis,
   VQrcode,
   VConfirm,
+  VSticky,
 ]
 
 function plugin(Vue, opt) {

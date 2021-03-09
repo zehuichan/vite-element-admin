@@ -3,7 +3,7 @@
     <!--v-form-->
     <demo-section>
       <demo-card title="v-form">
-        <v-form v-model="dataForm" :options="form" label-position="right" label-width="80px">
+        <v-form ref="form" v-model="dataForm" :options="form" label-position="right" label-width="80px">
           <template #custom="{scope}">
             <el-image lazy fit="contain" style="width: 100px; height: 100px">
               <div slot="placeholder" class="image-slot">
@@ -13,7 +13,7 @@
           </template>
           <template #actions>
             <el-button type="primary">立即创建</el-button>
-            <el-button>取消</el-button>
+            <el-button @click="onReset">取消</el-button>
           </template>
         </v-form>
       </demo-card>
@@ -45,7 +45,14 @@
         form,
         vform,
 
-        dataForm: {},
+        dataForm: {
+          input: 'cjemze'
+        },
+      }
+    },
+    methods: {
+      onReset() {
+        this.$refs.form.resetFields()
       }
     }
   }
