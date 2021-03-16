@@ -40,6 +40,17 @@
                   />
                 </el-select>
               </template>
+              <template v-if="['date', 'week', 'month', 'year', 'dates'].includes(item.type)">
+                <el-date-picker
+                  :value="value[item.key]"
+                  :type="item.type"
+                  :placeholder="item.placeholder"
+                  :format="item.format || undefined"
+                  :value-format="item.valueFormat || undefined"
+                  @input="$_inputChange(item, $event)"
+                  style="width:100%; height:33px;"
+                />
+              </template>
               <template v-if="item.type === 'daterange'">
                 <el-date-picker
                   :value="value[item.key]"
