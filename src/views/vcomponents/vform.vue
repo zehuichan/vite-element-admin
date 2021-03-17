@@ -4,6 +4,9 @@
     <demo-section>
       <demo-card title="v-form">
         <v-form ref="form" v-model="dataForm" :options="form" label-position="right" label-width="80px">
+          <template #input-label="{scope}">
+            {{scope.label}}
+          </template>
           <template #custom="{scope}">
             <el-image lazy fit="contain" style="width: 100px; height: 100px">
               <div slot="placeholder" class="image-slot">

@@ -111,6 +111,7 @@
           style="width:100%; height:33px;"
         />
       </template>
+      <slot slot="label" :scope="item" :name="item.key + '-label'"/>
       <slot :scope="item" :name="item.key"/>
     </el-form-item>
   </el-form>
@@ -118,7 +119,7 @@
 
 <script>
   // utils
-  import {formatNumber} from '../utils/formate-number'
+  import { formatNumber } from '../utils/formate-number'
 
   export default {
     name: 'VForm',

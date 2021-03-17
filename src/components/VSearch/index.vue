@@ -64,6 +64,7 @@
                   style="width:100%; height:33px;"
                 />
               </template>
+              <slot slot="label" :scope="item" :name="item.key"/>
             </el-form-item>
           </el-col>
         </el-col>
