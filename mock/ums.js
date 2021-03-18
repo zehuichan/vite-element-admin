@@ -268,6 +268,14 @@ const menu = Mock.mock(
       target: '_blank'
     },
     {
+      path: '/vcomponents/vtreeselect', component: 'VTreeSelect', name: 'vtreeselect',
+      hidden: true,
+      meta: {
+        title: 'vtreeselect', role: ['admin'],
+      },
+      target: '_blank'
+    },
+    {
       path: '/vcomponents/vimageviewer', component: 'VImageviewer', name: 'vimageviewer',
       hidden: true,
       meta: {

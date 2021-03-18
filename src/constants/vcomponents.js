@@ -20,6 +20,7 @@ import VEllipsis from '@/components/VEllipsis'
 import VQrcode from '@/components/VQrcode'
 import VConfirm from '@/components/VConfirm'
 import VSticky from '@/components/VSticky'
+import VTreeSelect from '@/components/VTreeSelect'
 
 const components = [
   VSearch,
@@ -43,6 +44,7 @@ const components = [
   VQrcode,
   VConfirm,
   VSticky,
+  VTreeSelect,
 ]
 
 function plugin(Vue, opt) {

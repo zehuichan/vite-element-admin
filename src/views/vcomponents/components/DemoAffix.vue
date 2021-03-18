@@ -27,6 +27,7 @@
               { name: 'v-form', href: '/vcomponents/vform' },
               { name: 'v-dialog', href: '/vcomponents/vdialog' },
               { name: 'v-drawer', href: '/vcomponents/vdrawer' },
+              { name: 'v-tree-select', href: '/vcomponents/vtreeselect' },
               { name: 'v-image-viewer', href: '/vcomponents/vimageviewer' },
               { name: 'v-excel', href: '/vcomponents/vexcel' },
             ]

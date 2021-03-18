@@ -19,6 +19,7 @@ const mapping = {
   VForm: () => import('@/views/vcomponents/vform'),
   VDialog: () => import('@/views/vcomponents/vdialog'),
   VDrawer: () => import('@/views/vcomponents/vdrawer'),
+  VTreeSelect: () => import('@/views/vcomponents/vtreeselect'),
   VImageviewer: () => import('@/views/vcomponents/vimageviewer'),
   VExcel: () => import('@/views/vcomponents/vexcel'),
   VBadge: () => import('@/views/vcomponents/vbadge'),
