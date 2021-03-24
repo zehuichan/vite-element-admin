@@ -21,6 +21,7 @@ import VQrcode from '@/components/VQrcode'
 import VConfirm from '@/components/VConfirm'
 import VSticky from '@/components/VSticky'
 import VTreeSelect from '@/components/VTreeSelect'
+import VEmpty from '@/components/VEmpty'
 
 const components = [
   VSearch,
@@ -45,6 +46,7 @@ const components = [
   VConfirm,
   VSticky,
   VTreeSelect,
+  VEmpty,
 ]
 
 function plugin(Vue, opt) {
