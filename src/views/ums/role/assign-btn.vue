@@ -13,7 +13,7 @@
 
 <script>
   // components
-  import FooterToolBar from '@/components/VFooterToolBar/index'
+  import FooterToolBar from '@/vcomponents/VFooterToolBar/index'
 
   export default {
     name: 'AssignBtn',

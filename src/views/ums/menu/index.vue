@@ -9,11 +9,7 @@
           <el-input v-model="dataForm.name"/>
         </el-form-item>
         <el-form-item label="父级菜单：" prop="name" required>
-          <el-select v-model="dataForm.name" placeholder="父级菜单">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域一" value="shanghai"></el-option>
-          </el-select>
+          <v-tree-select v-model="dataForm.name" :options="options" placeholder="父级菜单"/>
         </el-form-item>
         <el-form-item label="唯一识别码：" prop="name" required>
           <el-input v-model="dataForm.name"/>
@@ -95,6 +91,46 @@
           { edit: false, code: 'cXVlcnk=', action: 'query', desc: '查询' },
           { edit: false, code: 'aW1wb3J0', action: 'import', desc: '导入' },
           { edit: false, code: 'ZXhwb3J0', action: 'export', desc: '导出' },
+        ],
+        options: [
+          {
+            id: 1,
+            label: '一级 1',
+            children: [
+              {
+                id: 4,
+                label: '二级 1-1'
+              }
+            ]
+          },
+          {
+            id: 2,
+            label: '一级 2',
+            children: [
+              {
+                id: 5,
+                label: '二级 2-1'
+              },
+              {
+                id: 6,
+                label: '二级 2-2'
+              }
+            ]
+          },
+          {
+            id: 3,
+            label: '一级 3',
+            children: [
+              {
+                id: 7,
+                label: '二级 3-1'
+              },
+              {
+                id: 8,
+                label: '二级 3-2'
+              }
+            ]
+          }
         ]
       }
     },

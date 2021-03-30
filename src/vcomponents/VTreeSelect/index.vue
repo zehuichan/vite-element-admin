@@ -1,6 +1,6 @@
 <template>
   <el-select :value="value">
-    <el-option value="" class="options"/>
+    <el-option value="" class="options" style="height: auto"/>
     <el-tree
       id="tree-option"
       ref="tree"
@@ -39,7 +39,7 @@
       return {
         defaultProps: {
           children: 'children',
-          label: 'name'
+          label: 'label'
         }
       }
     },
@@ -75,7 +75,7 @@
 
   .el-tree >>> .is-current .el-tree-node__label {
     color: #409EFF;
-    font-weight: 700;
+    font-weight: 600;
   }
 
   .el-tree >>> .is-current .el-tree-node__children .el-tree-node__label {
