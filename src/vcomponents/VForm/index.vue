@@ -152,8 +152,8 @@
     },
     methods: {
       $_setDefaultValue() {
-        this._options.forEach((item) => {
-          item.value = this.value[item.key] = this.value[item.key] || item.value
+        this.options.forEach((item) => {
+          item.value = this.value[item.key]
         })
       },
       $_inputChange({ type, key }, event) {
@@ -168,6 +168,7 @@
             this.$emit('input', { ...this.value, [key]: event })
             break
         }
+        this.$_setDefaultValue()
       },
       // v-form api
       validate(cb) {
