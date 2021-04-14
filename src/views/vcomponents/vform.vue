@@ -5,7 +5,7 @@
       <demo-card title="v-form">
         <v-form ref="form" v-model="dataForm" :options="form" label-position="right" label-width="80px">
           <template #input-label="{scope}">
-            {{scope.label}}
+            {{ scope.label }}
           </template>
           <template #custom="{scope}">
             <el-image lazy fit="contain" style="width: 100px; height: 100px">
@@ -36,9 +36,9 @@
   // mixins
   import comp from './comp'
   // mapping
-  import {form} from './mapping'
+  import { form } from './mapping'
   // code
-  import {vform} from './code'
+  import { vform } from './code'
 
   export default {
     name: 'vform',
@@ -49,7 +49,8 @@
         vform,
 
         dataForm: {
-          input: 'cjemze'
+          input: 'cjemze',
+          checkbox: []
         },
       }
     },

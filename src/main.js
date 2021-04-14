@@ -14,7 +14,7 @@ import '@/styles/scss/element-variables.scss'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/default.css'
 
-import VComponents from '@/vcomponents' // global components
+import VComponents from 'element-components' // global components
 
 import VAction from '@/directive/action'
 

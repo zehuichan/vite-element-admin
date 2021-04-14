@@ -378,7 +378,9 @@
         vaction,
 
         searchForm: {},
-        dataForm: {},
+        dataForm: {
+          checkbox: []
+        },
         loading: false,
         total: 1,
         query: {
