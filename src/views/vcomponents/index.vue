@@ -334,7 +334,7 @@
   import DemoBlock from './components/DemoBlock'
   import DemoAffix from './components/DemoAffix'
   // mapping
-  import {search, table, form, descriptions} from './mapping'
+  import { search, table, form, descriptions } from './mapping'
   // code
   import {
     vsearch,
@@ -378,9 +378,7 @@
         vaction,
 
         searchForm: {},
-        dataForm: {
-          checkbox: []
-        },
+        dataForm: {},
         loading: false,
         total: 1,
         query: {

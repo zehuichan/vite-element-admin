@@ -49,8 +49,7 @@
         vform,
 
         dataForm: {
-          input: 'cjemze',
-          checkbox: []
+          input: 'cjemze'
         },
       }
     },
