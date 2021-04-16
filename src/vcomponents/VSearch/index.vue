@@ -1,6 +1,6 @@
 <template>
   <div class="v-search">
-    <div class="app-container search-container">
+    <div class="v-search-container">
       <el-form label-position="right" ref="form" :model="value" :label-width="labelWidth">
         <el-row :gutter="24">
           <el-col :span="_span">
@@ -77,7 +77,7 @@
         </el-row>
       </el-form>
     </div>
-    <div class="base-form-tools clearfix">
+    <div class="v-search--tools clearfix">
       <div class="fl">
         <el-button type="primary" icon="el-icon-search" @click="onSearch">查询</el-button>
         <el-button type="default" icon="el-icon-refresh" @click="onReset">重置</el-button>
@@ -168,8 +168,14 @@
 
 <style lang="scss" scoped>
   .v-search {
-    .base-form-tools {
-      margin: 20px 20px 0;
+    .v-search-container {
+      margin: 24px 24px 0;
+      padding: 18px;
+      background-color: #fff;
+    }
+
+    .v-search--tools {
+      margin: 24px 24px 0;
     }
   }
 </style>
