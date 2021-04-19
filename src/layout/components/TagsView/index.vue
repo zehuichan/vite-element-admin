@@ -2,15 +2,15 @@
   <div id="tags-view-container" class="tags-view-container">
     <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
       <router-link
-          v-for="tag in visitedViews"
-          ref="tag"
-          :key="tag.path"
-          :class="isActive(tag)?'active':''"
-          :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
-          tag="span"
-          class="tags-view-item"
-          @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
-          @contextmenu.prevent.native="openMenu(tag,$event)"
+        v-for="tag in visitedViews"
+        ref="tag"
+        :key="tag.path"
+        :class="isActive(tag)?'active':''"
+        :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+        tag="span"
+        class="tags-view-item"
+        @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
+        @contextmenu.prevent.native="openMenu(tag,$event)"
       >
         {{ tag.title }}
         <span v-if="!isAffix(tag)" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)"/>
@@ -30,7 +30,7 @@
   import path from 'path'
 
   export default {
-    components: {ScrollPane},
+    components: { ScrollPane },
     data() {
       return {
         visible: false,
@@ -81,7 +81,7 @@
               fullPath: tagPath,
               path: tagPath,
               name: route.name,
-              meta: {...route.meta}
+              meta: { ...route.meta }
             })
           }
           if (route.children) {
@@ -103,7 +103,7 @@
         }
       },
       addTags() {
-        const {name} = this.$route
+        const { name } = this.$route
         if (name) {
           this.$store.dispatch('tagsView/addView', this.$route)
         }
@@ -126,7 +126,7 @@
       },
       refreshSelectedTag(view) {
         this.$store.dispatch('tagsView/delCachedView', view).then(() => {
-          const {fullPath} = view
+          const { fullPath } = view
           this.$nextTick(() => {
             this.$router.replace({
               path: '/redirect' + fullPath
@@ -135,7 +135,7 @@
         })
       },
       closeSelectedTag(view) {
-        this.$store.dispatch('tagsView/delView', view).then(({visitedViews}) => {
+        this.$store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
           if (this.isActive(view)) {
             this.toLastView(visitedViews, view)
           }
@@ -148,7 +148,7 @@
         })
       },
       closeAllTags(view) {
-        this.$store.dispatch('tagsView/delAllViews').then(({visitedViews}) => {
+        this.$store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
           if (this.affixTags.some(tag => tag.path === view.path)) {
             return
           }
@@ -164,7 +164,7 @@
           // you can adjust it according to your needs.
           if (view.name === 'Dashboard') {
             // to reload home page
-            this.$router.replace({path: '/redirect' + view.fullPath})
+            this.$router.replace({ path: '/redirect' + view.fullPath })
           } else {
             this.$router.push('/')
           }
@@ -199,7 +199,7 @@
 
 <style lang="scss" scoped>
   .tags-view-container {
-    height: 34px;
+    height: 42px;
     width: 100%;
     background: #fff;
     border-bottom: 1px solid #d8dce5;
@@ -210,8 +210,8 @@
         display: inline-block;
         position: relative;
         cursor: pointer;
-        height: 26px;
-        line-height: 26px;
+        height: 34px;
+        line-height: 34px;
         border: 1px solid #d8dce5;
         color: #495060;
         background: #fff;
@@ -277,6 +277,17 @@
   //reset element css of el-icon-close
   .tags-view-wrapper {
     .tags-view-item {
+      .el-icon-refresh-right {
+        margin-left: 6px;
+        margin-right: 4px;
+        width: 16px;
+        height: 16px;
+
+        &:hover {
+          color: #333;
+        }
+      }
+
       .el-icon-close {
         width: 16px;
         height: 16px;

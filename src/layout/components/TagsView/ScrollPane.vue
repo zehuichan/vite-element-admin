@@ -89,7 +89,7 @@
       }
 
       .el-scrollbar__wrap {
-        height: 49px;
+        height: 64px;
       }
     }
   }

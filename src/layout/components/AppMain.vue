@@ -50,7 +50,7 @@
     }
 
     .fixed-header + .app-main {
-      padding-top: 84px;
+      padding-top: 92px;
     }
   }
 </style>
