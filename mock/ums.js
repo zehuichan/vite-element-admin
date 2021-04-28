@@ -57,12 +57,12 @@ const menu = Mock.mock(
           meta: {
             title: '仪表板', icon: 'el-icon-odometer', affix: true, roles: ['admin'],
             permissions: [
-              {action: 'add', desc: '新增'},
-              {action: 'delete', desc: '删除'},
-              {action: 'edit', desc: '修改'},
-              {action: 'query', desc: '查询'},
-              {action: 'import', desc: '导入'},
-              {action: 'export', desc: '导出'},
+              { action: 'add', desc: '新增' },
+              { action: 'delete', desc: '删除' },
+              { action: 'edit', desc: '修改' },
+              { action: 'query', desc: '查询' },
+              { action: 'import', desc: '导入' },
+              { action: 'export', desc: '导出' },
             ]
           },
         },
@@ -78,7 +78,7 @@ const menu = Mock.mock(
           component: 'Documentation',
           hidden: false,
           name: 'Documentation',
-          meta: {title: '文档', icon: 'el-icon-document', affix: true, roles: ['admin'],},
+          meta: { title: '文档', icon: 'el-icon-document', affix: true, roles: ['admin'], },
         },
       ]
     },
@@ -95,12 +95,12 @@ const menu = Mock.mock(
           meta: {
             title: '按钮权限测试页', icon: 'el-icon-lock', roles: ['admin'],
             permissions: [
-              {action: 'add', desc: '新增'},
-              {action: 'delete', desc: '删除'},
-              {action: 'edit', desc: '修改'},
-              {action: 'query', desc: '查询'},
-              {action: 'import', desc: '导入'},
-              {action: 'export', desc: '导出'},
+              { action: 'add', desc: '新增' },
+              { action: 'delete', desc: '删除' },
+              { action: 'edit', desc: '修改' },
+              { action: 'query', desc: '查询' },
+              { action: 'import', desc: '导入' },
+              { action: 'export', desc: '导出' },
             ]
           },
         },
@@ -111,35 +111,35 @@ const menu = Mock.mock(
       component: 'Layout',
       redirect: '/nested/menu/menu1-1',
       hidden: false,
-      meta: {title: '嵌套菜单', icon: 'el-icon-document', roles: ['admin'],},
+      meta: { title: '嵌套菜单', icon: 'el-icon-document', roles: ['admin'], },
       children: [
         {
           path: '/nested/menu/menu1-1',
           component: 'Nested',
           hidden: false,
           name: 'Menu1-1',
-          meta: {title: 'Menu 1-1', roles: ['admin'],},
+          meta: { title: 'Menu 1-1', roles: ['admin'], },
         },
         {
           path: '/nested/menu/menu1-2',
           component: 'RouteView',
           hidden: false,
           name: 'Menu1-2',
-          meta: {title: 'Menu 1-2', roles: ['admin'],},
+          meta: { title: 'Menu 1-2', roles: ['admin'], },
           children: [
             {
               path: '/nested/menu/menu1-2-1',
               component: 'Nested',
               hidden: false,
               name: 'Menu1-2-1',
-              meta: {title: 'Menu 1-2-1', roles: ['admin'],},
+              meta: { title: 'Menu 1-2-1', roles: ['admin'], },
             },
             {
               path: '/nested/menu/menu1-2-2',
               component: 'Nested',
               hidden: false,
               name: 'Menu1-2-2',
-              meta: {title: 'Menu 1-2-2', roles: ['admin'],},
+              meta: { title: 'Menu 1-2-2', roles: ['admin'], },
             }
           ]
         },
@@ -148,7 +148,7 @@ const menu = Mock.mock(
           component: 'Nested',
           hidden: false,
           name: 'Menu1-3',
-          meta: {title: 'Menu 1-3', roles: ['admin'],},
+          meta: { title: 'Menu 1-3', roles: ['admin'], },
         },
       ]
     },
@@ -157,56 +157,56 @@ const menu = Mock.mock(
       component: 'Layout',
       hidden: false,
       redirect: 'noRedirect',
-      meta: {title: '权限管理', icon: 'el-icon-setting', roles: ['admin']},
+      meta: { title: '权限管理', icon: 'el-icon-setting', roles: ['admin'] },
       children: [
         {
           path: '/ums/user',
           component: 'User',
           hidden: false,
           name: 'User',
-          meta: {title: '用户管理', roles: ['admin']}
+          meta: { title: '用户管理', roles: ['admin'] }
         },
         {
           path: '/ums/user/assign-roles/:id',
           component: 'AssignRole',
           hidden: true,
           name: 'AssignRole',
-          meta: {title: '分配角色', noCache: true, activeMenu: '/ums/user', roles: ['admin']}
+          meta: { title: '分配角色', noCache: true, activeMenu: '/ums/user', roles: ['admin'] }
         },
         {
           path: '/ums/role',
           component: 'Role',
           hidden: false,
           name: 'Role',
-          meta: {title: '角色管理', roles: ['admin']}
+          meta: { title: '角色管理', roles: ['admin'] }
         },
         {
           path: '/ums/role/assign-menu/:id',
           component: 'AssignMenu',
           hidden: true,
           name: 'AssignMenu',
-          meta: {title: '分配菜单', noCache: true, activeMenu: '/ums/role', roles: ['admin']}
+          meta: { title: '分配菜单', noCache: true, activeMenu: '/ums/role', roles: ['admin'] }
         },
         {
           path: '/ums/role/assign-btn/:id',
           component: 'AssignBtn',
           hidden: true,
           name: 'AssignBtn',
-          meta: {title: '分配权限', noCache: true, activeMenu: '/ums/role', roles: ['admin']}
+          meta: { title: '分配权限', noCache: true, activeMenu: '/ums/role', roles: ['admin'] }
         },
         {
           path: '/ums/org',
           component: 'Org',
           hidden: false,
           name: 'Org',
-          meta: {title: '机构管理', roles: ['admin']}
+          meta: { title: '机构管理', roles: ['admin'] }
         },
         {
           path: '/ums/menu',
           component: 'Menu',
           hidden: false,
           name: 'Menu',
-          meta: {title: '菜单管理', roles: ['admin']}
+          meta: { title: '菜单管理', roles: ['admin'] }
         },
       ]
     },
@@ -218,12 +218,12 @@ const menu = Mock.mock(
       meta: {
         title: 'vcomponents', icon: 'el-icon-office-building', affix: true, role: ['admin'],
         permissions: [
-          {action: 'add', desc: '新增'},
-          {action: 'delete', desc: '删除'},
-          {action: 'edit', desc: '修改'},
-          {action: 'query', desc: '查询'},
-          {action: 'import', desc: '导入'},
-          {action: 'export', desc: '导出'},
+          { action: 'add', desc: '新增' },
+          { action: 'delete', desc: '删除' },
+          { action: 'edit', desc: '修改' },
+          { action: 'query', desc: '查询' },
+          { action: 'import', desc: '导入' },
+          { action: 'export', desc: '导出' },
         ]
       }
     },
@@ -342,12 +342,75 @@ const menu = Mock.mock(
   ]
 )
 
+const dict = Mock.mock(
+  {
+    order_status: [
+      {
+        'id': 9,
+        'label': '保存',
+        'value': 'SAVE',
+        'sort': '1',
+        'dictId': 7,
+        'createTime': 1610175440000
+      },
+      {
+        'id': 10,
+        'label': '审核',
+        'value': 'PASS',
+        'sort': '2',
+        'dictId': 7,
+        'createTime': 1610175451000
+      },
+      {
+        'id': 11,
+        'label': '反审',
+        'value': 'REJECT',
+        'sort': '3',
+        'dictId': 7,
+        'createTime': 1610257350000
+      },
+      {
+        'id': 29,
+        'label': '关闭',
+        'value': 'CLOSED',
+        'sort': '4',
+        'dictId': 7,
+        'createTime': 1611020539000
+      },
+      {
+        'id': 85,
+        'label': '作废',
+        'value': 'INVALID',
+        'sort': '5',
+        'dictId': 7,
+        'createTime': 1614930131000
+      },
+      {
+        'id': 86,
+        'label': '中止',
+        'value': 'STOP',
+        'sort': '6',
+        'dictId': 7,
+        'createTime': 1614930142000
+      },
+      {
+        'id': 87,
+        'label': '恢复',
+        'value': 'RECOVER',
+        'sort': '7',
+        'dictId': 7,
+        'createTime': 1614930156000
+      }
+    ]
+  }
+)
+
 module.exports = [
   {
     url: '/vue-admin-template/ums/admin/list',
     type: 'get',
     response: config => {
-      const {p, ps} = config.query
+      const { p, ps } = config.query
       const total = admin.items.length
       const begin = +(p - 1) * ps
       const end = +p * ps
@@ -365,7 +428,7 @@ module.exports = [
     url: '/vue-admin-template/ums/role/list',
     type: 'get',
     response: config => {
-      const {p, ps} = config.query
+      const { p, ps } = config.query
       const total = role.items.length
       const begin = +(p - 1) * ps
       const end = +p * ps
@@ -386,6 +449,16 @@ module.exports = [
       return {
         code: 20000,
         data: menu
+      }
+    }
+  },
+  {
+    url: '/vue-admin-template/ums/dict/list',
+    type: 'get',
+    response: config => {
+      return {
+        code: 20000,
+        data: dict
       }
     }
   }

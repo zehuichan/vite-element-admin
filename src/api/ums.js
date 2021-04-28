@@ -19,7 +19,13 @@ export function roleList(params) {
 export function menuList() {
   return request({
     url: '/vue-admin-template/ums/menu/list',
-    // url: '/vue-admin-template/zhongshi/menu/list',
+    method: 'get'
+  })
+}
+
+export function dictList() {
+  return request({
+    url: '/vue-admin-template/ums/dict/list',
     method: 'get'
   })
 }
