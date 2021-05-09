@@ -63,6 +63,27 @@ export function listToTree(list, tree, pkey, pid) {
 }
 
 /**
+ * 树形转数组结构
+ * @param data
+ * @param children
+ * @returns {*[]}
+ */
+export function treeToList(data, children = 'children') {
+  let tmp = []
+  data.forEach(item => {
+    tmp.push(item)
+    if (item[children] && item[children].length > 0) {
+      const res = treeToList(item[children], children)
+      tmp = tmp.concat(res)
+    } else {
+      // 删掉不存在 children 值的属性
+      delete item.children
+    }
+  })
+  return tmp
+}
+
+/**
  * 格式化树形结构数据 生成 vue-router 层级路由表
  * @param routerMap
  * @returns {[]}
