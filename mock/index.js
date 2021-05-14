@@ -5,12 +5,14 @@ const user = require('./user')
 const mms = require('./mms')
 const pms = require('./pms')
 const ums = require('./ums')
+const dict = require('./dict')
 
 const mocks = [
   ...user,
   ...mms,
   ...pms,
   ...ums,
+  ...dict,
 ]
 
 // for front mock

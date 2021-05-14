@@ -17,6 +17,7 @@ import 'highlight.js/styles/default.css'
 import VComponents from 'element-components' // global components
 
 import VAction from '@/directive/action'
+import VDict from '@/plugins/dict'
 
 import '@/styles/scss/index.scss' // global css
 
@@ -31,7 +32,7 @@ import '@/permission' // permission control
 import * as filters from './filters' // global filters
 import './constants'
 
-import {judgeAlert, judgeConfirm} from '@/utils/judge-info'
+import { judgeAlert, judgeConfirm } from '@/utils/judge-info'
 
 /**
  * If you don't want to use mock-server
@@ -42,7 +43,7 @@ import {judgeAlert, judgeConfirm} from '@/utils/judge-info'
  * please remove it before going online ! ! !
  */
 // if (process.env.NODE_ENV === 'production') {
-const {mockXHR} = require('../mock')
+const { mockXHR } = require('../mock')
 mockXHR()
 // }
 
@@ -56,6 +57,7 @@ Vue.use(Element, {
 Vue.use(hljs.vuePlugin)
 Vue.use(VComponents)
 Vue.use(VAction)
+Vue.use(VDict)
 
 // register global utility filters
 Object.keys(filters).forEach(key => {
@@ -69,9 +71,9 @@ Vue.prototype.$judgeConfirm = judgeConfirm
 // 跳转
 Vue.prototype.$navigateTo = function (url, json, target = '_self') {
   if (target === '_self') {
-    router.push({path: url, query: json})
+    router.push({ path: url, query: json })
   } else {
-    const {href} = router.resolve({path: url, query: json})
+    const { href } = router.resolve({ path: url, query: json })
     window.open(href, '_blank')
   }
 }
@@ -84,6 +86,8 @@ Vue.prototype.$navigateBack = function () {
 Vue.config.productionTip = false
 console.log('Vue', Vue.version)
 console.log('Element', Element.version)
+console.log('@vcomponetns/element-ui', VComponents.version)
+console.info('Version', require('../package.json').version)
 
 new Vue({
   el: '#app',
