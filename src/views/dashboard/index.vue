@@ -25,6 +25,7 @@
 
   export default {
     name: 'Dashboard',
+    dicts: ['order_status'],
     data() {
       return {
         permissions: {
@@ -35,6 +36,9 @@
     },
     directives: {
       action
+    },
+    created() {
+      console.log(this.dict)
     }
   }
 </script>

@@ -129,7 +129,7 @@ module.exports = [
     type: 'get',
     response: config => {
       const { name } = config.query
-      const items = data.items[name]
+      const items = data[name]
       return {
         code: 20000,
         data: {
