@@ -1,3 +1,4 @@
+import Vue from 'vue'
 // api
 import getDictDetail from '@/api/dict'
 
@@ -7,12 +8,9 @@ async function $_dict_init(names, dict) {
   }
   const ps = []
   names.forEach(n => {
-    ps.push(getDictDetail[n]().then((res) => {
-      dict[n] = [...res.data]
-      res.data.forEach(d => {
-        d.value = d.id
-        d.label = d.name
-      })
+    Vue.set(dict, n, [])
+    ps.push(getDictDetail(n).then((res) => {
+      dict[n].splice(0, 0, ...res.data.items)
     }))
   })
   await Promise.all(ps)
@@ -34,7 +32,9 @@ function plugin(Vue, opt) {
     },
     created() {
       if (this.$options.dicts instanceof Array) {
-        $_dict_init(this.$options.dicts, this.dict)
+        $_dict_init(this.$options.dicts, this.dict).then(() => {
+          this.$emit('dictReady')
+        })
       }
     },
   })
