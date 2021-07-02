@@ -55,7 +55,9 @@ Vue.use(Element, {
 
 // 常用自定义组件全量引入使用
 Vue.use(hljs.vuePlugin)
-Vue.use(VComponents)
+Vue.use(VComponents,{
+  size: Cookies.get('size') || 'small', // set element-ui default size
+})
 Vue.use(VAction)
 Vue.use(VDict)
 
@@ -84,9 +86,9 @@ Vue.prototype.$navigateBack = function () {
 }
 
 Vue.config.productionTip = false
-console.log('Vue', Vue.version)
-console.log('Element', Element.version)
-console.log('@vcomponetns/element-ui', VComponents.version)
+console.info('Vue', Vue.version)
+console.info('Element', Element.version)
+console.info('@vcomponetns/element-ui', VComponents.version)
 console.info('Version', require('../package.json').version)
 
 new Vue({

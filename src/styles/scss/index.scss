@@ -131,6 +131,19 @@ div:focus {
   background-color: #fff;
 }
 
+.v-search {
+  .v-search-container {
+    margin: 24px 24px 0;
+    padding: 18px 18px 0;
+    background-color: #fff;
+  }
+
+  .v-search--tools {
+    margin: 24px 24px 0;
+  }
+}
+
+
 .page-header-heading {
   @extend .clearfix;
 
