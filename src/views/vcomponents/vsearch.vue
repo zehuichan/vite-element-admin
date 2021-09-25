@@ -6,8 +6,8 @@
         <template #tools>
           自定义额外插槽 #tools
         </template>
-        <template #name="{scope}">
-          {{scope.label}}
+        <template #name-label="{scope}">
+          {{ scope.label }}
           <el-tooltip class="item" effect="dark" content="Top Center 提示文字" placement="top">
             <i class="el-icon-warning" style="color: #f44;"></i>
           </el-tooltip>
@@ -27,31 +27,42 @@
 </template>
 
 <script>
-  // mixins
-  import comp from './comp'
-  // mapping
-  import { search } from './mapping'
-  // code
-  import { vsearch } from './code'
+// mixins
+import comp from './comp'
+// mapping
+import { search } from './mapping'
+// code
+import { vsearch } from './code'
 
-  export default {
-    name: 'vsearch',
-    mixins: [comp],
-    data() {
-      return {
-        search,
-        vsearch,
+const defaultForm = {
+  name: 'chenzehui',
+  age: null,
+  address: null,
+  tags: null,
+  tags1: null,
+  tags2: null,
+  tags3: null,
+  tags4: null,
+  select: null,
+  daterange: [],
+}
 
-        searchForm: {
-          name: 'chenzehui'
-        },
-      }
-    },
-    methods: {
-      onSearch(form) {
-      },
-      onReset(form) {
-      },
+export default {
+  name: 'vsearch',
+  mixins: [comp],
+  data() {
+    return {
+      search,
+      vsearch,
+
+      searchForm: Object.assign({}, defaultForm),
     }
+  },
+  methods: {
+    onSearch(form) {
+    },
+    onReset(form) {
+    },
   }
+}
 </script>
