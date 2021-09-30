@@ -21,6 +21,8 @@ import VConfirm from '@/vcomponents/VConfirm'
 import VSticky from '@/vcomponents/VSticky'
 import VTreeSelect from '@/vcomponents/VTreeSelect'
 import VEmpty from '@/vcomponents/VEmpty'
+import VInput from '@/vcomponents/VInput'
+import VSelect from '@/vcomponents/VSelect'
 
 const components = [
   VSearch,
@@ -45,6 +47,8 @@ const components = [
   VSticky,
   VTreeSelect,
   VEmpty,
+  VInput,
+  VSelect,
 ]
 
 function plugin(Vue, opt) {

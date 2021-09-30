@@ -40,9 +40,8 @@ const defaultForm = {
   address: null,
   tags: null,
   tags1: null,
-  tags2: null,
-  tags3: null,
-  tags4: null,
+  digit: null,
+  number: null,
   select: null,
   daterange: [],
 }
@@ -60,9 +59,26 @@ export default {
   },
   methods: {
     onSearch(form) {
+      const messageArr = Object.keys(this.searchForm).reduce((acc, key) => {
+        acc.push(`${key}: ${this.searchForm[key]}`)
+        return acc
+      }, [])
+      this.showData(messageArr)
     },
     onReset(form) {
     },
+    showData(messageArr) {
+      if (messageArr.length) {
+        const h = this.$createElement
+        messageArr = messageArr.map(msg => {
+          return h('div', { style: { marginBottom: '8px' } }, msg)
+        })
+        this.$notify({
+          title: '提交的表单数据',
+          message: h('div', { style: { marginTop: '12px' } }, messageArr)
+        })
+      }
+    }
   }
 }
 </script>
