@@ -1,0 +1,1 @@
+console.log(process.env.VUE_APP_ENV)
