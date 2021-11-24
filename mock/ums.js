@@ -216,7 +216,7 @@ const menu = Mock.mock(
       hidden: true,
       name: 'VComponents',
       meta: {
-        title: 'vcomponents', icon: 'el-icon-office-building', affix: true, role: ['admin'],
+        title: 'vcomponents', icon: 'el-icon-office-building', role: ['admin'],
         permissions: [
           { action: 'add', desc: '新增' },
           { action: 'delete', desc: '删除' },

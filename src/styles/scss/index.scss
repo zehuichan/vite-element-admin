@@ -121,28 +121,28 @@ div:focus {
 
 // main-container global css
 .app-header {
-  padding: 20px;
+  padding: 16px;
   background-color: #fff;
 }
 
 .app-container {
-  padding: 20px;
-  margin: 24px 24px 0;
+  padding: 16px;
+  margin: 16px 16px 0;
   background-color: #fff;
 }
 
 .v-search {
+  padding: 16px 16px 0;
+
   .v-search-container {
-    margin: 24px 24px 0;
-    padding: 18px 18px 0;
+    padding: 16px 16px 0;
     background-color: #fff;
   }
 
   .v-search--tools {
-    margin: 24px 24px 0;
+    margin: 16px 0 0;
   }
 }
-
 
 .page-header-heading {
   @extend .clearfix;

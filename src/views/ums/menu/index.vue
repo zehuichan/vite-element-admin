@@ -21,7 +21,7 @@
           <el-input v-model="dataForm.name"/>
         </el-form-item>
         <el-form-item label="ICON：" prop="icon" required>
-          <v-icon-select v-model="dataForm.icon" placeholder="请选择" clearable/>
+          <el-input v-model="dataForm.icon"/>
           <div class="tips">
             <i class="el-icon-warning"></i>图标参考element-ui官网
           </div>
@@ -79,113 +79,113 @@
 </template>
 
 <script>
-  export default {
-    name: 'Menu',
-    data() {
-      return {
-        dataForm: {},
-        functions: [
-          { edit: false, code: 'YWRk', action: 'add', desc: '新增' },
-          { edit: false, code: 'ZGVsZXRl', action: 'delete', desc: '删除' },
-          { edit: false, code: 'ZWRpdA==', action: 'edit', desc: '修改' },
-          { edit: false, code: 'cXVlcnk=', action: 'query', desc: '查询' },
-          { edit: false, code: 'aW1wb3J0', action: 'import', desc: '导入' },
-          { edit: false, code: 'ZXhwb3J0', action: 'export', desc: '导出' },
-        ],
-        options: [
-          {
-            id: 1,
-            label: '一级 1',
-            children: [
-              {
-                id: 4,
-                label: '二级 1-1'
-              }
-            ]
-          },
-          {
-            id: 2,
-            label: '一级 2',
-            children: [
-              {
-                id: 5,
-                label: '二级 2-1'
-              },
-              {
-                id: 6,
-                label: '二级 2-2'
-              }
-            ]
-          },
-          {
-            id: 3,
-            label: '一级 3',
-            children: [
-              {
-                id: 7,
-                label: '二级 3-1'
-              },
-              {
-                id: 8,
-                label: '二级 3-2'
-              }
-            ]
-          }
-        ]
+export default {
+  name: 'Menu',
+  data() {
+    return {
+      dataForm: {},
+      functions: [
+        { edit: false, code: 'YWRk', action: 'add', desc: '新增' },
+        { edit: false, code: 'ZGVsZXRl', action: 'delete', desc: '删除' },
+        { edit: false, code: 'ZWRpdA==', action: 'edit', desc: '修改' },
+        { edit: false, code: 'cXVlcnk=', action: 'query', desc: '查询' },
+        { edit: false, code: 'aW1wb3J0', action: 'import', desc: '导入' },
+        { edit: false, code: 'ZXhwb3J0', action: 'export', desc: '导出' },
+      ],
+      options: [
+        {
+          id: 1,
+          label: '一级 1',
+          children: [
+            {
+              id: 4,
+              label: '二级 1-1'
+            }
+          ]
+        },
+        {
+          id: 2,
+          label: '一级 2',
+          children: [
+            {
+              id: 5,
+              label: '二级 2-1'
+            },
+            {
+              id: 6,
+              label: '二级 2-2'
+            }
+          ]
+        },
+        {
+          id: 3,
+          label: '一级 3',
+          children: [
+            {
+              id: 7,
+              label: '二级 3-1'
+            },
+            {
+              id: 8,
+              label: '二级 3-2'
+            }
+          ]
+        }
+      ]
+    }
+  },
+  methods: {
+    goBack() {
+      this.$router.back()
+    },
+    onAction(type, row) {
+      switch (type) {
+        case 'add':
+          this.functions.push({
+            edit: true,
+            code: '',
+            action: '',
+            desc: '',
+          })
+          break
+        case 'edit':
+          row.edit = !row.edit
+          break
+        case 'save':
+          row.edit = false
+          this.$message({
+            message: '保存成功',
+            type: 'success'
+          })
+          break
+        case 'delete':
+          this.functions.splice(this.functions.indexOf(row), 1)
+          break
       }
     },
-    methods: {
-      goBack() {
-        this.$router.back()
-      },
-      onAction(type, row) {
-        switch (type) {
-          case 'add':
-            this.functions.push({
-              edit: true,
-              code: '',
-              action: '',
-              desc: '',
-            })
-            break
-          case 'edit':
-            row.edit = !row.edit
-            break
-          case 'save':
-            row.edit = false
-            this.$message({
-              message: '保存成功',
-              type: 'success'
-            })
-            break
-          case 'delete':
-            this.functions.splice(this.functions.indexOf(row), 1)
-            break
-        }
-      },
-    }
   }
+}
 </script>
 
 <style lang="scss">
-  .tips {
-    font-size: 13px;
-    color: #999;
+.tips {
+  font-size: 13px;
+  color: #999;
 
-    .el-icon-warning {
-      color: #409EFF;
-      padding-right: 5px;
-    }
-  }
-
-  .add-foundation {
-    margin-top: 12px;
-  }
-
-  .ico {
-    display: block;
-    font-size: 18px;
+  .el-icon-warning {
     color: #409EFF;
-    transition: color .15s linear;
+    padding-right: 5px;
   }
+}
+
+.add-foundation {
+  margin-top: 12px;
+}
+
+.ico {
+  display: block;
+  font-size: 18px;
+  color: #409EFF;
+  transition: color .15s linear;
+}
 </style>
