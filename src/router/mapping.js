@@ -43,8 +43,8 @@ const mapping = {
   AssignMenu: () => import('@/views/ums/role/assign-menu'),
   AssignBtn: () => import('@/views/ums/role/assign-btn'),
 
-  Org: () => import('@/views/ums/org/index'),
-  Menu: () => import('@/views/ums/menu/index'),
+  Dictionary: () => import('@/views/ums/dictionary'),
+  Menu: () => import('@/views/ums/menu'),
 }
 
 

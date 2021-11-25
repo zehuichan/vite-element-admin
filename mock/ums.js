@@ -195,18 +195,18 @@ const menu = Mock.mock(
           meta: { title: '分配权限', noCache: true, activeMenu: '/ums/role', roles: ['admin'] }
         },
         {
-          path: '/ums/org',
-          component: 'Org',
-          hidden: false,
-          name: 'Org',
-          meta: { title: '机构管理', roles: ['admin'] }
-        },
-        {
           path: '/ums/menu',
           component: 'Menu',
           hidden: false,
           name: 'Menu',
           meta: { title: '菜单管理', roles: ['admin'] }
+        },
+        {
+          path: '/ums/dictionary',
+          component: 'Dictionary',
+          hidden: false,
+          name: 'Dictionary',
+          meta: { title: '字典管理', roles: ['admin'] }
         },
       ]
     },
