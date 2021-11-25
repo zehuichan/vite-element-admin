@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     initData() {
-      this.data = listToTree(data, 'superId', '0')
+      this.data = listToTree(data, 'parentId', 0)
     }
   }
 }
