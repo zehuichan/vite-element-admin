@@ -370,7 +370,7 @@ export const data =  [
     name: 'NotificationSettings',
     path: '/account/settings/notification',
     parentId: 10030,
-    id: 10034,
+    id: 10035,
     meta: {
       title: '新消息通知',
       show: false
