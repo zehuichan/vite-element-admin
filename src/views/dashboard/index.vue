@@ -3,7 +3,7 @@
     <div class="app-container">
       <code>
         当前角色，当前页面，分配的按钮权限
-        {{permissions}}
+        {{ permissions }}
       </code>
     </div>
     <div class="app-container">
@@ -20,27 +20,27 @@
 </template>
 
 <script>
-  // directives
-  import action from '@/directive/action/index'
+// directives
+import action from '@/directive/action/index'
 
-  export default {
-    name: 'Dashboard',
-    dicts: ['order_status'],
-    data() {
-      return {
-        permissions: {
-          permissionId: 'dashboard',
-          actionsList: ['add', 'delete', 'edit', 'query', 'import', 'export'],
-        }
+export default {
+  name: 'Dashboard',
+  dicts: ['order_status'],
+  data() {
+    return {
+      permissions: {
+        permissionId: 'dashboard',
+        actionsList: ['add', 'delete', 'edit', 'query', 'import', 'export'],
       }
-    },
-    directives: {
-      action
-    },
-    created() {
-      console.log(this.dict)
     }
+  },
+  directives: {
+    action
+  },
+  created() {
+    console.log(this.dict)
   }
+}
 </script>
 
 <style lang="scss">

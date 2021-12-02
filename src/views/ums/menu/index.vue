@@ -20,8 +20,10 @@
           highlight-current
         />
       </el-aside>
-      <el-main>
-        
+      <el-main class="menu-card">
+        <div class="menu-card__header">
+          <i class="el-icon-edit"></i> 编辑菜单
+        </div>
       </el-main>
     </el-container>
   </div>
@@ -66,5 +68,15 @@ export default {
 <style lang="scss">
 .filter-tree {
   margin-top: 16px;
+}
+
+.menu-card {
+  padding: 0 0 0 16px;
+}
+
+.menu-card__header {
+  height: 33px;
+  line-height: 33px;
+  font-size: 14px;
 }
 </style>
