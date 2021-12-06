@@ -37,7 +37,7 @@
     "vue-i18n": "^8.24.3",
     "vue-router": "3.0.6",
     "vuex": "3.1.0",
-    "xlsx": "^0.16.9"
+    "xlsx": "^0.17.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.4.4",
