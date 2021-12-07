@@ -26,8 +26,9 @@ import store from './store'
 import router from './router'
 
 import i18n from './lang' // internationalization
-import '@/icons' // icon
-import '@/permission' // permission control
+import './icons' // icon
+import './permission' // permission control
+import './error-log' // permission control
 
 import * as filters from './filters' // global filters
 import './constants'
@@ -86,15 +87,11 @@ Vue.prototype.$navigateBack = function () {
 }
 
 Vue.config.productionTip = false
-console.info('Vue', Vue.version)
-console.info('Element', Element.version)
-console.info('@vcomponetns/element-ui', VComponents.version)
-console.info('Version', require('../package.json').version)
+console.info('__APP_INFO__', __APP_INFO__)
 
 new Vue({
-  el: '#app',
   router,
   store,
   i18n,
   render: h => h(App)
-})
+}).$mount('#app')
