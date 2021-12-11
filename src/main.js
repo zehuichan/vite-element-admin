@@ -87,6 +87,9 @@ Vue.prototype.$navigateBack = function () {
 }
 
 Vue.config.productionTip = false
+console.info('[INFO] ' + 'Vue', Vue.version)
+console.info('[INFO] ' + 'Element', Element.version)
+console.info('[INFO] ' + 'VComponents', VComponents.version)
 console.info('__APP_INFO__', __APP_INFO__)
 
 new Vue({

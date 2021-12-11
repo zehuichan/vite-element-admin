@@ -8,10 +8,9 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const { dependencies, version } = pkg
+const { version } = pkg
 
 const __APP_INFO__ = {
-  dependencies,
   version,
   lastBuildTime: new Date(),
 }

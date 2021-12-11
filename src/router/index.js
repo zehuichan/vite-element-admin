@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import VueRouter from 'vue-router'
 
-Vue.use(Router)
+Vue.use(VueRouter)
 
 /* Layout */
 import Layout from '@/layout'
@@ -80,7 +80,7 @@ export const asyncRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-const createRouter = () => new Router({
+const createRouter = () => new VueRouter({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
@@ -94,4 +94,5 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
+console.info('[INFO] ' + 'VueRouter', VueRouter.version)
 export default router
