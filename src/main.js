@@ -9,17 +9,17 @@ import Cookies from 'js-cookie'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import Element from 'element-ui'
-import '@/styles/scss/element-variables.scss'
+import './styles/scss/element-variables.scss'
 
 import hljs from 'highlight.js'
 import 'highlight.js/styles/default.css'
 
 import VComponents from 'element-components' // global components
 
-import VAction from '@/directive/action'
-import VDict from '@/plugins/dict'
+import VAction from './directive/action'
+import VDict from './plugins/dict'
 
-import '@/styles/scss/index.scss' // global css
+import './styles/scss/index.scss' // global css
 
 import App from './App'
 import store from './store'
@@ -28,12 +28,11 @@ import router from './router'
 import i18n from './lang' // internationalization
 import './icons' // icon
 import './permission' // permission control
-import './error-log' // permission control
+import './mixin'
+import './error-log'
 
 import * as filters from './filters' // global filters
 import './constants'
-
-import { judgeAlert, judgeConfirm } from '@/utils/judge-info'
 
 /**
  * If you don't want to use mock-server
@@ -56,7 +55,7 @@ Vue.use(Element, {
 
 // 常用自定义组件全量引入使用
 Vue.use(hljs.vuePlugin)
-Vue.use(VComponents,{
+Vue.use(VComponents, {
   size: Cookies.get('size') || 'small', // set element-ui default size
 })
 Vue.use(VAction)
@@ -67,30 +66,11 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-// 统一消息提示
-Vue.prototype.$judgeAlert = judgeAlert
-Vue.prototype.$judgeConfirm = judgeConfirm
-
-// 跳转
-Vue.prototype.$navigateTo = function (url, json, target = '_self') {
-  if (target === '_self') {
-    router.push({ path: url, query: json })
-  } else {
-    const { href } = router.resolve({ path: url, query: json })
-    window.open(href, '_blank')
-  }
-}
-
-// 返回
-Vue.prototype.$navigateBack = function () {
-  router.back()
-}
-
 Vue.config.productionTip = false
 console.info('[INFO] ' + 'Vue', Vue.version)
 console.info('[INFO] ' + 'Element', Element.version)
 console.info('[INFO] ' + 'VComponents', VComponents.version)
-console.info('__APP_INFO__', __APP_INFO__)
+console.info('[INFO] ' + 'AppInfo', __APP_INFO__)
 
 new Vue({
   router,
