@@ -1,40 +1,40 @@
 <template>
   <!-- eslint-disable vue/require-component-is -->
   <component v-bind="linkProps(to)">
-    <slot/>
+    <slot />
   </component>
 </template>
 
 <script>
-  import {isExternal} from '@/utils/validate'
+import { isExternal } from '@/utils/validate'
 
-  export default {
-    props: {
-      to: {
-        type: String,
-        required: true
-      },
-      target: {
-        type: String,
-        default: '_self'
-      }
+export default {
+  props: {
+    to: {
+      type: String,
+      required: true
     },
-    methods: {
-      linkProps(url) {
-        if (isExternal(url)) {
-          return {
-            is: 'a',
-            href: url,
-            target: '_blank',
-            rel: 'noopener'
-          }
-        }
+    target: {
+      type: String,
+      default: '_self'
+    }
+  },
+  methods: {
+    linkProps(url) {
+      if (isExternal(url)) {
         return {
-          is: 'router-link',
-          to: url,
-          target: this.target
+          is: 'a',
+          href: url,
+          target: '_blank',
+          rel: 'noopener'
         }
+      }
+      return {
+        is: 'router-link',
+        to: url,
+        target: this.target
       }
     }
   }
+}
 </script>

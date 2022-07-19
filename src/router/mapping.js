@@ -1,7 +1,8 @@
 // require('login/index').default   // 同步的方式
 // () => import('login/index')      // 异步的方式，懒加载
 
-import Layout from '@/layout'
+// Layout
+import Layout from '@/layout/index.vue'
 // RouteView
 const RouteView = {
   name: 'RouteView',

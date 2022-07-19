@@ -1,5 +1,5 @@
-import {menuList} from '@/api/ums'
-import {constantRoutes} from '@/router'
+import { menuList } from '@/api/ums'
+import { constantRoutes } from '@/router'
 import mapping from '@/router/mapping'
 
 /**

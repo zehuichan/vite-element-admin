@@ -1,6 +1,6 @@
 // utils
-import request, {transformRequest} from '@/utils/request'
-import {parseTime} from '@/utils'
+import request, { transformRequest } from '@/utils/request'
+import { parseTime } from '@/utils'
 
 const timeout = 5 * 60 * 1000
 
@@ -17,7 +17,7 @@ export async function download(url, data = {}, filename, ext = '.xlsx') {
 
   const fn = ext ? filename + '_' + parseTime(new Date(), '{y}{m}{d}{h}{i}{s}') + ext : filename
 
-  const blob = new Blob([res], {type: 'application/vnd.ms-excel; charset=UTF-8'})
+  const blob = new Blob([res], { type: 'application/vnd.ms-excel; charset=UTF-8' })
 
   if (navigator.msSaveBlob) {
     window.navigator.msSaveOrOpenBlob(blob, fn)
@@ -40,7 +40,7 @@ export function upload(url, data = {}) {
     url: url,
     method: 'post',
     headers: {
-      'Content-type': 'multipart/form-data',
+      'Content-type': 'multipart/form-data'
     },
     timeout,
     data

@@ -1,5 +1,4 @@
-module.exports = {
-
+export default {
   title: 'vant mall admin',
 
   copyright: '2018 - present Zehui Chan',
