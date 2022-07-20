@@ -1,5 +1,5 @@
 import { menu } from '@/api/ums'
-import { constantRoutes, asyncRoutes } from '@/router'
+import { constantRoutes } from '@/router'
 import {
   flatMultiLevelRoutes,
   transformObjToRoute,
@@ -21,33 +21,31 @@ const mutations = {
   },
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
+    state.routes = constantRoutes.concat(routes)
   }
 }
 
 const actions = {
   buildRoutesAction({ commit }) {
     return new Promise(resolve => {
-      menu().then(response => {
-        let routes = []
+      menu().then(res => {
         let routeList = []
-        let menus = []
-        const { data } = response
+        routeList = res.data
 
         // Dynamically introduce components
         // 动态引入组件
-        routeList = transformObjToRoute(data)
+        routeList = transformObjToRoute(routeList)
 
         // Background routing to menu structure
         // 后台路由到菜单结构
-        menus = transformRouteToMenu(data)
+        const menus = transformRouteToMenu(routeList)
 
         // Convert multi-level routing to level 2 routing
         // 将多级路由转换为 2 级路由
         routeList = flatMultiLevelRoutes(routeList)
-        routes = [...constantRoutes, ...routeList, ...asyncRoutes]
-        commit('SET_ROUTES', routes)
+        commit('SET_ROUTES', routeList)
         commit('SET_MENUS', menus)
-        resolve(routes)
+        resolve(routeList)
       })
     })
   }

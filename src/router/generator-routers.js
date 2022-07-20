@@ -1,5 +1,5 @@
 import LayoutMap, { Layout, getParentLayout } from '@/router/constant'
-import { cloneDeep, omit } from 'lodash-es'
+import { cloneDeep, flatten, omit } from 'lodash-es'
 import VueRouter from 'vue-router'
 
 export function asyncImportRoute(routes) {
@@ -95,12 +95,14 @@ function promoteRouteLevel(routeModule) {
   let router = new VueRouter({
     routes: [routeModule]
   })
-  const routes = router.options.routes
+  const routes = router.getRoutes()
   // 将所有子路由添加到二级路由
-  console.log(routeModule)
-  return false
   addToChildren(routes, routeModule.children || [], routeModule)
   router = null
+
+  routeModule.children = routeModule.children?.map((item) =>
+    omit(item, 'children')
+  )
 }
 
 // 添加所有子菜单

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { Layout } from './constant'
 
 Vue.use(VueRouter)
 
@@ -40,22 +41,31 @@ export const LoginRoute = {
   component: () => import('@/views/login/index.vue')
 }
 
+export const RedirectRoute = {
+  path: '/redirect',
+  component: Layout,
+  children: [
+    {
+      path: '/redirect/:path(.*)',
+      component: () => import('@/views/redirect/index.vue')
+    }
+  ]
+}
+
 export const constantRoutes = [
   RootRoute,
   LoginRoute,
+  RedirectRoute,
   {
     path: '/401',
-    name: 'ErrorPage',
     component: () => import('@/views/error-page/401.vue')
   },
   {
     path: '/404',
-    name: 'ErrorPage',
     component: () => import('@/views/error-page/404.vue')
   },
   {
     path: '/500',
-    name: 'ErrorPage',
     component: () => import('@/views/error-page/500.vue')
   }
 ]
