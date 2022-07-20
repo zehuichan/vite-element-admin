@@ -4,11 +4,9 @@ import { resetRouter } from '@/router'
 
 const state = {
   token: cache.getItem(TOKEN_KEY),
-  name: '',
-  avatar: '',
-  introduction: '',
-  roles: [],
-  permissions: []
+  userInfo: null,
+  roleList: [],
+  lastUpdateTime: 0
 }
 
 const mutations = {
@@ -16,20 +14,12 @@ const mutations = {
     state.token = token
     cache.setItem(TOKEN_KEY, token)
   },
-  SET_INTRODUCTION: (state, introduction) => {
-    state.introduction = introduction
+  SET_USER_INFO: (state, info) => {
+    state.userInfo = info
+    state.lastUpdateTime = new Date().getTime()
   },
-  SET_NAME: (state, name) => {
-    state.name = name
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
-  },
-  SET_ROLES: (state, roles) => {
-    state.roles = roles
-  },
-  SET_PERMISSIONS: (state, permissions) => {
-    state.permissions = permissions
+  SET_ROLE_LIST: (state, roleList) => {
+    state.roleList = roleList
   }
 }
 
@@ -58,25 +48,15 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, permissions, name, avatar, introduction } = data
-        const _permissions = []
-        permissions.forEach(p => {
-          _permissions.push({
-            permissionId: p.permissionId,
-            actionList: p.actionList.map(a => a.action)
-          })
-        })
+        const { roles } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
         }
 
-        commit('SET_ROLES', roles)
-        commit('SET_PERMISSIONS', _permissions)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
+        commit('SET_USER_INFO', data)
+        commit('SET_ROLE_LIST', roles)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -89,7 +69,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         commit('SET_TOKEN', undefined)
-        commit('SET_ROLES', [])
+        commit('SET_ROLE_LIST', [])
         resetRouter()
 
         // reset visited views and cached views
@@ -107,7 +87,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', undefined)
-      commit('SET_ROLES', [])
+      commit('SET_ROLE_LIST', [])
       resolve()
     })
   }

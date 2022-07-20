@@ -10,14 +10,11 @@ const getters = {
 
   // user
   token: state => state.user.token,
-  avatar: state => state.user.avatar,
-  name: state => state.user.name,
-  introduction: state => state.user.introduction,
-  roles: state => state.user.roles,
-  permissions: state => state.user.permissions,
+  userInfo: state => state.user.userInfo,
+  roleList: state => state.user.roleList,
 
   // permission
-  permission_routes: state => state.permission.routes,
+  menus: state => state.permission.menus,
 
   // errorLog
   errorLogs: state => state.errorLog.logs

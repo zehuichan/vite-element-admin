@@ -3,9 +3,6 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-/* Layout */
-import Layout from '@/layout/index.vue'
-
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -30,46 +27,38 @@ import Layout from '@/layout/index.vue'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+
+export const RootRoute = {
+  path: '/',
+  name: 'Root',
+  redirect: '/dashboard'
+}
+
+export const LoginRoute = {
+  path: '/login',
+  name: 'Login',
+  component: () => import('@/views/login/index.vue')
+}
+
 export const constantRoutes = [
-  {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect/index.vue')
-      }
-    ]
-  },
-  {
-    path: '/login',
-    component: () => import('@/views/login/index.vue'),
-    hidden: true
-  },
-  {
-    path: '/auth-redirect',
-    component: () => import('@/views/login/auth-redirect.vue'),
-    hidden: true
-  },
+  RootRoute,
+  LoginRoute,
   {
     path: '/401',
-    component: () => import('@/views/error-page/401.vue'),
-    hidden: true
+    name: 'ErrorPage',
+    component: () => import('@/views/error-page/401.vue')
   },
   {
     path: '/404',
-    component: () => import('@/views/error-page/404.vue'),
-    hidden: true
+    name: 'ErrorPage',
+    component: () => import('@/views/error-page/404.vue')
   },
   {
     path: '/500',
-    component: () => import('@/views/error-page/500.vue'),
-    hidden: true
-  },
-  { path: '/', redirect: '/dashboard' }
+    name: 'ErrorPage',
+    component: () => import('@/views/error-page/500.vue')
+  }
 ]
-
 
 /**
  * asyncRoutes
@@ -94,5 +83,4 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
-console.info('[INFO] ' + 'VueRouter', VueRouter.version)
 export default router

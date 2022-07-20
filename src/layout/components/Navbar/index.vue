@@ -6,13 +6,12 @@
     <div class="right-menu">
       <template v-if="device!=='mobile'">
         <screenfull class="right-menu-item hover-effect" />
-        <lang-select class="right-menu-item hover-effect" />
       </template>
 
       <el-dropdown class="avatar-container" size="large" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar" alt="">
-          <span class="user-name">{{ name }}</span>
+          <img :src="userInfo.avatar" class="user-avatar" alt="">
+          <span class="user-name">{{ userInfo.name }}</span>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
@@ -32,24 +31,21 @@
 // vuex
 import { mapGetters } from 'vuex'
 // components
-import Breadcrumb from '@/components/Breadcrumb/index.vue'
-import Hamburger from '@/components/Hamburger/index.vue'
-import Screenfull from '@/components/Screenfull/index.vue'
-import LangSelect from '@/components/LangSelect/index.vue'
+import Breadcrumb from '../Breadcrumb/index.vue'
+import Hamburger from '../Hamburger/index.vue'
+import Screenfull from '../Screenfull/index.vue'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    Screenfull,
-    LangSelect
+    Screenfull
   },
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar',
-      'name',
-      'device'
+      'device',
+      'userInfo'
     ])
   },
   methods: {
@@ -58,7 +54,7 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      await this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
 }

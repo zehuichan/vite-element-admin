@@ -1,18 +1,12 @@
 <template>
   <section class="app-main">
-    <!--    <transition name="fade-transform" mode="out-in">-->
     <keep-alive :include="cachedViews">
       <router-view :key="key" />
     </keep-alive>
-    <!--    </transition>-->
-    <v-footer :copyright="copyright" />
   </section>
 </template>
 
 <script>
-// settings
-import defaultSettings from '@/settings'
-
 export default {
   name: 'AppMain',
   computed: {
@@ -21,9 +15,6 @@ export default {
     },
     key() {
       return this.$route.path
-    },
-    copyright() {
-      return defaultSettings.copyright
     }
   }
 }

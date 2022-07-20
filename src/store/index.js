@@ -21,5 +21,4 @@ const store = new Vuex.Store({
   getters
 })
 
-console.info('[INFO] ' + 'Vuex', Vuex.version)
 export default store

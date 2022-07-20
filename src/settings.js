@@ -27,6 +27,13 @@ export default {
    */
   sidebarLogo: false,
 
+  sidebar: {
+    backgroundColor: '#001529',
+    textColor: 'hsla(0, 0%, 100%, .65)',
+    activeTextColor: '#409EFF',
+    width: '208px'
+  },
+
   /**
    * @type {string | array} 'production' | ['production', 'development']
    * @description Need show err logs component.

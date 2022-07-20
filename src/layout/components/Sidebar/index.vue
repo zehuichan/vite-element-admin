@@ -3,35 +3,36 @@
     <logo v-if="showLogo" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
+        mode="vertical"
         :default-active="activeMenu"
         :collapse="isCollapse"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuText"
-        :unique-opened="true"
-        :active-text-color="variables.menuActiveText"
-        :collapse-transition="false"
-        mode="vertical"
+        :background-color="variables.backgroundColor"
+        :text-color="variables.textColor"
+        :active-text-color="variables.activeTextColor"
+        @select="onSelect"
       >
-        <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
+        <menu-item v-for="route in menus" :key="route.path" :item="route" />
       </el-menu>
     </el-scrollbar>
   </div>
 </template>
 
 <script>
-// vuex
 import { mapGetters } from 'vuex'
-// components
 import Logo from './Logo.vue'
-import SidebarItem from './SidebarItem.vue'
-// styles
-import variables from '@/styles/scss/variables.scss'
+import MenuItem from './Item.vue'
+import { isExternal } from '@/utils/validate'
+
+import defaultSettings from '@/settings'
 
 export default {
-  components: { SidebarItem, Logo },
+  components: {
+    Logo,
+    MenuItem
+  },
   computed: {
     ...mapGetters([
-      'permission_routes',
+      'menus',
       'sidebar'
     ]),
     activeMenu() {
@@ -47,10 +48,19 @@ export default {
       return this.$store.state.settings.sidebarLogo
     },
     variables() {
-      return variables
+      return defaultSettings.sidebar
     },
     isCollapse() {
       return !this.sidebar.opened
+    }
+  },
+  methods: {
+    onSelect(index) {
+      if (isExternal(index)) {
+        window.open(index)
+      } else {
+        this.$router.push(index)
+      }
     }
   }
 }

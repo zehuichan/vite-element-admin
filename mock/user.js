@@ -1,15 +1,25 @@
-const token = {
-  token: 'E5FB5353-CDce-9Ef5-8C93-073BCE5FDfED',
-  uid: '310000197907162505'
-}
+import Mock from 'mockjs'
+import { resultSuccess } from './_util'
+
+const Random = Mock.Random
+
+const token = Random.string('upper', 32, 32)
+const avatar = Random.image()
 
 const user = {
-  avatar:
-    'http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLYMVgaumib5h42GP4pAlLTQCpzFAmUZTVUg4MmH9eFyb4shrm6Ux2Ocic1ic0ekTWEYVfxibGcMMC3UQ/132',
-  cellphone: '15800066380',
-  username: 'chan_',
-  realname: '陈泽辉',
-  github: 'https://github.com/zehuichan'
+  userId: '1',
+  username: 'admin',
+  realName: 'Admin',
+  avatar: avatar,
+  desc: 'manager',
+  password: Random.string('upper', 4, 16),
+  token,
+  roles: [
+    {
+      roleName: 'Super Admin',
+      value: 'super'
+    }
+  ]
 }
 
 export default [
@@ -18,11 +28,7 @@ export default [
     url: '/user/login',
     method: 'post',
     response: (config) => {
-      return {
-        code: 200,
-        data: token,
-        msg: '成功'
-      }
+      return resultSuccess({ token })
     }
   },
 
@@ -31,11 +37,7 @@ export default [
     url: '/user/info',
     method: 'get',
     response: (config) => {
-      return {
-        code: 200,
-        data: user,
-        msg: '成功'
-      }
+      return resultSuccess(user)
     }
   }
 ]

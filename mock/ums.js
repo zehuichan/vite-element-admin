@@ -1,4 +1,5 @@
-const Mock = require('mockjs')
+import Mock from 'mockjs'
+import { resultSuccess } from './_util'
 
 const admin = Mock.mock({
   'items|5': [{
@@ -45,298 +46,144 @@ const role = Mock.mock({
 const menu = Mock.mock([
   {
     path: '/dashboard',
-    component: 'Layout',
-    hidden: false,
+    name: 'Dashboard',
+    component: 'LAYOUT',
     children: [
       {
-        path: '',
-        component: 'Dashboard',
-        hidden: false,
+        path: '/dashboard',
         name: 'Dashboard',
+        component: '/dashboard/index',
         meta: {
-          title: '仪表板', icon: 'el-icon-odometer', affix: true, roles: ['admin'],
-          permissions: [
-            { action: 'add', desc: '新增' },
-            { action: 'delete', desc: '删除' },
-            { action: 'edit', desc: '修改' },
-            { action: 'query', desc: '查询' },
-            { action: 'import', desc: '导入' },
-            { action: 'export', desc: '导出' }
-          ]
+          title: '仪表板',
+          icon: 'el-icon-odometer',
+          affix: true,
+          alwaysShow: true,
+          roles: ['admin']
         }
       }
     ]
   },
   {
     path: '/documentation',
-    component: 'Layout',
-    hidden: false,
+    name: 'Documentation',
+    component: 'LAYOUT',
     children: [
       {
-        path: '',
-        component: 'Documentation',
-        hidden: false,
+        path: '/documentation',
         name: 'Documentation',
-        meta: { title: '文档', icon: 'el-icon-document', affix: true, roles: ['admin'] }
-      }
-    ]
-  },
-  {
-    path: '/permission',
-    component: 'Layout',
-    hidden: false,
-    children: [
-      {
-        path: '',
-        component: 'Permission',
-        hidden: false,
-        name: 'Permission',
+        component: '/documentation/index',
         meta: {
-          title: '按钮权限测试页', icon: 'el-icon-lock', roles: ['admin'],
-          permissions: [
-            { action: 'add', desc: '新增' },
-            { action: 'delete', desc: '删除' },
-            { action: 'edit', desc: '修改' },
-            { action: 'query', desc: '查询' },
-            { action: 'import', desc: '导入' },
-            { action: 'export', desc: '导出' }
-          ]
+          title: '文档',
+          icon: 'el-icon-document',
+          affix: true,
+          alwaysShow: true,
+          roles: ['admin']
         }
       }
     ]
   },
   {
     path: '/nested',
-    component: 'Layout',
-    redirect: '/nested/menu/menu1-1',
-    hidden: false,
-    meta: { title: '嵌套菜单', icon: 'el-icon-document', roles: ['admin'] },
+    name: 'Nested',
+    component: 'LAYOUT',
+    meta: {
+      title: '嵌套菜单',
+      icon: 'el-icon-document',
+      roles: ['admin']
+    },
     children: [
       {
-        path: '/nested/menu/menu1-1',
-        component: 'Nested',
-        hidden: false,
-        name: 'Menu1-1',
-        meta: { title: 'Menu 1-1', roles: ['admin'] }
-      },
-      {
-        path: '/nested/menu/menu1-2',
-        component: 'RouteView',
-        hidden: false,
-        name: 'Menu1-2',
-        meta: { title: 'Menu 1-2', roles: ['admin'] },
+        path: '/nested/menu/menu1',
+        name: 'Menu1',
+        meta: { title: 'Menu1', roles: ['admin'] },
         children: [
           {
-            path: '/nested/menu/menu1-2-1',
-            component: 'Nested',
-            hidden: false,
-            name: 'Menu1-2-1',
-            meta: { title: 'Menu 1-2-1', roles: ['admin'] }
+            path: '/nested/menu/menu1-1',
+            name: 'Menu1-1',
+            meta: { title: 'Menu1-1', roles: ['admin'] },
+            children: [
+              {
+                path: '/nested/menu/menu1-1-1',
+                component: '/nested/index',
+                name: 'Menu1-1-1',
+                meta: { title: 'Menu1-1-1', roles: ['admin'] }
+              }
+            ]
           },
           {
-            path: '/nested/menu/menu1-2-2',
-            component: 'Nested',
-            hidden: false,
-            name: 'Menu1-2-2',
-            meta: { title: 'Menu 1-2-2', roles: ['admin'] }
+            path: '/nested/menu/menu1-2',
+            component: '/nested/index',
+            name: 'Menu1-2',
+            meta: { title: 'Menu1-2', roles: ['admin'] }
           }
         ]
       },
       {
-        path: '/nested/menu/menu1-3',
-        component: 'Nested',
-        hidden: false,
-        name: 'Menu1-3',
-        meta: { title: 'Menu 1-3', roles: ['admin'] }
+        path: '/nested/menu/menu2',
+        component: '/nested/index',
+        name: 'Menu2',
+        meta: { title: 'Menu2', roles: ['admin'] }
       }
     ]
   },
   {
-    path: '/ums',
-    component: 'Layout',
-    hidden: false,
-    redirect: 'noRedirect',
-    meta: { title: '权限管理', icon: 'el-icon-setting', roles: ['admin'] },
+    path: '/upms',
+    name: 'Upms',
+    component: 'LAYOUT',
+    meta: {
+      title: '权限管理',
+      icon: 'el-icon-setting',
+      roles: ['admin']
+    },
     children: [
       {
-        path: '/ums/user',
-        component: 'User',
-        hidden: false,
-        name: 'User',
+        path: '/upms/account',
+        component: '/upms/account/index',
+        name: 'Account',
         meta: { title: '用户管理', roles: ['admin'] }
       },
       {
-        path: '/ums/user/assign-roles/:id',
-        component: 'AssignRole',
-        hidden: true,
-        name: 'AssignRole',
-        meta: { title: '分配角色', noCache: true, activeMenu: '/ums/user', roles: ['admin'] }
-      },
-      {
-        path: '/ums/role',
-        component: 'Role',
-        hidden: false,
+        path: '/upms/role',
+        component: '/upms/role/index',
         name: 'Role',
         meta: { title: '角色管理', roles: ['admin'] }
       },
       {
-        path: '/ums/role/assign-menu/:id',
-        component: 'AssignMenu',
-        hidden: true,
-        name: 'AssignMenu',
-        meta: { title: '分配菜单', noCache: true, activeMenu: '/ums/role', roles: ['admin'] }
-      },
-      {
-        path: '/ums/role/assign-btn/:id',
-        component: 'AssignBtn',
-        hidden: true,
-        name: 'AssignBtn',
-        meta: { title: '分配权限', noCache: true, activeMenu: '/ums/role', roles: ['admin'] }
-      },
-      {
-        path: '/ums/menu',
-        component: 'Menu',
-        hidden: false,
+        path: '/upms/menu',
+        component: '/upms/menu/index',
         name: 'Menu',
         meta: { title: '菜单管理', roles: ['admin'] }
       },
       {
-        path: '/ums/dictionary',
-        component: 'Dictionary',
-        hidden: false,
+        path: '/upms/dictionary',
+        component: '/upms/dictionary/index',
         name: 'Dictionary',
-        meta: { title: '字典管理', roles: ['admin'] }
+        meta: { title: '字典管理', hidden: false, roles: ['admin'] }
       }
     ]
   },
   {
-    path: '/vcomponents',
-    component: 'VComponents',
-    hidden: true,
-    name: 'VComponents',
+    path: '/link',
+    component: 'LAYOUT',
     meta: {
-      title: 'vcomponents', icon: 'el-icon-office-building', role: ['admin'],
-      permissions: [
-        { action: 'add', desc: '新增' },
-        { action: 'delete', desc: '删除' },
-        { action: 'edit', desc: '修改' },
-        { action: 'query', desc: '查询' },
-        { action: 'import', desc: '导入' },
-        { action: 'export', desc: '导出' }
-      ]
-    }
-  },
-  {
-    path: '/vcomponents/vsearch', component: 'VSearch', name: 'vsearch',
-    hidden: true,
-    meta: {
-      title: 'vsearch', role: ['admin']
+      title: 'Github',
+      icon: 'el-icon-odometer',
+      affix: true,
+      alwaysShow: true,
+      roles: ['admin']
     },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vtable', component: 'VTable', name: 'vtable',
-    hidden: true,
-    meta: {
-      title: 'vtable', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vform', component: 'VForm', name: 'vform',
-    hidden: true,
-    meta: {
-      title: 'vform', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vdialog', component: 'VDialog', name: 'vdialog',
-    hidden: true,
-    meta: {
-      title: 'vdialog', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vdrawer', component: 'VDrawer', name: 'vdrawer',
-    hidden: true,
-    meta: {
-      title: 'vdrawer', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vtreeselect', component: 'VTreeSelect', name: 'vtreeselect',
-    hidden: true,
-    meta: {
-      title: 'vtreeselect', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vimageviewer', component: 'VImageviewer', name: 'vimageviewer',
-    hidden: true,
-    meta: {
-      title: 'vimageviewer', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vexcel', component: 'VExcel', name: 'vexcel',
-    hidden: true,
-    meta: {
-      title: 'vexcel', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vbadge', component: 'VBadge', name: 'vbadge',
-    hidden: true,
-    meta: {
-      title: 'vbadge', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vellipsis', component: 'VEllipsis', name: 'vellipsis',
-    hidden: true,
-    meta: {
-      title: 'vellipsis', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vcountdown', component: 'VCountdown', name: 'vcountdown',
-    hidden: true,
-    meta: {
-      title: 'vcountdown', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vdescriptions', component: 'VDescriptions', name: 'vdescriptions',
-    hidden: true,
-    meta: {
-      title: 'vdescriptions', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vqrcode', component: 'VQrcode', name: 'vqrcode',
-    hidden: true,
-    meta: {
-      title: 'vqrcode', role: ['admin']
-    },
-    target: '_blank'
-  },
-  {
-    path: '/vcomponents/vaction', component: 'VAction', name: 'vaction',
-    hidden: true,
-    meta: {
-      title: 'vaction', role: ['admin']
-    },
-    target: '_blank'
+    children: [
+      {
+        path: 'https://github.com/zehuichan',
+        name: 'Github',
+        meta: {
+          title: 'Github',
+          icon: 'el-icon-odometer',
+          affix: true,
+          roles: ['admin']
+        }
+      }
+    ]
   }
 ])
 
@@ -402,61 +249,12 @@ const dict = Mock.mock(
     ]
   })
 
-module.exports = [
+export default [
   {
-    url: '/vue-admin-template/ums/admin/list',
+    url: '/ums/menu/list',
     type: 'get',
     response: config => {
-      const { p, ps } = config.query
-      const total = admin.items.length
-      const begin = +(p - 1) * ps
-      const end = +p * ps
-      const items = admin.items.slice(begin, end)
-      return {
-        code: 20000,
-        data: {
-          total: total,
-          items: items
-        }
-      }
-    }
-  },
-  {
-    url: '/vue-admin-template/ums/role/list',
-    type: 'get',
-    response: config => {
-      const { p, ps } = config.query
-      const total = role.items.length
-      const begin = +(p - 1) * ps
-      const end = +p * ps
-      const items = role.items.slice(begin, end)
-      return {
-        code: 20000,
-        data: {
-          total: total,
-          items: items
-        }
-      }
-    }
-  },
-  {
-    url: '/vue-admin-template/ums/menu/list',
-    type: 'get',
-    response: config => {
-      return {
-        code: 20000,
-        data: menu
-      }
-    }
-  },
-  {
-    url: '/vue-admin-template/ums/dict/list',
-    type: 'get',
-    response: config => {
-      return {
-        code: 20000,
-        data: dict
-      }
+      return resultSuccess(menu)
     }
   }
 ]
