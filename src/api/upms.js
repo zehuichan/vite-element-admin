@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function menu() {
+export function menus() {
   return request({
-    url: '/ums/menu/list',
+    url: '/upms/menus',
     method: 'get'
   })
 }

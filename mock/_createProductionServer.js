@@ -8,7 +8,7 @@ Object.keys(modules).forEach((key) => {
   if (key.includes('/_')) {
     return
   }
-  mockModules.push(...modules[key].default)
+  mockModules.push(...modules[key])
 })
 
 /**

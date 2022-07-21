@@ -1,4 +1,4 @@
-import { menu } from '@/api/ums'
+import { priv } from '@/api/permission'
 import { constantRoutes } from '@/router'
 import {
   flatMultiLevelRoutes,
@@ -28,7 +28,7 @@ const mutations = {
 const actions = {
   buildRoutesAction({ commit }) {
     return new Promise(resolve => {
-      menu().then(res => {
+      priv().then(res => {
         let routeList = []
         routeList = res.data
 

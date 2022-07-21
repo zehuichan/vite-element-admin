@@ -1,6 +1,6 @@
 <template>
   <section class="app-main">
-    <keep-alive :include="cachedViews">
+    <keep-alive :include="include">
       <router-view :key="key" />
     </keep-alive>
   </section>
@@ -10,12 +10,15 @@
 export default {
   name: 'AppMain',
   computed: {
-    cachedViews() {
-      return this.$store.state.tagsView.cachedViews
+    include() {
+      return this.$store.state.tagsView.visitedViews.map(item => item.name)
     },
     key() {
       return this.$route.path
     }
+  },
+  created() {
+    console.log(this.include)
   }
 }
 </script>

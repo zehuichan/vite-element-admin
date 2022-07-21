@@ -1,6 +1,6 @@
 import LayoutMap, { Layout, getParentLayout } from '@/router/constant'
 import { cloneDeep, omit } from 'lodash-es'
-import VueRouter from 'vue-router'
+import { createRouter } from '@/router'
 
 export function asyncImportRoute(routes) {
   const dynamicViewsModules = import.meta.glob('../views/**/*.{vue,jsx,tsx}')
@@ -92,9 +92,7 @@ function isMultipleRoute(routeModule) {
 // 生成二级路由
 function promoteRouteLevel(routeModule) {
   // Use vue-router to splice menus
-  let router = new VueRouter({
-    routes: [routeModule]
-  })
+  let router = createRouter([routeModule])
   const routes = router.getRoutes()
   // 将所有子路由添加到二级路由
   addToChildren(routes, routeModule.children || [], routeModule)
@@ -124,10 +122,38 @@ function addToChildren(routes, children, routeModule) {
   }
 }
 
+// 递归清洗后端数据
+export function routerGenerator(routerMap, parent) {
+  return routerMap.map((item) => {
+    const currentRouter = {
+      path: item.path,
+      component: item.component,
+      meta: {
+        title: item.title,
+        icon: item.icon
+      }
+    }
+    // 为了防止出现后端返回结果不规范，处理有可能出现拼接出两个 反斜杠
+    currentRouter.path = currentRouter.path.replace('//', '/')
+    // 重定向
+    item.redirect && (currentRouter.redirect = item.redirect)
+
+    // 是否有子菜单，并递归处理
+    if (item.children && item.children.length > 0) {
+      //如果未定义 redirect 默认第一个子路由为 redirect
+      !item.redirect && (currentRouter.redirect = `${item.children[0].path}`)
+      // Recursion
+      currentRouter.children = routerGenerator(item.children, currentRouter)
+    }
+
+    return currentRouter
+  })
+}
+
 // 后端数据转路由
 export function transformObjToRoute(routeList) {
   routeList.forEach((route) => {
-    const { component } = route
+    const component = route.component
     if (component) {
       if (component.toUpperCase() === 'LAYOUT') {
         route.component = LayoutMap.get(component.toUpperCase())

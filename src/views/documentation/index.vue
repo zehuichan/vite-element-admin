@@ -6,7 +6,9 @@
         {{ mediaQuery }}
       </code>
     </div>
-
+    <div class="app-container">
+      <el-input v-model="input" placeholder="请输入内容"></el-input>
+    </div>
     <div class="app-container">
       <el-row :gutter="10">
         <el-col :xs="12" :sm="12" :md="8" v-for="(item,index) in media_query" :key="index">
@@ -35,7 +37,8 @@ export default {
         { key: 'screen-lg', label: 'minWidth: 992, maxWidth: 1199' },
         { key: 'screen-xl', label: 'minWidth: 1200, maxWidth: 1599' },
         { key: 'screen-xll', label: 'minWidth: 1600' }
-      ]
+      ],
+      input: ''
     }
   },
   computed: {

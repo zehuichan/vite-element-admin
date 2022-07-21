@@ -1,49 +1,6 @@
-import Mock from 'mockjs'
 import { resultSuccess } from './_util'
 
-const admin = Mock.mock({
-  'items|5': [{
-    id: '@id',
-    account: '@word',
-    name: '@cname',
-    email: '@email',
-    create_time: '@datetime',
-    login_time: '@datetime',
-    mobile: /^1[385][1-9]\d{8}/,
-    status: 1
-  }]
-})
-
-const role = Mock.mock({
-  items: [
-    {
-      id: '@id',
-      name: '管理员',
-      code: 'admin',
-      create_time: '@datetime',
-      login_time: '@datetime',
-      status: 1
-    },
-    {
-      id: '@id',
-      name: 'SVIP',
-      code: 'svip',
-      create_time: '@datetime',
-      login_time: '@datetime',
-      status: 1
-    },
-    {
-      id: '@id',
-      name: '普通会员',
-      code: 'user',
-      create_time: '@datetime',
-      login_time: '@datetime',
-      status: 1
-    }
-  ]
-})
-
-const menu = Mock.mock([
+const menu = [
   {
     path: '/dashboard',
     component: 'LAYOUT',
@@ -172,73 +129,11 @@ const menu = Mock.mock([
       }
     ]
   }
-])
-
-const dict = Mock.mock(
-  {
-    order_status: [
-      {
-        'id': 9,
-        'label': '保存',
-        'value': 'SAVE',
-        'sort': '1',
-        'dictId': 7,
-        'createTime': 1610175440000
-      },
-      {
-        'id': 10,
-        'label': '审核',
-        'value': 'PASS',
-        'sort': '2',
-        'dictId': 7,
-        'createTime': 1610175451000
-      },
-      {
-        'id': 11,
-        'label': '反审',
-        'value': 'REJECT',
-        'sort': '3',
-        'dictId': 7,
-        'createTime': 1610257350000
-      },
-      {
-        'id': 29,
-        'label': '关闭',
-        'value': 'CLOSED',
-        'sort': '4',
-        'dictId': 7,
-        'createTime': 1611020539000
-      },
-      {
-        'id': 85,
-        'label': '作废',
-        'value': 'INVALID',
-        'sort': '5',
-        'dictId': 7,
-        'createTime': 1614930131000
-      },
-      {
-        'id': 86,
-        'label': '中止',
-        'value': 'STOP',
-        'sort': '6',
-        'dictId': 7,
-        'createTime': 1614930142000
-      },
-      {
-        'id': 87,
-        'label': '恢复',
-        'value': 'RECOVER',
-        'sort': '7',
-        'dictId': 7,
-        'createTime': 1614930156000
-      }
-    ]
-  })
+]
 
 export default [
   {
-    url: '/ums/menu/list',
+    url: '/permission/priv',
     type: 'get',
     response: config => {
       return resultSuccess(menu)
