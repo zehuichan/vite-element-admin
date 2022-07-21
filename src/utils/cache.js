@@ -4,6 +4,8 @@ export const TOKEN_KEY = 'TOKEN__'
 export const USER_INFO_KEY = 'USER__INFO__'
 // role info key
 export const ROLES_KEY = 'ROLES__KEY__'
+// tags view key
+export const TAGS_ROUTES_KEY = 'TAGS__ROUTES__KEY__'
 
 class Cache {
   setItem(key, value) {

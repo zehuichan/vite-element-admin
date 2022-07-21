@@ -1,5 +1,5 @@
 import LayoutMap, { Layout, getParentLayout } from '@/router/constant'
-import { cloneDeep, flatten, omit } from 'lodash-es'
+import { cloneDeep, omit } from 'lodash-es'
 import VueRouter from 'vue-router'
 
 export function asyncImportRoute(routes) {

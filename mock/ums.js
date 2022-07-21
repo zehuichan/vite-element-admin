@@ -46,7 +46,6 @@ const role = Mock.mock({
 const menu = Mock.mock([
   {
     path: '/dashboard',
-    name: 'Dashboard',
     component: 'LAYOUT',
     children: [
       {
@@ -57,7 +56,6 @@ const menu = Mock.mock([
           title: '仪表板',
           icon: 'el-icon-odometer',
           affix: true,
-          alwaysShow: true,
           roles: ['admin']
         }
       }
@@ -65,7 +63,6 @@ const menu = Mock.mock([
   },
   {
     path: '/documentation',
-    name: 'Documentation',
     component: 'LAYOUT',
     children: [
       {
@@ -75,8 +72,6 @@ const menu = Mock.mock([
         meta: {
           title: '文档',
           icon: 'el-icon-document',
-          affix: true,
-          alwaysShow: true,
           roles: ['admin']
         }
       }
@@ -84,8 +79,8 @@ const menu = Mock.mock([
   },
   {
     path: '/nested',
-    name: 'Nested',
     component: 'LAYOUT',
+    redirect: 'noRedirect',
     meta: {
       title: '嵌套菜单',
       icon: 'el-icon-document',
@@ -128,8 +123,8 @@ const menu = Mock.mock([
   },
   {
     path: '/upms',
-    name: 'Upms',
     component: 'LAYOUT',
+    redirect: '/upms/account',
     meta: {
       title: '权限管理',
       icon: 'el-icon-setting',
@@ -165,13 +160,6 @@ const menu = Mock.mock([
   {
     path: '/link',
     component: 'LAYOUT',
-    meta: {
-      title: 'Github',
-      icon: 'el-icon-odometer',
-      affix: true,
-      alwaysShow: true,
-      roles: ['admin']
-    },
     children: [
       {
         path: 'https://github.com/zehuichan',
@@ -179,7 +167,6 @@ const menu = Mock.mock([
         meta: {
           title: 'Github',
           icon: 'el-icon-odometer',
-          affix: true,
           roles: ['admin']
         }
       }

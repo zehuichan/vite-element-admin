@@ -1,6 +1,6 @@
-import Layout from '@/layout/index.vue'
+export const Layout = () => import('@/layout/index.vue')
 
-const getParentLayout = (_name) => {
+export const getParentLayout = (_name) => {
   return () =>
     new Promise((resolve) => {
       resolve({
@@ -8,10 +8,9 @@ const getParentLayout = (_name) => {
       })
     })
 }
+
 const LayoutMap = new Map()
 
 LayoutMap.set('LAYOUT', Layout)
-
-export { Layout, getParentLayout }
 
 export default LayoutMap

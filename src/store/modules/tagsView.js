@@ -4,6 +4,9 @@ const state = {
 }
 
 const mutations = {
+  INIT_VIEWS: (state, routes) => {
+    state.visitedViews = routes
+  },
   ADD_VIEW: (state, route) => {
     // 添加标签页
     const isExists = state.visitedViews.some(
@@ -54,6 +57,9 @@ const mutations = {
 }
 
 const actions = {
+  initViews({ commit }, routes) {
+    commit('INIT_VIEWS', routes)
+  },
   addView({ commit }, route) {
     commit('ADD_VIEW', route)
   },
@@ -69,8 +75,8 @@ const actions = {
   closeCurrentTab({ commit }, route) {
     commit('CLOSE_CURRENT_VIEW', route)
   },
-  closeAllTabs({ commit }, route) {
-    commit('CLOSE_ALL_VIEWS', route)
+  closeAllTabs({ commit }) {
+    commit('CLOSE_ALL_VIEWS')
   }
 }
 
