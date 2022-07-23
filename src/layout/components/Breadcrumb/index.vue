@@ -13,6 +13,54 @@
 
 <script>
 import { compile } from 'path-to-regexp'
+import { getMenus } from '@/router'
+import { REDIRECT_NAME } from '@/router/constant'
+import { getAllParentPath } from '@/utils/menuHelper'
+import { filter } from '@/utils/treeHelper'
+
+function getMatched(menus, parent) {
+  const metched = []
+  menus.forEach((item) => {
+    if (parent.includes(item.path)) {
+      metched.push({
+        ...item,
+        name: item.meta?.title || item.name
+      })
+    }
+    if (item.children?.length) {
+      metched.push(...getMatched(item.children, parent))
+    }
+  })
+  return metched
+}
+
+function filterItem(list) {
+  return filter(list, (item) => {
+    const { meta, name } = item
+    if (!meta) {
+      return !!name
+    }
+    const { title, hideBreadcrumb, hideMenu } = meta
+    return !(!title || hideBreadcrumb || hideMenu)
+  }).filter((item) => !item.meta?.hideBreadcrumb)
+}
+
+const generator = (routerMap) => {
+  return routerMap.map((item) => {
+    const currentMenu = {
+      ...item,
+      label: item.meta.title,
+      key: item.name,
+      disabled: item.path === '/'
+    }
+    // 是否有子菜单，并递归处理
+    if (item.children && item.children.length > 0) {
+      // Recursion
+      currentMenu.children = generator(item.children, currentMenu)
+    }
+    return currentMenu
+  })
+}
 
 export default {
   data() {
@@ -30,21 +78,35 @@ export default {
   },
   methods: {
     getBreadcrumb() {
-      // only show routes with meta.title
-      let matched = this.$route.matched.filter(item => item.meta?.title)
-      const first = matched[0]
-      if (!this.isDashboard(first)) {
-        matched = [{ path: '/dashboard', meta: { title: '仪表板' } }].concat(matched)
+      const currentRoute = this.$route
+      if (currentRoute.name === REDIRECT_NAME) return
+      const menus = getMenus()
+
+      const routeMatched = currentRoute.matched
+      const cur = routeMatched?.[routeMatched.length - 1]
+      let path = currentRoute.path
+
+      if (cur && cur?.meta?.currentActiveMenu) {
+        path = cur.meta.currentActiveMenu
       }
 
-      this.levelList = matched.filter(item => item.meta?.title && item.meta.breadcrumb !== false)
-    },
-    isDashboard(route) {
-      const name = route?.name
-      if (!name) {
-        return false
+      const parent = getAllParentPath(menus, path)
+      const filterMenus = menus.filter((item) => item.path === parent[0])
+      const matched = getMatched(filterMenus, parent)
+
+      if (!matched || matched.length === 0) return
+
+
+      const breadcrumbList = filterItem(matched)
+
+
+      if (currentRoute.meta?.currentActiveMenu) {
+        breadcrumbList.push({
+          ...currentRoute,
+          name: currentRoute.meta?.title || currentRoute.name
+        })
       }
-      return name.trim().toLocaleLowerCase() === 'Dashboard'.toLocaleLowerCase()
+      this.levelList = breadcrumbList
     },
     pathCompile(path) {
       // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561

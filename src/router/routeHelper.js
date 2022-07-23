@@ -2,8 +2,10 @@ import LayoutMap, { Layout, getParentLayout } from '@/router/constant'
 import { cloneDeep, omit } from 'lodash-es'
 import { createRouter } from '@/router'
 
+let dynamicViewsModules
+
 export function asyncImportRoute(routes) {
-  const dynamicViewsModules = import.meta.glob('../views/**/*.{vue,jsx,tsx}')
+  dynamicViewsModules = import.meta.glob('../views/**/*.{vue,jsx,tsx}')
   if (!routes) return
   routes.forEach((item) => {
     const { component, name } = item
@@ -172,24 +174,5 @@ export function transformObjToRoute(routeList) {
     }
     route.children && asyncImportRoute(route.children)
   })
-  return routeList
-}
-
-// 后端数据转菜单
-export function transformRouteToMenu(routeModList, routerMapping = false) {
-  // 借助 lodash 深拷贝
-  const cloneRouteModList = cloneDeep(routeModList)
-  const routeList = []
-
-  // 对路由项进行修改
-  cloneRouteModList.forEach((item) => {
-    if (item?.children.length === 1) {
-      const realItem = item?.children?.[0]
-      realItem && routeList.push(realItem)
-    } else {
-      routeList.push(item)
-    }
-  })
-
   return routeList
 }

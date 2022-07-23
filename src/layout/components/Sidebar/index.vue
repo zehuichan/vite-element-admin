@@ -21,7 +21,7 @@
 import { mapGetters } from 'vuex'
 import Logo from './Logo.vue'
 import MenuItem from './Item.vue'
-import { isExternal } from '@/utils/validate'
+import { isUrl } from '@/utils/is'
 
 import defaultSettings from '@/settings'
 
@@ -56,7 +56,8 @@ export default {
   },
   methods: {
     onSelect(index) {
-      if (isExternal(index)) {
+      if (index === this.activeMenu) return
+      if (isUrl(index)) {
         window.open(index)
       } else {
         this.$router.push(index)

@@ -1,10 +1,8 @@
 import { priv } from '@/api/permission'
 import { constantRoutes } from '@/router'
-import {
-  flatMultiLevelRoutes,
-  transformObjToRoute,
-  transformRouteToMenu
-} from '@/router/generator-routers'
+
+import { flatMultiLevelRoutes, transformObjToRoute } from '@/router/routeHelper'
+import { transformRouteToMenu } from '@/utils/menuHelper'
 
 const state = {
   menus: [],

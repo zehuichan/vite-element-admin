@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-menu-item v-if="!hasMultiChild(item) && getShowMenu" :index="item.path">
-      <i v-if="item.meta.icon" class="svg-icon" :class="item.meta.icon" />
+      <i v-if="item.meta?.icon" class="svg-icon" :class="item.meta.icon" />
       <template #title>
         <span>{{ item.meta?.title }}</span>
       </template>
     </el-menu-item>
     <el-submenu v-if="hasMultiChild(item) && getShowMenu" :index="item.path">
       <template #title>
-        <i v-if="item.meta.icon" class="svg-icon" :class="item.meta.icon" />
+        <i v-if="item.meta?.icon" class="svg-icon" :class="item.meta.icon" />
         <span>{{ item.meta?.title }}</span>
       </template>
       <menu-item v-for="sub in item.children || []" :key="sub.path" :item="sub" />
@@ -27,14 +27,14 @@ export default defineComponent({
     item: Object
   },
   setup(props) {
-    const getShowMenu = computed(() => !props.item.meta?.hidden)
+    const getShowMenu = computed(() => !props.item.meta?.hideMenu)
 
-    const hasMultiChild = (item) => {
+    const hasMultiChild = (menuTreeItem) => {
       return (
-        !item.meta?.hidden &&
-        Reflect.has(item, 'children') &&
-        !!item.children &&
-        item.children.length > 0
+        !menuTreeItem.meta?.hideChildrenInMenu &&
+        Reflect.has(menuTreeItem, 'children') &&
+        !!menuTreeItem.children &&
+        menuTreeItem.children.length > 0
       )
     }
 

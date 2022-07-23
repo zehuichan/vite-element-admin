@@ -1,5 +1,7 @@
 import Vue, { getCurrentInstance, shallowRef } from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store'
+
 import { Layout } from './constant'
 
 Vue.use(VueRouter)
@@ -96,6 +98,9 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
+export const getMenus = () => {
+  return store.getters.menus.filter((item) => !item.meta?.hideMenu && !item.hideMenu)
+}
 
 export function useRouter() {
   const vm = getCurrentInstance()
