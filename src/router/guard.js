@@ -7,8 +7,8 @@ import store from '@/store'
 const whiteList = ['/login', '/auth-redirect']
 
 export function setupGuard(router) {
-  createProgressGuard(router)
   createPermissionGuard(router)
+  createProgressGuard(router)
 }
 
 export function createPermissionGuard(router) {
