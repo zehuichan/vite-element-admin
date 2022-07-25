@@ -15,7 +15,7 @@
 import { compile } from 'path-to-regexp'
 import { getMenus } from '@/router'
 import { REDIRECT_NAME } from '@/router/constant'
-import { getAllParentPath } from '@/utils/menuHelper'
+import { getAllParentPath } from '@/router/menuHelper'
 import { filter } from '@/utils/treeHelper'
 
 function getMatched(menus, parent) {
