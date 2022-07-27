@@ -6,6 +6,6 @@ export function configHtmlPlugin(env, isBuild) {
     minify: isBuild,
     inject: {
       data: defaultSettings
-    },
+    }
   })
 }

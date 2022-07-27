@@ -9,7 +9,7 @@ export function configCompressPlugin(compress, deleteOriginFile = false) {
     plugins.push(
       compression({
         ext: '.gz',
-        deleteOriginFile,
+        deleteOriginFile
       })
     )
   }
@@ -18,7 +18,7 @@ export function configCompressPlugin(compress, deleteOriginFile = false) {
       compression({
         ext: '.br',
         algorithm: 'brotliCompress',
-        deleteOriginFile,
+        deleteOriginFile
       })
     )
   }

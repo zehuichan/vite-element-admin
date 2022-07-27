@@ -17,7 +17,7 @@
     <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
       <li @click="refreshSelectedTag(selectedTag)">刷新当前</li>
       <li v-if="!selectedTag.meta?.affix" @click="closeSelectedTag(selectedTag)">关闭当前</li>
-      <li @click="closeOthersTags">关闭其他</li>
+      <li @click="closeOthersTags(selectedTag)">关闭其他</li>
       <li @click="closeAllTags(selectedTag)">关闭全部</li>
     </ul>
   </div>
@@ -96,9 +96,11 @@ export default {
       }
     },
     closeOthersTags(view) {
-      this.activeKey = this.$route.fullPath
-      this.$router.replace(this.$route.fullPath)
       this.$store.dispatch('tagsView/closeOtherTabs', view)
+      this.activeKey = view.fullPath
+      this.$router.push({
+        path: '/redirect' + view.fullPath
+      })
     },
     closeAllTags() {
       this.$store.dispatch('tagsView/closeAllTabs')

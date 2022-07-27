@@ -10,6 +10,6 @@ export function configMockPlugin(isBuild) {
       import { setupProdMockServer } from '../mock/_createProductionServer';
 
       setupProdMockServer();
-      `,
+      `
   })
 }
