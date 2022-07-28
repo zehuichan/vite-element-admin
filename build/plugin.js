@@ -1,4 +1,6 @@
 import vue from '@vitejs/plugin-vue2'
+import vueJsx from '@vitejs/plugin-vue2-jsx'
+
 import legacy from '@vitejs/plugin-legacy'
 
 import { configHtmlPlugin } from './html.js'
@@ -10,9 +12,9 @@ export function createVitePlugins(viteEnv, isBuild) {
 
   const vitePlugins = [
     // have to
-    vue({
-      jsx: true
-    })
+    vue(),
+    // have to
+    vueJsx()
   ]
 
   // vite-plugin-html

@@ -33,6 +33,7 @@
   "devDependencies": {
     "@vitejs/plugin-legacy": "^2.0.0",
     "@vitejs/plugin-vue2": "^1.1.2",
+    "@vitejs/plugin-vue2-jsx": "^1.0.2",
     "autoprefixer": "^10.4.7",
     "mockjs": "^1.1.0",
     "release-it": "^14.6.1",
