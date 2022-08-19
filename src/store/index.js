@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue, { getCurrentInstance } from 'vue'
 import Vuex from 'vuex'
 import getters from './getters'
 
@@ -20,5 +20,11 @@ const store = new Vuex.Store({
   modules,
   getters
 })
+
+export const useStore = () => {
+  const vm = getCurrentInstance()
+  if(!vm) throw new Error('[useStore] must be called in setup')
+  return vm.proxy.$store
+}
 
 export default store

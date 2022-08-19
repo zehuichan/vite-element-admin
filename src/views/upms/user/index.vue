@@ -18,25 +18,24 @@
         @pagination="_adminList"
       >
         <template #selection>
-          <el-table-column type="selection" width="55"/>
+          <el-table-column type="selection" width="55" />
         </template>
         <template #status="{scope}">
           <el-tag>{{ scope.row.status ? '启用' : '禁用' }}</el-tag>
         </template>
         <template #actions="{scope}">
           <el-button type="text" @click="navigateTo(`/ums/user/assign-role/${scope.row.id}`)">分配角色</el-button>
-          <el-divider direction="vertical"/>
+          <el-divider direction="vertical" />
           <el-button type="text" @click="onClick">修改密码</el-button>
-          <el-divider direction="vertical"/>
+          <el-divider direction="vertical" />
           <el-button type="text">编辑</el-button>
-          <el-divider direction="vertical"/>
+          <el-divider direction="vertical" />
           <v-confirm title="此操作将永久删除选择的用户, 是否继续?" icon="el-icon-info" iconColor="red">
             <el-button type="text">删除</el-button>
           </v-confirm>
         </template>
       </v-table>
     </div>
-    <pass-word-dialog v-model="show"/>
   </div>
 </template>
 
@@ -46,7 +45,6 @@ import { adminList } from '@/api/ums'
 // directives
 import action from '@/directive/action'
 // components
-import PassWordDialog from './components/PassWordDialog'
 // mapping
 import { options, columns } from './mapping'
 
@@ -94,10 +92,7 @@ export default {
     },
     onClick() {
       this.show = true
-    },
-  },
-  components: {
-    PassWordDialog
+    }
   }
 }
 </script>

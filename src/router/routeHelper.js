@@ -1,6 +1,13 @@
-import LayoutMap, { Layout, getParentLayout } from '@/router/constant'
+import { Layout, Blank, getParentLayout } from '@/router/constant'
 import { cloneDeep, omit } from 'lodash-es'
 import { createRouter } from '@/router'
+import { treeMap } from '@/utils/treeHelper'
+import { joinParentPath } from '@/router/menuHelper'
+
+const LayoutMap = new Map()
+
+LayoutMap.set('LAYOUT', Layout)
+LayoutMap.set('BLANK', Blank)
 
 let dynamicViewsModules
 
@@ -8,6 +15,9 @@ export function asyncImportRoute(routes) {
   dynamicViewsModules = import.meta.glob('../views/**/*.{vue,jsx,tsx}')
   if (!routes) return
   routes.forEach((item) => {
+    if (!item.component) {
+      item.component = 'Blank'
+    }
     const { component, name } = item
     const { children } = item
     if (component) {
@@ -125,31 +135,25 @@ function addToChildren(routes, children, routeModule) {
 }
 
 // 递归清洗后端数据
-export function routerGenerator(routerMap, parent) {
-  return routerMap.map((item) => {
-    const currentRouter = {
-      path: item.path,
-      component: item.component,
-      meta: {
-        title: item.title,
-        icon: item.icon
+export function routerGenerator(routerMap) {
+  // 提取树指定结构
+  const list = treeMap(routerMap, {
+    conversion: (node) => {
+      let redirect
+      if (node.children && node.children.length > 0) {
+        //如果未定义 redirect 默认第一个子路由为 redirect
+        redirect = node.children[0].path
+      }
+
+      return {
+        ...node,
+        redirect
       }
     }
-    // 为了防止出现后端返回结果不规范，处理有可能出现拼接出两个 反斜杠
-    currentRouter.path = currentRouter.path.replace('//', '/')
-    // 重定向
-    item.redirect && (currentRouter.redirect = item.redirect)
-
-    // 是否有子菜单，并递归处理
-    if (item.children && item.children.length > 0) {
-      //如果未定义 redirect 默认第一个子路由为 redirect
-      !item.redirect && (currentRouter.redirect = `${item.children[0].path}`)
-      // Recursion
-      currentRouter.children = routerGenerator(item.children, currentRouter)
-    }
-
-    return currentRouter
   })
+
+  joinParentPath(list)
+  return cloneDeep(list)
 }
 
 // 后端数据转路由

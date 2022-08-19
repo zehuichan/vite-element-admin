@@ -4,7 +4,9 @@ export const PARENT_LAYOUT_NAME = 'ParentLayout'
 
 export const PAGE_NOT_FOUND_NAME = 'PageNotFound'
 
-export const Layout = () => import('@/layout/index.vue')
+export const Blank = () => import('@/layouts/blank/index.vue')
+
+export const Layout = () => import('@/layouts/default/index.vue')
 
 export const getParentLayout = (_name) => {
   return () =>
@@ -14,9 +16,3 @@ export const getParentLayout = (_name) => {
       })
     })
 }
-
-const LayoutMap = new Map()
-
-LayoutMap.set('LAYOUT', Layout)
-
-export default LayoutMap

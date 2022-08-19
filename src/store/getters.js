@@ -11,13 +11,11 @@ const getters = {
   // user
   token: state => state.user.token,
   userInfo: state => state.user.userInfo,
-  roleList: state => state.user.roleList,
 
   // permission
-  menus: state => state.permission.menus,
-
-  // errorLog
-  errorLogs: state => state.errorLog.logs
+  getIsDynamicAddedRoute: state => state.permission.isDynamicAddedRoute,
+  routes: state => state.permission.routes,
+  menus: state => state.permission.menus
 }
 
 export default getters

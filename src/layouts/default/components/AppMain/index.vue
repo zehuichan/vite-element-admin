@@ -7,7 +7,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   name: 'AppMain',
   computed: {
     include() {
@@ -17,7 +19,7 @@ export default {
       return this.$route.path
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -42,15 +44,6 @@ export default {
 
   .fixed-header + .app-main {
     padding-top: 92px;
-  }
-}
-</style>
-
-<style lang="scss">
-// fix css style bug in open el-dialog
-.el-popup-parent--hidden {
-  .fixed-header {
-    padding-right: 15px;
   }
 }
 </style>

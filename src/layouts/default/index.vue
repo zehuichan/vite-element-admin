@@ -16,12 +16,13 @@
 </template>
 
 <script>
-// vuex
 import { mapState } from 'vuex'
-// components
-import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
+import AppMain from './components/AppMain/index.vue'
+import Navbar from './components/Navbar/index.vue'
+import Settings from './components/Settings/index.vue'
+import Sidebar from './components/Sidebar/index.vue'
+import TagsView from './components/TagsView/index.vue'
 import RightPanel from '@/components/RightPanel/index.vue'
-// mixin
 import ResizeMixin from './mixin/ResizeHandler'
 
 export default {

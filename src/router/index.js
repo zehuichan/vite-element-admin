@@ -1,4 +1,4 @@
-import Vue, { getCurrentInstance, shallowRef } from 'vue'
+import Vue, { getCurrentInstance } from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
 
@@ -55,31 +55,19 @@ export const RedirectRoute = {
   ]
 }
 
+export const ErrorPageRoute = {
+  path: '/404',
+  component: () => import('@/views/error-page/404.vue'),
+  hidden: true
+}
+
+export const PageNotFoundRoute = { path: '*', redirect: '/404', hidden: true }
+
 export const constantRoutes = [
   RootRoute,
   LoginRoute,
   RedirectRoute,
-  {
-    path: '/401',
-    component: () => import('@/views/error-page/401.vue')
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/error-page/404.vue')
-  },
-  {
-    path: '/500',
-    component: () => import('@/views/error-page/500.vue')
-  }
-]
-
-/**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
- */
-export const asyncRoutes = [
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  ErrorPageRoute
 ]
 
 export function createRouter(routes = constantRoutes) {
@@ -104,34 +92,14 @@ export const getMenus = () => {
 
 export function useRouter() {
   const vm = getCurrentInstance()
-
-  if (vm) {
-    return router
-  }
-
-  console.warn('请在 setup 中调用。')
-
-  return undefined
+  if (!vm) throw new Error('useRouter must be called in a Vue instance')
+  return vm.proxy.$router
 }
 
 export function useRoute() {
-  const currentRoute = shallowRef()
-  if (!currentRoute.value) {
-    const vm = getCurrentInstance()
-
-    if (!vm) {
-      console.warn('请在 setup 中调用。')
-      return
-    }
-
-    currentRoute.value = vm.proxy.$route
-
-    // 每次路由切换时，更新 route 参数
-    const router = useRouter()
-    router.afterEach((to) => (currentRoute.value = to))
-  }
-
-  return currentRoute
+  const vm = getCurrentInstance()
+  if (!vm) throw new Error('useRoute must be called in a Vue instance')
+  return vm.proxy.$route
 }
 
 export default router

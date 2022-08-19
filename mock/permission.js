@@ -65,16 +65,15 @@ const menu = [
   {
     path: '/upms',
     component: 'LAYOUT',
-    redirect: '/upms/account',
     meta: {
       title: '权限管理',
       icon: 'el-icon-setting'
     },
     children: [
       {
-        path: '/upms/account',
-        component: '/upms/account/index',
-        name: 'Account',
+        path: '/upms/user',
+        component: '/upms/user/index',
+        name: 'User',
         meta: { title: '用户管理' }
       },
       {
@@ -98,12 +97,21 @@ const menu = [
     ]
   },
   {
-    path: 'https://github.com/zehuichan',
-    name: 'Github',
+    path: '/link',
+    component: 'LAYOUT',
     meta: {
-      title: 'Github',
-      icon: 'el-icon-odometer'
-    }
+      single: true
+    },
+    children: [
+      {
+        path: 'https://github.com/zehuichan',
+        name: 'Github',
+        meta: {
+          title: 'Github',
+          icon: 'el-icon-link'
+        }
+      }
+    ]
   }
 ]
 

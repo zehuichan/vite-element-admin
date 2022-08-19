@@ -28,7 +28,7 @@ export default [
     url: '/user/login',
     method: 'post',
     response: (config) => {
-      return resultSuccess({ token })
+      return resultSuccess(user)
     }
   },
 

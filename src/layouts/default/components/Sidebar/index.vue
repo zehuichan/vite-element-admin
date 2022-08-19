@@ -18,51 +18,57 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { computed, defineComponent } from 'vue'
+
+import { useStore } from '@/store'
+import { useRoute, useRouter } from '@/router'
+
 import Logo from './Logo.vue'
 import MenuItem from './Item.vue'
-import { isUrl } from '@/utils/is'
 
 import defaultSettings from '@/settings'
+import { isUrl } from '@/utils/is'
 
-export default {
+export default defineComponent({
   components: {
     Logo,
     MenuItem
   },
-  computed: {
-    ...mapGetters([
-      'menus',
-      'sidebar'
-    ]),
-    activeMenu() {
-      const route = this.$route
+  setup() {
+    const store = useStore()
+    const router = useRouter()
+    const route = useRoute()
+
+    const showLogo = computed(() => store.state.settings.sidebarLogo)
+    const isCollapse = computed(() => !store.getters.sidebar.opened)
+    const activeMenu = computed(() => {
       const { meta, path } = route
       // if set path, the sidebar will highlight the path you set
-      if (meta.activeMenu) {
-        return meta.activeMenu
+      if (meta.currentActiveMenu) {
+        return meta.currentActiveMenu
       }
       return path
-    },
-    showLogo() {
-      return this.$store.state.settings.sidebarLogo
-    },
-    variables() {
-      return defaultSettings.sidebar
-    },
-    isCollapse() {
-      return !this.sidebar.opened
-    }
-  },
-  methods: {
-    onSelect(index) {
-      if (index === this.activeMenu) return
+    })
+    const variables = computed(() => defaultSettings.sidebar)
+    const menus = computed(() => store.getters.menus)
+
+    function onSelect(index) {
+      if (index === activeMenu.value) return
       if (isUrl(index)) {
         window.open(index)
       } else {
-        this.$router.push(index)
+        router.push(index)
       }
     }
+
+    return {
+      showLogo,
+      isCollapse,
+      activeMenu,
+      variables,
+      menus,
+      onSelect
+    }
   }
-}
+})
 </script>
