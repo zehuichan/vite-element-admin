@@ -1,8 +1,8 @@
 <template>
   <el-dropdown class="navbar-action__item avatar-container" trigger="click">
     <div class="avatar-wrapper">
-      <img :src="userInfo.avatar" class="user-avatar" alt="">
-      <span class="user-name">{{ userInfo.username }}</span>
+      <img :src="userInfo?.avatar" class="user-avatar" alt="">
+      <span class="user-name">{{ userInfo?.username }}</span>
     </div>
     <template #dropdown>
       <el-dropdown-menu class="user-dropdown">

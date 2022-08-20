@@ -2,8 +2,11 @@
   <el-form ref="formElRef" :model="formModel" v-bind="getBindValue">
     <el-row v-bind="getRow">
       <template v-for="schema in getSchema">
-        {{ schema }}
-        <v-form-item></v-form-item>
+        <v-form-item
+          :schema="schema"
+          :formModel="formModel"
+          :setFormModel="setFormModel"
+        ></v-form-item>
       </template>
     </el-row>
   </el-form>
@@ -18,7 +21,7 @@ import VFormItem from './components/VFormItem.vue'
 export default defineComponent({
   name: 'VForm',
   inheritAttrs: false,
-  components:{
+  components: {
     VFormItem
   },
   props: {
@@ -65,6 +68,11 @@ export default defineComponent({
       propsRef.value = deepMerge(unref(propsRef) || {}, formProps)
     }
 
+    function setFormModel(key, value) {
+      formModel[key] = value
+      emit('field-value-change', key, value)
+    }
+
     const formAction = {
       setProps,
       validate,
@@ -85,7 +93,8 @@ export default defineComponent({
       getRow,
       getProps,
       formElRef,
-      formAction: formAction,
+      formAction,
+      setFormModel,
 
       ...formAction
     }

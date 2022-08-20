@@ -4,7 +4,7 @@
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         mode="vertical"
-        :default-active="activeMenu"
+        :default-active="defaultActive"
         :collapse="isCollapse"
         :background-color="variables.backgroundColor"
         :text-color="variables.textColor"
@@ -41,7 +41,7 @@ export default defineComponent({
 
     const showLogo = computed(() => store.state.settings.sidebarLogo)
     const isCollapse = computed(() => !store.getters.sidebar.opened)
-    const activeMenu = computed(() => {
+    const defaultActive = computed(() => {
       const { meta, path } = route
       // if set path, the sidebar will highlight the path you set
       if (meta.currentActiveMenu) {
@@ -53,7 +53,7 @@ export default defineComponent({
     const menus = computed(() => store.getters.menus)
 
     function onSelect(index) {
-      if (index === activeMenu.value) return
+      if (index === defaultActive.value) return
       if (isUrl(index)) {
         window.open(index)
       } else {
@@ -64,7 +64,7 @@ export default defineComponent({
     return {
       showLogo,
       isCollapse,
-      activeMenu,
+      defaultActive,
       variables,
       menus,
       onSelect

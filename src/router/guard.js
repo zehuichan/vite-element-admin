@@ -1,15 +1,32 @@
 import { useTitle } from '@vueuse/core'
 import { useNProgress } from '@vueuse/integrations/useNProgress'
 import 'nprogress/nprogress.css'
-import store from '@/store'
+
 import { PageNotFoundRoute } from '@/router'
+import { LOGIN_NAME } from '@/router/constant'
+
+import store from '@/store'
 
 // no redirect whitelist
 const whiteList = ['/login', '/auth-redirect']
 
 export function setupGuard(router) {
-  createPermissionGuard(router)
   createProgressGuard(router)
+  createPermissionGuard(router)
+  createStateGuard(router)
+}
+
+export function createProgressGuard(router) {
+  const { isLoading } = useNProgress(null, { showSpinner: false })
+
+  router.beforeEach((to, from, next) => {
+    isLoading.value = true
+    next()
+  })
+
+  router.afterEach(() => {
+    isLoading.value = false
+  })
 }
 
 export function createPermissionGuard(router) {
@@ -38,13 +55,13 @@ export function createPermissionGuard(router) {
             })
             // 404
             router.addRoute(PageNotFoundRoute)
+            console.log(routes)
+
+            await store.dispatch('permission/setDynamicAddedRoute', true)
 
             const redirectPath = from.query.redirect || to.path
             const redirect = decodeURIComponent(redirectPath)
             const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect }
-
-            await store.dispatch('permission/setDynamicAddedRoute', true)
-
             next(nextData)
           } catch (e) {
             console.log(e)
@@ -63,13 +80,10 @@ export function createPermissionGuard(router) {
   })
 }
 
-export function createProgressGuard(router) {
-  const { isLoading } = useNProgress(null, { showSpinner: false })
-  router.beforeEach((to, from, next) => {
-    isLoading.value = true
-    next()
-  })
-  router.afterEach(() => {
-    isLoading.value = false
+export function createStateGuard(router) {
+  router.afterEach((to) => {
+    if (to.name === LOGIN_NAME) {
+      store.dispatch('user/resetState')
+    }
   })
 }

@@ -1,8 +1,8 @@
-import cache from '@/utils/cache'
+import { Cache } from '@/utils/cache'
 
 const state = {
   sidebar: {
-    opened: cache.getItem('sidebarStatus') ? !!+cache.getItem('sidebarStatus') : true,
+    opened: Cache.getItem('sidebarStatus') ? !!+Cache.getItem('sidebarStatus') : true,
     withoutAnimation: false
   },
   // 设备
@@ -16,18 +16,18 @@ const mutations = {
     state.sidebar.opened = !state.sidebar.opened
     state.sidebar.withoutAnimation = false
     if (state.sidebar.opened) {
-      cache.setItem('sidebarStatus', 1)
+      Cache.setItem('sidebarStatus', 1)
     } else {
-      cache.setItem('sidebarStatus', 0)
+      Cache.setItem('sidebarStatus', 0)
     }
   },
   CLOSE_SIDEBAR: (state, withoutAnimation) => {
-    cache.setItem('sidebarStatus', 0)
+    Cache.setItem('sidebarStatus', 0)
     state.sidebar.opened = false
     state.sidebar.withoutAnimation = withoutAnimation
   },
   OPEN_SIDEBAR: (state, withoutAnimation) => {
-    cache.setItem('sidebarStatus', 1)
+    Cache.setItem('sidebarStatus', 1)
     state.sidebar.opened = true
     state.sidebar.withoutAnimation = withoutAnimation
   },

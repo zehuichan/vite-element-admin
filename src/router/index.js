@@ -1,6 +1,5 @@
-import Vue, { getCurrentInstance } from 'vue'
+import Vue, { effectScope, getCurrentInstance, reactive } from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store'
 
 import { Layout } from './constant'
 
@@ -86,20 +85,30 @@ export function resetRouter() {
   router.matcher = newRouter.matcher // reset router
 }
 
-export const getMenus = () => {
-  return store.getters.menus.filter((item) => !item.meta?.hideMenu && !item.hideMenu)
-}
-
 export function useRouter() {
   const vm = getCurrentInstance()
-  if (!vm) throw new Error('useRouter must be called in a Vue instance')
-  return vm.proxy.$router
+  if (vm) {
+    return vm.proxy.$router
+  }
+  return undefined
 }
+
+let currentRoute
 
 export function useRoute() {
   const vm = getCurrentInstance()
-  if (!vm) throw new Error('useRoute must be called in a Vue instance')
-  return vm.proxy.$route
+  if (!vm) return undefined
+  if (!currentRoute) {
+    const scope = effectScope(true)
+    scope.run(() => {
+      const { $router } = vm.proxy
+      currentRoute = reactive(Object.assign({}, $router.currentRoute))
+      $router.afterEach(to => {
+        Object.assign(currentRoute, to)
+      })
+    })
+  }
+  return currentRoute
 }
 
 export default router

@@ -1,3 +1,5 @@
+export const LOGIN_NAME = 'Login'
+
 export const REDIRECT_NAME = 'Redirect'
 
 export const PARENT_LAYOUT_NAME = 'ParentLayout'
@@ -12,7 +14,7 @@ export const getParentLayout = (_name) => {
   return () =>
     new Promise((resolve) => {
       resolve({
-        name: 'ParentLayout'
+        name: PARENT_LAYOUT_NAME
       })
     })
 }

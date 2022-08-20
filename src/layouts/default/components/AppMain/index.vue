@@ -22,7 +22,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .app-main {
   /*50 = navbar  */
   min-height: calc(100vh - 50px);

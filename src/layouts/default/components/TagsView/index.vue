@@ -133,7 +133,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .tags-view-container {
   height: 42px;
   width: 100%;

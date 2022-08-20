@@ -16,7 +16,7 @@
 <script>
 import { computed, defineComponent, unref } from 'vue'
 import { useStore } from '@/store'
-import { useRouter } from '@/router'
+import { useRoute } from '@/router'
 
 import { compile } from 'path-to-regexp'
 
@@ -30,16 +30,16 @@ export default defineComponent({
   setup() {
     const store = useStore()
 
-    const { currentRoute } = useRouter()
+    const route = useRoute()
 
     const routes = computed(() => {
-      if (currentRoute.name === REDIRECT_NAME) return []
+      if (route.name === REDIRECT_NAME) return []
 
       const menus = store.getters.menus
 
-      const routeMatched = currentRoute.matched
+      const routeMatched = route.matched
       const cur = routeMatched?.[routeMatched.length - 1]
-      let { path } = currentRoute
+      let { path } = route
 
       if (cur && cur?.meta?.currentActiveMenu) {
         path = cur.meta.currentActiveMenu
@@ -53,10 +53,10 @@ export default defineComponent({
 
       const breadcrumbList = filterItem(matched)
 
-      if (currentRoute.meta?.currentActiveMenu) {
+      if (route.meta?.currentActiveMenu) {
         breadcrumbList.push({
-          ...currentRoute,
-          name: currentRoute.meta?.title || currentRoute.name
+          ...route,
+          name: route.meta?.title || route.name
         })
       }
 
@@ -116,7 +116,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .app-breadcrumb.el-breadcrumb {
   display: inline-block;
   font-size: 14px;

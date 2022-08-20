@@ -57,7 +57,6 @@ const actions = {
         routeList = flatMultiLevelRoutes(routeList)
         commit('SET_ROUTES', routeList)
 
-        console.log(routeList)
         resolve(routeList)
       })
     })

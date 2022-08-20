@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <el-menu-item v-if="!hasMultiChild(item) && getShowMenu" :index="item.path">
+  <el-menu-item v-if="!hasMultiChild(item) && getShowMenu" :index="item.path">
+    <i v-if="item.meta?.icon" class="svg-icon" :class="item.meta.icon" />
+    <template #title>
+      <span>{{ item.meta?.title }}</span>
+    </template>
+  </el-menu-item>
+  <el-submenu v-else-if="hasMultiChild(item) && getShowMenu" :index="item.path">
+    <template #title>
       <i v-if="item.meta?.icon" class="svg-icon" :class="item.meta.icon" />
-      <template #title>
-        <span>{{ item.meta?.title }}</span>
-      </template>
-    </el-menu-item>
-    <el-submenu v-if="hasMultiChild(item) && getShowMenu" :index="item.path">
-      <template #title>
-        <i v-if="item.meta?.icon" class="svg-icon" :class="item.meta.icon" />
-        <span>{{ item.meta?.title }}</span>
-      </template>
-      <menu-item v-for="sub in item.children || []" :key="sub.path" :item="sub" />
-    </el-submenu>
-  </div>
+      <span>{{ item.meta?.title }}</span>
+    </template>
+    <menu-item v-for="sub in item.children || []" :key="sub.path" :item="sub" />
+  </el-submenu>
 </template>
 
 <script>

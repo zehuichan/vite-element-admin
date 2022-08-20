@@ -4,7 +4,6 @@
       <code>Dashboard</code>
     </div>
     <div class="app-container">
-      <el-button @click="setProps({ labelWidth: 150 })" class="mr-2"> 更改labelWidth</el-button>
       <v-form ref="formEl" :schemas="schemas" />
     </div>
   </div>

@@ -1,20 +1,20 @@
 import { login } from '@/api/user'
-import cache, { TOKEN_KEY, USER_INFO_KEY } from '@/utils/cache'
+import { Cache, TOKEN_KEY, USER_INFO_KEY } from '@/utils/cache'
 
 const state = {
-  token: cache.getItem(TOKEN_KEY),
-  userInfo: cache.getItem(USER_INFO_KEY),
+  token: Cache.getItem(TOKEN_KEY),
+  userInfo: Cache.getItem(USER_INFO_KEY),
   lastUpdateTime: 0
 }
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
-    cache.setItem(TOKEN_KEY, token)
+    Cache.setItem(TOKEN_KEY, token)
   },
   SET_USER_INFO: (state, info) => {
     state.userInfo = info
-    cache.setItem(USER_INFO_KEY, info)
+    Cache.setItem(USER_INFO_KEY, info)
     state.lastUpdateTime = new Date().getTime()
   }
 }
@@ -45,7 +45,7 @@ const actions = {
   },
 
   // remove token
-  resetToken({ commit }) {
+  resetState({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', undefined)
       commit('SET_USER_INFO', null)

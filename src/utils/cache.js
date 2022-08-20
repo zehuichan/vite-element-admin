@@ -5,48 +5,43 @@ export const USER_INFO_KEY = 'USER__INFO__'
 // role info key
 export const ROLES_KEY = 'ROLES__KEY__'
 // tags view key
-export const TAGS_ROUTES_KEY = 'TAGS__ROUTES__KEY__'
+export const MULTIPLE_TABS_KEY = 'MULTIPLE_TABS__KEY__'
 
-class Cache {
-  setItem(key, value) {
-    try {
-      localStorage.setItem(key, JSON.stringify(value))
-    } catch (e) {
-      console.log(e)
+// 默认缓存期限为7天
+const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 7
+
+export class Cache {
+  static setItem(key, value, expire = DEFAULT_CACHE_TIME) {
+    const stringData = JSON.stringify({
+      value,
+      expire: expire !== null ? new Date().getTime() + expire * 1000 : null
+    })
+    localStorage.setItem(key, stringData)
+  }
+
+  static getItem(key, def = null) {
+    const item = localStorage.getItem(key)
+    if (item) {
+      try {
+        const data = JSON.parse(item)
+        const { value, expire } = data
+        // 在有效期内直接返回
+        if (expire === null || expire >= Date.now()) {
+          return value
+        }
+        this.removeItem(key)
+      } catch (e) {
+        return def
+      }
     }
+    return def
   }
 
-  getItem(key) {
-    try {
-      return JSON.parse(localStorage.getItem(key))
-    } catch (e) {
-      return ''
-    }
+  static removeItem(key) {
+    localStorage.removeItem(key)
   }
 
-  removeItem(key) {
-    return localStorage.removeItem(key)
-  }
-
-  setSession(key, value) {
-    try {
-      sessionStorage.setItem(key, JSON.stringify(value))
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  getSession(key) {
-    try {
-      return JSON.parse(sessionStorage.getItem(key))
-    } catch (e) {
-      return ''
-    }
-  }
-
-  removeSession(key) {
-    return sessionStorage.removeItem(key)
+  static clear() {
+    localStorage.clear()
   }
 }
-
-export default new Cache()

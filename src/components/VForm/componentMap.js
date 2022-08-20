@@ -1,30 +1,16 @@
-import {
-  ElInput,
-  ElInputNumber,
-  ElCascader,
-  ElDatePicker,
-  ElTimePicker,
-  ElTimeSelect,
-  ElSwitch,
-  ElUpload,
-  ElSlider,
-  ElRate,
-  ElDivider
-} from 'element-ui'
-
 const componentMap = new Map()
 
-componentMap.set('Input', ElInput)
-componentMap.set('InputNumber', ElInputNumber)
-componentMap.set('Cascader', ElCascader)
-componentMap.set('DatePicker', ElDatePicker)
-componentMap.set('TimePicker', ElTimePicker)
-componentMap.set('TimeSelect', ElTimeSelect)
-componentMap.set('Switch', ElSwitch)
-componentMap.set('Upload', ElUpload)
-componentMap.set('Slider', ElSlider)
-componentMap.set('Rate', ElRate)
-componentMap.set('Divider', ElDivider)
+componentMap.set('Input', 'el-input')
+componentMap.set('InputNumber', 'el-input-number')
+componentMap.set('Cascader', 'el-cascader')
+componentMap.set('DatePicker', 'el-date-picker')
+componentMap.set('TimePicker', 'el-time-picker')
+componentMap.set('TimeSelect', 'el-time-select')
+componentMap.set('Switch', 'el-switch')
+componentMap.set('Upload', 'el-upload')
+componentMap.set('Slider', 'el-slider')
+componentMap.set('Rate', 'el-rate')
+componentMap.set('Divider', 'el-divider')
 
 export function add(compName, component) {
   componentMap.set(compName, component)
