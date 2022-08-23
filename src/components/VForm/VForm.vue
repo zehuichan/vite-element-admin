@@ -17,7 +17,7 @@
           :formModel="formModel"
           v-model="formModel[schema.field]"
         >
-          <template v-for="item in Object.keys($scopedSlots)" v-slot:[item]="data">
+          <template v-for="item in Object.keys($scopedSlots)" #[item]="data">
             <slot :name="item" v-bind="data || {}"></slot>
           </template>
         </v-form-item>
