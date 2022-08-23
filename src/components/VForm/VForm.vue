@@ -1,31 +1,55 @@
 <template>
-  <el-form ref="formElRef" :model="formModel" v-bind="getBindValue">
+  <el-form
+    ref="formElRef"
+    :model="formModel"
+    :label-position="labelPosition"
+    :label-width="labelWidth"
+    v-bind="getBindValue"
+    @keyup.enter.native="handleEnterPress"
+  >
     <el-row v-bind="getRow">
+      <slot name="formHeader"></slot>
       <template v-for="schema in getSchema">
         <v-form-item
           :schema="schema"
+          :formProps="getProps"
+          :allDefaultValues="defaultValueRef"
           :formModel="formModel"
-          :setFormModel="setFormModel"
-        ></v-form-item>
+          v-model="formModel[schema.field]"
+        >
+          <template v-for="item in Object.keys($scopedSlots)" v-slot:[item]="data">
+            <slot :name="item" v-bind="data || {}"></slot>
+          </template>
+        </v-form-item>
       </template>
+      <slot name="formFooter"></slot>
     </el-row>
   </el-form>
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, reactive, ref, unref } from 'vue'
+import { computed, defineComponent, onMounted, reactive, ref, unref, watch } from 'vue'
+
+import { useFormValues } from './hooks/useFormValues'
 import { useFormEvents } from './hooks/useFormEvents'
-import { deepMerge } from '@/utils'
+
 import VFormItem from './components/VFormItem.vue'
 
 export default defineComponent({
   name: 'VForm',
-  inheritAttrs: false,
   components: {
     VFormItem
   },
+  inheritAttrs: false,
   props: {
-    model: Object,
+    value: {
+      type: Object,
+      default: () => ({})
+    },
+    labelPosition: {
+      type: String,
+      default: 'right'
+    },
     labelWidth: {
       type: [Number, String],
       default: '80px'
@@ -34,17 +58,28 @@ export default defineComponent({
     schemas: {
       type: [Array],
       default: () => []
+    },
+    autoSubmitOnEnter: {
+      type: Boolean,
+      default: false
+    },
+    autoSetPlaceHolder: {
+      type: Boolean,
+      default: true
     }
   },
-  emits: ['register'],
+  emits: ['register', 'input'],
   setup(props, { attrs, emit }) {
-    const formModel = reactive({})
+    const formModel = reactive(Object.assign({}, props.value))
 
+    const defaultValueRef = ref({})
     const propsRef = ref({})
     const schemaRef = ref(null)
     const formElRef = ref(null)
 
-    const getProps = computed(() => ({ ...props, ...unref(propsRef) }))
+    const getProps = computed(() => {
+      return { ...props, ...unref(propsRef) }
+    })
     // Get uniform row style and Row configuration for the entire form
     const getRow = computed(() => {
       const { baseRowStyle = {}, rowProps } = unref(getProps)
@@ -53,25 +88,41 @@ export default defineComponent({
         ...rowProps
       }
     })
-    const getBindValue = computed(() => ({ ...attrs, ...props, ...unref(getProps) }))
+    const getBindValue = computed(() => {
+      return { ...attrs, ...props, ...unref(getProps) }
+    })
 
     const getSchema = computed(() => {
       return unref(schemaRef) || unref(getProps).schemas
     })
 
+    const { initDefault } = useFormValues({ defaultValueRef, getSchema, formModel })
+
     const { validate, resetFields, clearValidate, scrollToField, validateField } = useFormEvents({
-      propsRef,
-      formElRef: formElRef
+      getProps,
+      formModel,
+      getSchema,
+      defaultValueRef,
+      formElRef,
+      schemaRef
     })
 
     async function setProps(formProps) {
-      propsRef.value = deepMerge(unref(propsRef) || {}, formProps)
+      propsRef.value = Object.assign({}, unref(propsRef), formProps)
     }
 
     function setFormModel(key, value) {
       formModel[key] = value
       emit('field-value-change', key, value)
     }
+
+    watch(
+      formModel,
+      (value) => {
+        emit('input', value)
+      },
+      { immediate: true, deep: true }
+    )
 
     const formAction = {
       setProps,
@@ -82,13 +133,27 @@ export default defineComponent({
       validateField
     }
 
+    function handleEnterPress(e) {
+      const { autoSubmitOnEnter } = unref(getProps)
+      if (!autoSubmitOnEnter) return
+      if (e.key === 'Enter' && e.target && e.target instanceof HTMLElement) {
+        const target = e.target
+        if (target && target.tagName && target.tagName.toUpperCase() == 'INPUT') {
+          console.log('submit')
+        }
+      }
+    }
+
     onMounted(() => {
+      initDefault()
       emit('register', formAction)
     })
 
     return {
       getBindValue,
       formModel,
+      defaultValueRef,
+      propsRef,
       getSchema,
       getRow,
       getProps,
@@ -96,6 +161,7 @@ export default defineComponent({
       formAction,
       setFormModel,
 
+      handleEnterPress,
       ...formAction
     }
   }

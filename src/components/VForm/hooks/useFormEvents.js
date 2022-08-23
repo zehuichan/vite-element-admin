@@ -1,7 +1,27 @@
 import { nextTick, unref } from 'vue'
+import { isDef } from '@/utils/is'
+import { cloneDeep } from 'lodash-es'
 
+export function useFormEvents({ formModel, getSchema, defaultValueRef, formElRef, schemaRef }) {
+  /**
+   * @description: Set form value
+   */
+  async function setFieldsValue(values) {
+    const fields = unref(getSchema)
+      .map((item) => item.field)
+      .filter(Boolean)
 
-export function useFormEvents({ formElRef }) {
+    Object.keys(values).forEach((key) => {
+      let value = values[key]
+
+      const hasKey = Reflect.has(values, key)
+
+      if (hasKey && fields.includes(key)) {
+        formModel[key] = cloneDeep(defaultValueRef.value[key]) || value
+      }
+    })
+  }
+
   async function resetFields() {
     await unref(formElRef).resetFields()
     nextTick(() => clearValidate())
@@ -15,10 +35,7 @@ export function useFormEvents({ formElRef }) {
     return await unref(formElRef).validate(callback)
   }
 
-  async function validateField(
-    prop,
-    callback
-  ) {
+  async function validateField(prop, callback) {
     return await unref(formElRef).validateField(prop, callback)
   }
 
@@ -26,5 +43,5 @@ export function useFormEvents({ formElRef }) {
     return await unref(formElRef).scrollToField(prop)
   }
 
-  return { resetFields, clearValidate, validate, validateField, scrollToField }
+  return { setFieldsValue, resetFields, clearValidate, validate, validateField, scrollToField }
 }

@@ -1,17 +1,25 @@
-import { nextTick, unref } from 'vue'
+import { unref } from 'vue'
+import { cloneDeep } from 'lodash-es'
+import { isNullOrUnDef } from '@/utils/is'
 
-export function useFormValues({ defaultValueRef, getSchema, propsRef }) {
+export function useFormValues({ defaultValueRef, getSchema, formModel }) {
 
-  async function initDefault() {
-    await nextTick()
+  function initDefault() {
     const schemas = unref(getSchema)
-    const formModel = unref(propsRef).model
-    if (formModel) {
-      schemas.forEach((item) => {
-        const key = item.field
-        defaultValueRef[item.field] = formModel[key]
-      })
-    }
+    const obj = {}
+    schemas.forEach((item) => {
+      const { defaultValue } = item
+      if (!isNullOrUnDef(defaultValue)) {
+        obj[item.field] = defaultValue
+
+        if (formModel[item.field] === undefined) {
+          formModel[item.field] = defaultValue
+        } else {
+          formModel[item.field] = null
+        }
+      }
+    })
+    defaultValueRef.value = cloneDeep(obj)
   }
 
   return {

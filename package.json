@@ -23,7 +23,7 @@
     "nprogress": "^0.2.0",
     "path-to-regexp": "6.2.1",
     "qrcode": "^1.5.1",
-    "vue": "^2.7.9",
+    "vue": "^2.7.10",
     "vue-i18n": "^8.24.3",
     "vue-router": "^3.2.0",
     "vuex": "^3.6.2",
@@ -32,7 +32,7 @@
   "devDependencies": {
     "@vitejs/plugin-legacy": "^2.0.0",
     "@vitejs/plugin-vue2": "^1.1.2",
-    "@vitejs/plugin-vue2-jsx": "^1.0.2",
+    "@vitejs/plugin-vue2-jsx": "^1.0.3",
     "autoprefixer": "^10.4.7",
     "mockjs": "^1.1.0",
     "release-it": "^14.6.1",
