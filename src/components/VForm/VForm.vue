@@ -4,7 +4,7 @@
     :model="formModel"
     :label-position="labelPosition"
     :label-width="labelWidth"
-    v-bind="getBindValue"
+    v-bind="propsRef"
     @keyup.enter.native="handleEnterPress"
   >
     <el-row v-bind="getRow">
@@ -59,6 +59,8 @@ export default defineComponent({
       type: [Array],
       default: () => []
     },
+    size: String,
+    disabled: Boolean,
     autoSubmitOnEnter: {
       type: Boolean,
       default: false
@@ -68,7 +70,7 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ['register', 'input'],
+  emits: ['register', 'input', 'field-value-change'],
   setup(props, { attrs, emit }) {
     const formModel = reactive(Object.assign({}, props.value))
 

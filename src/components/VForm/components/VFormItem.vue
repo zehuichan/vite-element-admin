@@ -120,9 +120,6 @@ export default defineComponent({
         propsData.placeholder = unref(getComponentsProps)?.placeholder || label
       }
 
-      propsData.codeField = field
-      propsData.formValues = unref(getValues)
-
       const bindValue = {
         value: props.formModel[field]
       }
