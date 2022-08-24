@@ -3,19 +3,16 @@ const state = {
 }
 
 const mutations = {
-  INIT_VIEWS: (state, routes) => {
-    state.visitedViews = routes
-  },
+  // 添加标签页
   ADD_VIEW: (state, route) => {
-    // 添加标签页
     const isExists = state.visitedViews.some(
       (item) => item.fullPath == route.fullPath
     )
     if (isExists) return
     state.visitedViews.push(route)
   },
+  // 关闭左侧
   CLOSE_LEFT_VIEWS: (state, route) => {
-    // 关闭左侧
     const index = state.visitedViews.findIndex(
       (item) => item.fullPath == route.fullPath
     )
@@ -23,8 +20,8 @@ const mutations = {
       (item, i) => i >= index || (item?.meta?.affix ?? false)
     )
   },
+  // 关闭右侧
   CLOSE_RIGHT_VIEWS: (state, route) => {
-    // 关闭右侧
     const index = state.visitedViews.findIndex(
       (item) => item.fullPath == route.fullPath
     )
@@ -32,22 +29,22 @@ const mutations = {
       (item, i) => i <= index || (item?.meta?.affix ?? false)
     )
   },
+  // 关闭其他
   CLOSE_OTHER_VIEWS: (state, route) => {
-    // 关闭其他
     state.visitedViews = state.visitedViews.filter(
       (item) =>
         item.fullPath == route.fullPath || (item?.meta?.affix ?? false)
     )
   },
+  // 关闭当前页
   CLOSE_CURRENT_VIEW: (state, route) => {
-    // 关闭当前页
     const index = state.visitedViews.findIndex(
       (item) => item.fullPath == route.fullPath
     )
     state.visitedViews.splice(index, 1)
   },
+  // 关闭所有
   CLOSE_ALL_VIEWS: (state) => {
-    // keep affix tags
     const affixTags = state.visitedViews.filter(
       (tag) => tag?.meta?.affix ?? false
     )
@@ -56,26 +53,38 @@ const mutations = {
 }
 
 const actions = {
-  initViews({ commit }, routes) {
-    commit('INIT_VIEWS', routes)
-  },
   addView({ commit }, route) {
     commit('ADD_VIEW', route)
   },
-  closeLeftTabs({ commit }, route) {
-    commit('CLOSE_LEFT_VIEWS', route)
+  closeLeftTabs({ commit, state }, route) {
+    return new Promise(resolve => {
+      commit('CLOSE_LEFT_VIEWS', route)
+      resolve([...state.visitedViews])
+    })
   },
-  closeRightTabs({ commit }, route) {
-    commit('CLOSE_RIGHT_VIEWS', route)
+  closeRightTabs({ commit, state }, route) {
+    return new Promise(resolve => {
+      commit('CLOSE_RIGHT_VIEWS', route)
+      resolve([...state.visitedViews])
+    })
   },
-  closeOtherTabs({ commit }, route) {
-    commit('CLOSE_OTHER_VIEWS', route)
+  closeOtherTabs({ commit, state }, route) {
+    return new Promise(resolve => {
+      commit('CLOSE_OTHER_VIEWS', route)
+      resolve([...state.visitedViews])
+    })
   },
-  closeCurrentTab({ commit }, route) {
-    commit('CLOSE_CURRENT_VIEW', route)
+  closeCurrentTab({ commit, state }, route) {
+    return new Promise(resolve => {
+      commit('CLOSE_CURRENT_VIEW', route)
+      resolve([...state.visitedViews])
+    })
   },
-  closeAllTabs({ commit }) {
-    commit('CLOSE_ALL_VIEWS')
+  closeAllTabs({ commit, state }) {
+    return new Promise(resolve => {
+      commit('CLOSE_ALL_VIEWS')
+      resolve([...state.visitedViews])
+    })
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div id="tags-view-container" class="tags-view-container">
+  <div ref="tagsView" id="tags-view-container" class="tags-view-container">
     <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
       <div
         v-for="tag in visitedViews"
@@ -10,8 +10,7 @@
         @contextmenu.prevent="handleContextMenu(tag, $event)"
       >
         {{ tag.meta.title }}
-        <span class="el-icon-refresh-right" @click.prevent.stop="refreshSelectedTag(tag)" />
-        <span v-if="!tag.meta.affix" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
+        <span v-if="!tag.meta.affix" class="el-icon-close" @click.stop="closeSelectedTag(tag)" />
       </div>
     </scroll-pane>
     <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
@@ -24,6 +23,10 @@
 </template>
 
 <script>
+import { computed, defineComponent, onMounted, reactive, ref, toRefs, watch } from 'vue'
+import { useRoute, useRouter } from '@/router'
+import { useStore } from '@/store'
+
 import ScrollPane from './ScrollPane.vue'
 
 const whiteList = [
@@ -32,105 +35,187 @@ const whiteList = [
   'ErrorPage'
 ]
 
-export default {
+function getRawRoute(route) {
+  if (!route) return route
+  const { matched, ...opt } = route
+  return {
+    ...opt,
+    matched: matched
+      ? matched.map((item) => ({
+        meta: item.meta,
+        name: item.name,
+        path: item.path
+      }))
+      : undefined
+  }
+}
+
+export default defineComponent({
   components: {
     ScrollPane
   },
-  data() {
-    return {
-      activeKey: this.$route.fullPath,
+  setup() {
+    const store = useStore()
+
+    const router = useRouter()
+    const route = useRoute()
+
+    const tagsView = ref(null)
+
+    const state = reactive({
+      activeKey: route.fullPath,
       visible: false,
       top: 0,
       left: 0,
       selectedTag: {},
       affixTags: []
+    })
+
+    const visitedViews = computed(() => store.state.tagsView.visitedViews)
+    const routes = computed(() => store.state.permission.routes)
+
+    watch(
+      () => route.fullPath,
+      (to) => {
+        if (whiteList.includes(route.name)) return
+        state.activeKey = to
+        addTags()
+      }
+    )
+
+    watch(
+      () => state.visible,
+      (value) => {
+        if (value) {
+          document.body.addEventListener('click', closeMenu)
+        } else {
+          document.body.removeEventListener('click', closeMenu)
+        }
+      }
+    )
+
+    function handleClick(e) {
+      const { fullPath } = e
+      if (fullPath === route.fullPath) return
+      state.activeKey = fullPath
+      router.replace(e)
     }
-  },
-  computed: {
-    visitedViews() {
-      return this.$store.state.tagsView.visitedViews
-    },
-    routes() {
-      return this.$store.state.permission.routes
+
+    function filterAffixTags(routes) {
+      let tags = []
+      routes.forEach(route => {
+        if (route.meta && route.meta.affix) {
+          const tagPath = route.path
+          tags.push({
+            fullPath: tagPath,
+            path: tagPath,
+            name: route.name,
+            meta: { ...route.meta }
+          })
+        }
+        if (route.children) {
+          const tempTags = filterAffixTags(route.children, route.path)
+          if (tempTags.length >= 1) {
+            tags = [...tags, ...tempTags]
+          }
+        }
+      })
+      return tags
     }
-  },
-  watch: {
-    $route: {
-      handler(to) {
-        if (whiteList.includes(this.$route.name)) return
-        this.activeKey = to.fullPath
-        this.$store.dispatch('tagsView/addView', this.$route)
-      },
-      immediate: true
-    },
-    visible(value) {
-      if (value) {
-        document.body.addEventListener('click', this.closeMenu)
-      } else {
-        document.body.removeEventListener('click', this.closeMenu)
+
+    function initTags() {
+      const affixTags = state.affixTags = filterAffixTags(routes.value)
+      for (const tag of affixTags) {
+        // Must have tag name
+        if (tag.name) {
+          store.dispatch('tagsView/addView', getRawRoute(tag))
+        }
       }
     }
-  },
-  methods: {
-    handleClick(e) {
-      const { fullPath } = e
-      if (fullPath === this.$route.fullPath) return
-      this.activeKey = fullPath
-      this.$router.replace(e)
-    },
-    refreshSelectedTag(view) {
+
+    function addTags() {
+      const { name } = route
+      if (name) {
+        store.dispatch('tagsView/addView', getRawRoute(route))
+      }
+      return false
+    }
+
+    function refreshSelectedTag(view) {
       const { fullPath } = view
-      this.$router.push({
+      router.push({
         path: '/redirect' + fullPath
       })
-    },
-    closeSelectedTag(view) {
-      if (this.visitedViews.length === 1) {
-        return this.$message.warning('这已经是最后一页，不能再关闭了！')
+    }
+
+    function closeSelectedTag(view) {
+      store.dispatch('tagsView/closeCurrentTab', view)
+      if (state.activeKey === route.fullPath) {
+        const currentRoute = visitedViews.value[Math.max(0, visitedViews.value.length - 1)]
+        state.activeKey = currentRoute.fullPath
+        router.push(currentRoute)
       }
-      this.$store.dispatch('tagsView/closeCurrentTab', view)
-      if (this.activeKey === this.$route.fullPath) {
-        const currentRoute = this.visitedViews[Math.max(0, this.visitedViews.length - 1)]
-        this.activeKey = currentRoute.fullPath
-        this.$router.push(currentRoute)
-      }
-    },
-    closeOthersTags(view) {
-      this.$store.dispatch('tagsView/closeOtherTabs', view)
-      this.activeKey = view.fullPath
-      this.$router.push({
+    }
+
+    function closeOthersTags(view) {
+      store.dispatch('tagsView/closeOtherTabs', view)
+      state.activeKey = view.fullPath
+      router.push({
         path: '/redirect' + view.fullPath
       })
-    },
-    closeAllTags() {
-      this.$store.dispatch('tagsView/closeAllTabs')
-      this.$router.replace('/')
-    },
-    handleContextMenu(tag, e) {
+    }
+
+    function closeAllTags() {
+      store.dispatch('tagsView/closeAllTabs')
+      router.replace('/')
+    }
+
+    function handleContextMenu(tag, e) {
       const menuMinWidth = 105
-      const offsetLeft = this.$el.getBoundingClientRect().left // container margin left
-      const offsetWidth = this.$el.offsetWidth // container width
+      const offsetLeft = tagsView.value.getBoundingClientRect().left // container margin left
+      const offsetWidth = tagsView.value.offsetWidth // container width
       const maxLeft = offsetWidth - menuMinWidth // left boundary
       const left = e.clientX - offsetLeft + 15 // 15: margin right
 
       if (left > maxLeft) {
-        this.left = maxLeft
+        state.left = maxLeft
       } else {
-        this.left = left
+        state.left = left
       }
 
-      this.top = e.clientY
-      this.visible = true
-      this.selectedTag = tag
-    },
-    closeMenu() {
-      this.visible = false
-    },
-    handleScroll() {
-      this.closeMenu()
+      state.visible = true
+      state.top = e.clientY
+      state.selectedTag = tag
+    }
+
+    function closeMenu() {
+      state.visible = false
+    }
+
+    function handleScroll() {
+      closeMenu()
+    }
+
+    onMounted(() => {
+      initTags()
+      addTags()
+    })
+
+    return {
+      ...toRefs(state),
+      tagsView,
+      visitedViews,
+
+      handleClick,
+      refreshSelectedTag,
+      closeSelectedTag,
+      closeOthersTags,
+      closeAllTags,
+      handleContextMenu,
+      handleScroll
     }
   }
-}
+})
 </script>
 
 <style lang="scss">
@@ -155,10 +240,6 @@ export default {
       font-size: 12px;
       margin-left: 5px;
       margin-top: 4px;
-
-      &:first-of-type {
-        margin-left: 15px;
-      }
 
       &:last-of-type {
         margin-right: 15px;
@@ -213,17 +294,6 @@ export default {
 //reset element css of el-icon-close
 .tags-view-wrapper {
   .tags-view-item {
-    .el-icon-refresh-right {
-      margin-left: 6px;
-      margin-right: 4px;
-      width: 16px;
-      height: 16px;
-
-      &:hover {
-        color: #333;
-      }
-    }
-
     .el-icon-close {
       width: 16px;
       height: 16px;

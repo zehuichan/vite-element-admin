@@ -57,7 +57,8 @@ export default defineComponent({
     align-items: center;
 
     &__item {
-      color: #000000d9;
+      color: #000;
+      font-size: 16px;
       display: flex;
       height: 48px;
       padding: 0 10px;

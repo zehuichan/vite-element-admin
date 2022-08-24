@@ -36,7 +36,7 @@
     "autoprefixer": "^10.4.7",
     "mockjs": "^1.1.0",
     "release-it": "^14.6.1",
-    "sass": "^1.53.0",
+    "sass": "^1.54.5",
     "vite": "^3.0.9",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-html": "^3.2.0",

@@ -1,7 +1,7 @@
 <template>
   <div class="navbar-action__item" @click="toggle">
     <i class="el-icon-full-screen" v-if="!isFullscreen" />
-    <i class="el-icon-crop" v-else />
+    <i class="el-icon-close" v-else />
   </div>
 </template>
 
@@ -21,7 +21,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss">
-
-</style>

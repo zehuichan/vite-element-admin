@@ -59,5 +59,9 @@ export default defineComponent({
     height: 24px;
     margin-right: 12px;
   }
+
+  .user-name {
+    font-size: 14px;
+  }
 }
 </style>
