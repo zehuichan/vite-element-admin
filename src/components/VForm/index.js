@@ -1,5 +1,5 @@
-import VForm from './VForm.vue'
+import VForm from './src/VForm.vue'
 
-export { useForm } from './hooks/useForm'
+export { useForm } from './src/hooks/useForm'
 
 export default VForm

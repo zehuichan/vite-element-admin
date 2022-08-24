@@ -1,7 +1,7 @@
 import Vue, { effectScope, getCurrentInstance, reactive } from 'vue'
 import VueRouter from 'vue-router'
 
-import { Layout } from './constant'
+import { Layout, REDIRECT_NAME } from './constant'
 
 Vue.use(VueRouter)
 
@@ -48,7 +48,7 @@ export const RedirectRoute = {
   children: [
     {
       path: '/redirect/:path(.*)',
-      name: 'Redirect',
+      name: REDIRECT_NAME,
       component: () => import('@/views/redirect/index.vue')
     }
   ]

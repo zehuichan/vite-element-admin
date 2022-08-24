@@ -1,16 +1,22 @@
+<template>
+  <div></div>
+</template>
+
 <script>
-export default {
+import { defineComponent } from 'vue'
+import { useRoute, useRouter } from '@/router'
+
+export default defineComponent({
   name: 'Redirect',
-  created() {
-    const { params, query } = this.$route
+  setup() {
+    const { params, query } = useRoute()
     const { path } = params
-    this.$router.replace({
+
+    const router = useRouter()
+    router.replace({
       path: '/' + (Array.isArray(path) ? path.join('/') : path),
       query
     })
-  },
-  render(h) {
-    return h() // avoid warning message
   }
-}
+})
 </script>

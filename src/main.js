@@ -11,10 +11,12 @@ import store from './store'
 import router from './router'
 import { setupGuard } from './router/guard'
 import { setupGlobalFilters } from './filters'
+import { registerComponents } from './components'
 
 setupElement(Vue)
 setupGuard(router)
 setupGlobalFilters(Vue)
+registerComponents(Vue)
 
 Vue.config.productionTip = false
 console.log(__APP_INFO__)
