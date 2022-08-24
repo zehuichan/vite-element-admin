@@ -4,7 +4,7 @@ import { resultSuccess } from './_util'
 const Random = Mock.Random
 
 const token = Random.string('upper', 32, 32)
-const avatar = Random.image()
+const avatar = Random.image('24x24')
 
 const user = {
   userId: '1',

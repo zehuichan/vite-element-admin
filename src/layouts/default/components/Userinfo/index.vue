@@ -1,7 +1,7 @@
 <template>
   <el-dropdown class="navbar-action__item avatar-container" size="default" trigger="click">
     <div class="avatar-wrapper">
-      <img :src="userInfo?.avatar" class="user-avatar" alt="">
+      <el-avatar :src="userInfo?.avatar" class="user-avatar" />
       <span class="user-name">{{ userInfo?.username }}</span>
     </div>
     <template #dropdown>
