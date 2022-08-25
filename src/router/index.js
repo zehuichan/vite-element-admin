@@ -87,9 +87,7 @@ export function resetRouter() {
 
 export function useRouter() {
   const vm = getCurrentInstance()
-  if (vm) {
-    return vm.proxy.$router
-  }
+  if (vm) return vm.proxy.$router
   return undefined
 }
 
