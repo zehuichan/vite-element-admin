@@ -1,6 +1,6 @@
-import Fragment from '@/components/Fragment'
+import SvgIcon from '@/components/SvgIcon'
 
-const components = [Fragment]
+const components = [SvgIcon]
 
 export function registerComponents(app) {
   components.map((item) => {

@@ -4,6 +4,7 @@ import vueJsx from '@vitejs/plugin-vue2-jsx'
 import legacy from '@vitejs/plugin-legacy'
 
 import { configHtmlPlugin } from './html.js'
+import { configSvgIconsPlugin } from './svgSprite'
 import { configMockPlugin } from './mock.js'
 import { configCompressPlugin } from './compress.js'
 
@@ -19,6 +20,9 @@ export function createVitePlugins(viteEnv, isBuild) {
 
   // vite-plugin-html
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
+
+  // vite-plugin-svg-icons
+  vitePlugins.push(configSvgIconsPlugin(isBuild));
 
   // vite-plugin-mock
   VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild))

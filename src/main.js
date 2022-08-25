@@ -1,3 +1,6 @@
+// Register icon sprite
+import 'virtual:svg-icons-register'
+
 import Vue from 'vue'
 import App from './App.vue'
 
