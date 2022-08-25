@@ -11,12 +11,6 @@ import { useStore } from '@/store'
 
 export default defineComponent({
   name: 'Hamburger',
-  props: {
-    isActive: {
-      type: Boolean,
-      default: false
-    }
-  },
   setup() {
     const store = useStore()
     const opened = computed(() => store.getters.sidebar.opened)
@@ -40,13 +34,11 @@ export default defineComponent({
   padding: 0 10px;
   cursor: pointer;
   align-items: center;
+  font-size: 16px;
+  color: #000;
 
   &:hover {
     background-color: #f6f6f6;
-  }
-
-  svg {
-    width: 16px;
   }
 }
 </style>

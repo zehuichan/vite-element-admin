@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Notify',
   setup() {
     const list = ref([])
@@ -33,7 +33,7 @@ export default {
       list
     }
   }
-}
+})
 </script>
 
 <style lang="scss">

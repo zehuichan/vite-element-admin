@@ -27,6 +27,8 @@ import { computed, defineComponent, onMounted, reactive, ref, toRefs, watch } fr
 import { useRoute, useRouter } from '@/router'
 import { useStore } from '@/store'
 
+import { getRawRoute } from '@/utils'
+
 import ScrollPane from './ScrollPane.vue'
 
 const whiteList = [
@@ -34,21 +36,6 @@ const whiteList = [
   'Redirect',
   'ErrorPage'
 ]
-
-function getRawRoute(route) {
-  if (!route) return route
-  const { matched, ...opt } = route
-  return {
-    ...opt,
-    matched: matched
-      ? matched.map((item) => ({
-        meta: item.meta,
-        name: item.name,
-        path: item.path
-      }))
-      : undefined
-  }
-}
 
 export default defineComponent({
   components: {

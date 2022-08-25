@@ -7,16 +7,22 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { useStore } from '@/store'
+import { useRoute } from '@/router'
 
 export default defineComponent({
   name: 'AppMain',
-  computed: {
-    include() {
-      return this.$store.state.tagsView.visitedViews.map(item => item.name)
-    },
-    key() {
-      return this.$route.path
+  setup() {
+    const store = useStore()
+    const route = useRoute()
+
+    const include = computed(() => store.state.tagsView.visitedViews.map(item => item.name))
+    const key = computed(() => route.path)
+
+    return {
+      include,
+      key
     }
   }
 })
