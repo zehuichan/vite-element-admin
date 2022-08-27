@@ -1,9 +1,9 @@
 <template>
-  <div :class="[classObj, mediaQuery]" class="app-wrapper">
+  <div :class="['app-wrapper', classObj, mediaQuery]">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
-    <div :class="{hasTagsView:needTagsView}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
+    <div :class="{hasTagsView: needTagsView}" class="main-container">
+      <div :class="{'fixed-header': fixedHeader}">
         <navbar />
         <tags-view v-if="needTagsView" />
       </div>
@@ -13,8 +13,10 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import { mapState } from 'vuex'
+import { computed, defineComponent, unref } from 'vue'
+
+import { useStore } from '@/store'
+
 import AppMain from './components/AppMain/index.vue'
 import Navbar from './components/Navbar/index.vue'
 import Sidebar from './components/Sidebar/index.vue'
@@ -30,27 +32,36 @@ export default defineComponent({
     TagsView
   },
   mixins: [ResizeMixin],
-  computed: {
-    ...mapState({
-      sidebar: state => state.app.sidebar,
-      device: state => state.app.device,
-      mediaQuery: state => state.app.mediaQuery,
-      showSettings: state => state.settings.showSettings,
-      needTagsView: state => state.settings.tagsView,
-      fixedHeader: state => state.settings.fixedHeader
-    }),
-    classObj() {
-      return {
-        hideSidebar: !this.sidebar.opened,
-        openSidebar: this.sidebar.opened,
-        withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
-      }
+  setup() {
+    const store = useStore()
+
+    const sidebar = computed(() => store.state.app.sidebar)
+    const device = computed(() => store.state.app.device)
+    const mediaQuery = computed(() => store.state.app.mediaQuery)
+    const showSettings = computed(() => store.state.settings.showSettings)
+    const needTagsView = computed(() => store.state.settings.tagsView)
+    const fixedHeader = computed(() => store.state.settings.fixedHeader)
+    const classObj = computed(() => ({
+      hideSidebar: !unref(sidebar).opened,
+      openSidebar: unref(sidebar).opened,
+      withoutAnimation: unref(sidebar).withoutAnimation,
+      mobile: unref(device) === 'mobile'
+    }))
+
+    function handleClickOutside() {
+      store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
-  },
-  methods: {
-    handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+
+    return {
+      sidebar,
+      device,
+      mediaQuery,
+      showSettings,
+      needTagsView,
+      fixedHeader,
+      classObj,
+
+      handleClickOutside
     }
   }
 })

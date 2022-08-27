@@ -1,5 +1,5 @@
-import Vue, { computed, getCurrentInstance } from 'vue'
-import Vuex, { mapGetters, mapState } from 'vuex'
+import Vue, { getCurrentInstance } from 'vue'
+import Vuex from 'vuex'
 import getters from './getters'
 
 Vue.use(Vuex)
