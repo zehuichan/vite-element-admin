@@ -10,17 +10,18 @@
         <el-button @click="setProps({ size: 'mini' })">更改Size</el-button>
         <el-button @click="setProps({ disabled: true })">禁用表单</el-button>
         <el-button @click="setProps({ disabled: false })">解除禁用</el-button>
+        <el-button @click="setFieldsValue">setFieldsValue</el-button>
+        <el-button @click="getFieldsValue">getFieldsValue</el-button>
       </div>
       <v-form
         ref="formElRef"
         :schemas="schemas"
-        v-model="dataForm"
+        :model="dataForm"
       >
         <template #f3="{model,field}">
           <el-input v-model="model[field]" placeholder="自定义slot" />
         </template>
       </v-form>
-      <code>{{ dataForm }}</code>
     </div>
   </div>
 </template>
@@ -37,7 +38,7 @@ const schemas = [
     colProps: {
       span: 8
     },
-    required: true
+    defaultValue: '13'
   },
   {
     field: 'field2',
@@ -46,38 +47,16 @@ const schemas = [
     colProps: {
       span: 8
     }
-  },
-  {
-    field: 'field3',
-    component: 'Input',
-    label: '自定义Slot',
-    slot: 'f3',
-    colProps: {
-      span: 8
-    }
   }
 ]
 
 export default defineComponent({
-  name: 'Dashboard',
   components: {
     VForm
   },
   setup() {
     const formElRef = ref(null)
-    const dataForm = reactive({
-      field1: '123',
-      field2: '123',
-      field3: '123'
-    })
-
-    onMounted(() => {
-      console.log('onMounted')
-    })
-
-    onActivated(() => {
-      console.log('onActivated')
-    })
+    const dataForm = reactive({})
 
     return {
       formElRef,
@@ -87,6 +66,16 @@ export default defineComponent({
         const formEl = formElRef.value
         if (!formEl) return
         formEl.setProps(props)
+      },
+      setFieldsValue() {
+        const formEl = formElRef.value
+        if (!formEl) return
+        formEl.setFieldsValue({ field1: '12312312' })
+      },
+      getFieldsValue() {
+        const formEl = formElRef.value
+        if (!formEl) return
+        console.log(formEl.getFieldsValue())
       }
     }
   }

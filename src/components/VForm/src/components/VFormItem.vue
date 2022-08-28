@@ -1,5 +1,5 @@
 <script lang="jsx">
-import { computed, defineComponent, toRefs, unref } from 'vue'
+import { computed, defineComponent, unref } from 'vue'
 
 import { componentMap } from '../componentMap'
 
@@ -25,9 +25,14 @@ export default defineComponent({
     formModel: {
       type: Object,
       default: () => ({})
+    },
+    setFormModel: {
+      type: Function,
+      default: null
     }
   },
-  setup(props, { attrs, listeners, slots }) {
+  emits: ['input'],
+  setup(props, { attrs, emit, listeners, slots }) {
     const getValues = computed(() => {
       const { allDefaultValues, formModel, schema } = props
       const { mergeDynamicData } = props.formProps
@@ -138,6 +143,7 @@ export default defineComponent({
       if (!renderComponentContent) {
         return <Comp {...compAttr} />
       }
+
       const compSlot = isFunction(renderComponentContent)
         ? { ...renderComponentContent(unref(getValues)) }
         : { default: () => renderComponentContent }
@@ -175,7 +181,6 @@ export default defineComponent({
       }
     }
 
-
     return () => {
       const { colProps = {}, colSlot, renderColContent, component } = props.schema
       if (!componentMap.has(component)) {
@@ -206,7 +211,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style>
-
-</style>

@@ -15,7 +15,7 @@
           :formProps="getProps"
           :allDefaultValues="defaultValueRef"
           :formModel="formModel"
-          v-model="formModel[schema.field]"
+          :setFormModel="setFormModel"
         >
           <template v-for="item in Object.keys($scopedSlots)" #[item]="data">
             <slot :name="item" v-bind="data || {}"></slot>
@@ -34,6 +34,7 @@ import { useFormValues } from './hooks/useFormValues'
 import { useFormEvents } from './hooks/useFormEvents'
 
 import VFormItem from './components/VFormItem.vue'
+import { cloneDeep } from 'lodash-es'
 
 export default defineComponent({
   name: 'VForm',
@@ -42,7 +43,7 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props: {
-    value: {
+    model: {
       type: Object,
       default: () => ({})
     },
@@ -72,12 +73,13 @@ export default defineComponent({
   },
   emits: ['register', 'input', 'field-value-change'],
   setup(props, { attrs, emit }) {
-    const formModel = reactive(Object.assign({}, props.value))
+    const formModel = reactive({})
 
     const defaultValueRef = ref({})
     const propsRef = ref({})
     const schemaRef = ref(null)
     const formElRef = ref(null)
+    const isUpdateDefaultRef = ref(false)
 
     const getProps = computed(() => {
       return { ...props, ...unref(propsRef) }
@@ -95,18 +97,40 @@ export default defineComponent({
     })
 
     const getSchema = computed(() => {
-      return unref(schemaRef) || unref(getProps).schemas
+      const schemas = unref(schemaRef) || unref(getProps).schemas
+      for (const schema of schemas) {
+        const { defaultValue } = schema
+        if (defaultValue) {
+          schema.defaultValue = defaultValue
+        }
+      }
+      return cloneDeep(schemas)
     })
 
-    const { initDefault } = useFormValues({ defaultValueRef, getSchema, formModel })
+    const { handleFormValues, initDefault } = useFormValues({
+      defaultValueRef,
+      getSchema,
+      formModel
+    })
 
-    const { validate, resetFields, clearValidate, scrollToField, validateField } = useFormEvents({
+    const {
+      setFieldsValue,
+      getFieldsValue,
+      updateSchema,
+      resetSchema,
+      resetFields,
+      clearValidate,
+      validate,
+      validateField,
+      scrollToField
+    } = useFormEvents({
       getProps,
       formModel,
       getSchema,
       defaultValueRef,
       formElRef,
-      schemaRef
+      schemaRef,
+      handleFormValues
     })
 
     async function setProps(formProps) {
@@ -119,20 +143,44 @@ export default defineComponent({
     }
 
     watch(
-      formModel,
-      (value) => {
-        emit('input', value)
+      () => unref(getProps).model,
+      () => {
+        const { model } = unref(getProps)
+        if (!model) return
+        setFieldsValue(model)
       },
-      { immediate: true, deep: true }
+      { immediate: true }
+    )
+
+    watch(
+      () => unref(getProps).schemas,
+      (schemas) => {
+        resetSchema(schemas ?? []);
+      },
+    );
+
+    watch(
+      () => getSchema.value,
+      (schema) => {
+        if (unref(isUpdateDefaultRef)) {
+          return
+        }
+        if (schema?.length) {
+          initDefault()
+          isUpdateDefaultRef.value = true
+        }
+      }
     )
 
     const formAction = {
       setProps,
-      validate,
+      setFieldsValue,
+      getFieldsValue,
       resetFields,
       clearValidate,
-      scrollToField,
-      validateField
+      validate,
+      validateField,
+      scrollToField
     }
 
     function handleEnterPress(e) {
