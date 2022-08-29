@@ -1,6 +1,7 @@
 import { nextTick, toRaw, unref } from 'vue'
-import { isArray, isDef, isObject } from '@/utils/is'
-import { cloneDeep } from 'lodash-es'
+import { isArray, isObject } from '@/utils/is'
+import { uniqBy } from 'lodash-es'
+import { deepMerge } from '@/utils'
 
 export function useFormEvents({ formModel, getSchema, defaultValueRef, formElRef, schemaRef, handleFormValues }) {
   //设置表单值
@@ -15,8 +16,6 @@ export function useFormEvents({ formModel, getSchema, defaultValueRef, formElRef
         formModel[key] = value
       }
     })
-
-    console.log(formModel)
   }
 
   //获取表单值
@@ -24,6 +23,40 @@ export function useFormEvents({ formModel, getSchema, defaultValueRef, formElRef
     const formEl = unref(formElRef)
     if (!formEl) return {}
     return handleFormValues(toRaw(unref(formModel)))
+  }
+
+  async function updateSchema(data) {
+    let updateData = []
+    if (isObject(data)) {
+      updateData.push(data)
+    }
+    if (isArray(data)) {
+      updateData = [...data]
+    }
+
+    const hasField = updateData.every(
+      (item) => item.component === 'Divider' || (Reflect.has(item, 'field') && item.field)
+    )
+
+    if (!hasField) {
+      console.error(
+        'All children of the form Schema array that need to be updated must contain the `field` field'
+      )
+      return
+    }
+    const schema = []
+    updateData.forEach((item) => {
+      unref(getSchema).forEach((val) => {
+        if (val.field === item.field) {
+          const newSchema = deepMerge(val, item)
+          schema.push(newSchema)
+        } else {
+          schema.push(val)
+        }
+      })
+    })
+
+    schemaRef.value = uniqBy(schema, 'field')
   }
 
   async function resetSchema(data) {
@@ -73,6 +106,7 @@ export function useFormEvents({ formModel, getSchema, defaultValueRef, formElRef
   return {
     setFieldsValue,
     getFieldsValue,
+    updateSchema,
     resetSchema,
     resetFields,
     clearValidate,

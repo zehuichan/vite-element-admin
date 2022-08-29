@@ -21,7 +21,6 @@ export function useForm(props) {
     return form
   }
 
-
   function register(instance) {
     // 开发环境下，组件卸载后释放内存
     isProdMode() && onUnmounted(() => {
@@ -41,13 +40,9 @@ export function useForm(props) {
     watch(
       () => props,
       () => {
-        console.log(instance)
         props && instance.setProps(getDynamicProps(props))
       },
-      {
-        immediate: true,
-        deep: true
-      }
+      { immediate: true, deep: true }
     )
   }
 
@@ -60,10 +55,7 @@ export function useForm(props) {
       const form = await getForm()
       form.validate(callback)
     },
-    async validateField(
-      props,
-      callback
-    ) {
+    async validateField(props, callback) {
       const form = await getForm()
       form.validateField(props, callback)
     },

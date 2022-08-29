@@ -15,7 +15,7 @@
           :formProps="getProps"
           :allDefaultValues="defaultValueRef"
           :formModel="formModel"
-          :setFormModel="setFormModel"
+          v-model="formModel[schema.field]"
         >
           <template v-for="item in Object.keys($scopedSlots)" #[item]="data">
             <slot :name="item" v-bind="data || {}"></slot>
@@ -43,7 +43,7 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props: {
-    model: {
+    modal: {
       type: Object,
       default: () => ({})
     },
@@ -73,13 +73,12 @@ export default defineComponent({
   },
   emits: ['register', 'input', 'field-value-change'],
   setup(props, { attrs, emit }) {
-    const formModel = reactive({})
+    const formModel = reactive({ ...props.modal })
 
     const defaultValueRef = ref({})
     const propsRef = ref({})
     const schemaRef = ref(null)
     const formElRef = ref(null)
-    const isUpdateDefaultRef = ref(false)
 
     const getProps = computed(() => {
       return { ...props, ...unref(propsRef) }
@@ -142,40 +141,12 @@ export default defineComponent({
       emit('field-value-change', key, value)
     }
 
-    watch(
-      () => unref(getProps).model,
-      () => {
-        const { model } = unref(getProps)
-        if (!model) return
-        setFieldsValue(model)
-      },
-      { immediate: true }
-    )
-
-    watch(
-      () => unref(getProps).schemas,
-      (schemas) => {
-        resetSchema(schemas ?? []);
-      },
-    );
-
-    watch(
-      () => getSchema.value,
-      (schema) => {
-        if (unref(isUpdateDefaultRef)) {
-          return
-        }
-        if (schema?.length) {
-          initDefault()
-          isUpdateDefaultRef.value = true
-        }
-      }
-    )
-
     const formAction = {
       setProps,
       setFieldsValue,
       getFieldsValue,
+      updateSchema,
+      resetSchema,
       resetFields,
       clearValidate,
       validate,

@@ -16,7 +16,7 @@
       <v-form
         ref="formElRef"
         :schemas="schemas"
-        :model="dataForm"
+        :modal="dataForm"
       >
         <template #f3="{model,field}">
           <el-input v-model="model[field]" placeholder="自定义slot" />
@@ -37,8 +37,7 @@ const schemas = [
     label: '字段1',
     colProps: {
       span: 8
-    },
-    defaultValue: '13'
+    }
   },
   {
     field: 'field2',
@@ -56,7 +55,10 @@ export default defineComponent({
   },
   setup() {
     const formElRef = ref(null)
-    const dataForm = reactive({})
+    const dataForm = reactive({
+      field1: 12,
+      field2: ''
+    })
 
     return {
       formElRef,
