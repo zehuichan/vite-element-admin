@@ -84,6 +84,8 @@ export function createStateGuard(router) {
   router.afterEach((to) => {
     if (to.name === LOGIN_NAME) {
       store.dispatch('user/resetState')
+      store.dispatch('tagsView/resetState')
+      store.dispatch('permission/resetState')
     }
   })
 }

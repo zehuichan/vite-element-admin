@@ -1,5 +1,6 @@
-import { login } from '@/api/user'
+import { login } from '@/api'
 import { Cache, TOKEN_KEY, USER_INFO_KEY } from '@/utils/cache'
+import { resetRouter } from '@/router'
 
 const state = {
   token: Cache.getItem(TOKEN_KEY),
@@ -20,7 +21,6 @@ const mutations = {
 }
 
 const actions = {
-  // user login
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
@@ -34,17 +34,15 @@ const actions = {
       })
     })
   },
-
-  // user logout
-  logout({ commit }) {
+  logout({ commit, dispatch }) {
     return new Promise((resolve) => {
       commit('SET_TOKEN', undefined)
       commit('SET_USER_INFO', null)
+      resetRouter()
+      dispatch('tagsView/closeAllTabs', null, { root: true })
       resolve()
     })
   },
-
-  // remove token
   resetState({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', undefined)

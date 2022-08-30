@@ -1,5 +1,5 @@
 // utils
-import request, { transformRequest } from '@/utils/request'
+import request, { transformRequest } from '@/api/request'
 import { parseTime } from '@/utils'
 
 const timeout = 5 * 60 * 1000

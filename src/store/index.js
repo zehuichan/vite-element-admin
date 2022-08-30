@@ -21,11 +21,9 @@ const store = new Vuex.Store({
   getters
 })
 
-export const useStore = () => {
+export function useStore() {
   const vm = getCurrentInstance()
-  if (vm) {
-    return vm.proxy.$store
-  }
+  if (vm) return vm.proxy.$store
   return undefined
 }
 

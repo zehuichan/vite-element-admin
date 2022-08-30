@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/api/request'
 
 export function login(data) {
   return request({
@@ -20,5 +20,12 @@ export function logout() {
   return request({
     url: '/user/logout',
     method: 'post'
+  })
+}
+
+export function priv() {
+  return request({
+    url: '/permission/priv',
+    method: 'get'
   })
 }

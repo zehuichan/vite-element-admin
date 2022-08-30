@@ -49,6 +49,9 @@ const mutations = {
       (tag) => tag?.meta?.affix ?? false
     )
     state.visitedViews = affixTags
+  },
+  RESET_STATE: (state) => {
+    state.visitedViews = []
   }
 }
 
@@ -84,6 +87,12 @@ const actions = {
     return new Promise(resolve => {
       commit('CLOSE_ALL_VIEWS')
       resolve([...state.visitedViews])
+    })
+  },
+  resetState({ commit }) {
+    return new Promise(resolve => {
+      commit('RESET_STATE')
+      resolve()
     })
   }
 }

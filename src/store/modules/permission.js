@@ -1,4 +1,4 @@
-import { priv } from '@/api/permission'
+import { priv } from '@/api'
 import { constantRoutes } from '@/router'
 
 import { flatMultiLevelRoutes, routerGenerator, transformObjToRoute } from '@/router/routeHelper'
@@ -6,9 +6,8 @@ import { transformRouteToMenu } from '@/router/menuHelper'
 
 const state = {
   menus: [],
-  routers: constantRoutes,
-  addRouters: [],
-  keepAliveComponents: [],
+  routes: constantRoutes,
+  addRoutes: [],
   // Whether the route has been dynamically added
   isDynamicAddedRoute: false
 }
@@ -25,16 +24,25 @@ const mutations = {
     state.isDynamicAddedRoute = added
   },
   RESET_STATE: (state) => {
+    state.menus = []
+    state.routes = constantRoutes
+    state.addRoutes = []
     state.isDynamicAddedRoute = false
   }
 }
 
 const actions = {
   setDynamicAddedRoute({ commit }, val) {
-    commit('SET_DYNAMIC_ADDED_ROUTE', val)
+    return new Promise(resolve => {
+      commit('SET_DYNAMIC_ADDED_ROUTE', val)
+      resolve()
+    })
   },
   resetState({ commit }) {
-    commit('RESET_STATE')
+    return new Promise(resolve => {
+      commit('RESET_STATE')
+      resolve()
+    })
   },
   buildRoutesAction({ commit }) {
     return new Promise(resolve => {
