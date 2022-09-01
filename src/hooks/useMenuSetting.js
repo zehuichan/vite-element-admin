@@ -33,7 +33,8 @@ export function useMenuSetting() {
 
   function toggleCollapsed() {
     setMenuSetting({
-      collapsed: !unref(getCollapsed)
+      collapsed: !unref(getCollapsed),
+      animation: false
     })
   }
 

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, unref } from 'vue'
+import { computed, defineComponent, onMounted, unref, watch } from 'vue'
 
 import AppMain from './components/AppMain/index.vue'
 import Navbar from './components/Navbar/index.vue'
@@ -36,18 +36,10 @@ export default defineComponent({
   setup() {
     const { getIsMobile } = useAppInjectStore()
 
-    const layoutClass = computed(() => {
-      const opened = unref(getCollapsed)
-      return {
-        hideSidebar: opened,
-        openSidebar: !opened,
-        mobile: unref(getIsMobile)
-      }
-    })
-
     const {
       setMenuSetting,
-      getCollapsed
+      getCollapsed,
+      getAnimation
     } = useMenuSetting()
     const {
       getFixed
@@ -56,12 +48,41 @@ export default defineComponent({
       getShowMultipleTab
     } = useMultipleTabSetting()
 
+    const layoutClass = computed(() => {
+      const opened = unref(getCollapsed)
+      return {
+        hideSidebar: opened,
+        openSidebar: !opened,
+        withoutAnimation: unref(getAnimation),
+        mobile: unref(getIsMobile)
+      }
+    })
+
+    watch(
+      () => getIsMobile.value,
+      (value) => {
+        console.log(value)
+        setMenuSetting({
+          animation: unref(getCollapsed) && true
+        })
+      }
+    )
 
     function handleClickOutside() {
       setMenuSetting({
-        collapsed: true
+        collapsed: true,
+        animation: false
       })
     }
+
+    onMounted(() => {
+      if (unref(getCollapsed)) {
+        setMenuSetting({
+          collapsed: true,
+          animation: true
+        })
+      }
+    })
 
     return {
       getIsMobile,
