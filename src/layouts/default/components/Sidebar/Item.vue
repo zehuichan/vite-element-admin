@@ -16,11 +16,9 @@
 
 <script>
 import { computed, defineComponent } from 'vue'
-import FixiOSBug from './FixiOSBug'
 
 export default defineComponent({
   name: 'MenuItem',
-  mixins: [FixiOSBug],
   props: {
     item: Object
   },

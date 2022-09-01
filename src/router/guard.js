@@ -5,7 +5,9 @@ import 'nprogress/nprogress.css'
 import { PageNotFoundRoute } from '@/router'
 import { LOGIN_NAME } from '@/router/constant'
 
-import store from '@/store'
+import { useUserStoreWithOut } from '@/store/modules/user'
+import { usePermissionStoreWithOut } from '@/store/modules/permission'
+import { useMultipleTabStoreWithOut } from '@/store'
 
 // no redirect whitelist
 const whiteList = ['/login', '/auth-redirect']
@@ -30,23 +32,28 @@ export function createProgressGuard(router) {
 }
 
 export function createPermissionGuard(router) {
+  const userStore = useUserStoreWithOut()
+  const permissionStore = usePermissionStoreWithOut()
+
   router.beforeEach(async (to, from, next) => {
     // set page title
     useTitle(to.meta.title)
 
     // determine whether the user has logged in
-    const hasToken = store.getters.token
+    const token = userStore.getToken
 
-    if (hasToken) {
+    if (token) {
       if (to.path === '/login') {
         next('/')
       } else {
-        if (store.getters.getIsDynamicAddedRoute) {
+        if (permissionStore.getIsDynamicAddedRoute) {
           next()
         } else {
           try {
+            // 用户信息
+            await userStore.getUserInfoAction()
             // 菜单
-            const routes = await store.dispatch('permission/buildRoutesAction')
+            const routes = await permissionStore.buildRoutesAction()
             // 默认添加根路由
             routes.unshift({ path: '/', redirect: routes[0].children[0].path })
             // 动态添加可访问路由表
@@ -57,7 +64,7 @@ export function createPermissionGuard(router) {
             router.addRoute(PageNotFoundRoute)
             console.log(routes)
 
-            await store.dispatch('permission/setDynamicAddedRoute', true)
+            permissionStore.setDynamicAddedRoute(true)
 
             const redirectPath = from.query.redirect || to.path
             const redirect = decodeURIComponent(redirectPath)
@@ -81,11 +88,14 @@ export function createPermissionGuard(router) {
 }
 
 export function createStateGuard(router) {
+  const tabStore = useMultipleTabStoreWithOut()
+  const userStore = useUserStoreWithOut()
+  const permissionStore = usePermissionStoreWithOut()
   router.afterEach((to) => {
     if (to.name === LOGIN_NAME) {
-      store.dispatch('user/resetState')
-      store.dispatch('tagsView/resetState')
-      store.dispatch('permission/resetState')
+      permissionStore.resetState()
+      tabStore.resetState()
+      userStore.resetState()
     }
   })
 }

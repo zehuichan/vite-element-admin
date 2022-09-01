@@ -9,8 +9,8 @@ import 'normalize.css/normalize.css'
 // global css
 import './styles/index.scss'
 
-import store from './store'
-import router from './router'
+import { store } from './store'
+import { router } from './router'
 import { setupElement } from '@/plugins/element'
 import { setupGuard } from './router/guard'
 import { registerComponents } from './components'
@@ -24,6 +24,6 @@ console.log(__APP_INFO__)
 
 new Vue({
   router,
-  store,
+  pinia: store,
   render: h => h(App)
 }).$mount('#app')

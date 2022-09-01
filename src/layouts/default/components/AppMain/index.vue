@@ -8,16 +8,16 @@
 
 <script>
 import { computed, defineComponent } from 'vue'
-import { useStore } from '@/store'
+import { useMultipleTabStore } from '@/store'
 import { useRoute } from '@/router'
 
 export default defineComponent({
   name: 'AppMain',
   setup() {
-    const store = useStore()
+    const multipleTabStore = useMultipleTabStore()
     const route = useRoute()
 
-    const include = computed(() => store.state.tagsView.visitedViews.map(item => item.name))
+    const include = computed(() => multipleTabStore.getTabList.map(item => item.name))
     const key = computed(() => route.path)
 
     return {

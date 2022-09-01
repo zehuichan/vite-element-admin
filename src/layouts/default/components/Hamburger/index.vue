@@ -1,27 +1,22 @@
 <template>
-  <div class="hamburger" @click="toggle">
-    <i class="el-icon-s-fold" v-if="opened" />
+  <div class="hamburger" @click="toggleCollapsed">
+    <i class="el-icon-s-fold" v-if="getCollapsed" />
     <i class="el-icon-s-unfold" v-else />
   </div>
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue'
-import { useStore } from '@/store'
+import { defineComponent } from 'vue'
+import { useMenuSetting } from '@/hooks/useMenuSetting'
 
 export default defineComponent({
   name: 'Hamburger',
   setup() {
-    const store = useStore()
-    const opened = computed(() => store.getters.sidebar.opened)
-
-    function toggle() {
-      store.dispatch('app/toggleSideBar')
-    }
+    const { getCollapsed, toggleCollapsed } = useMenuSetting()
 
     return {
-      opened,
-      toggle
+      getCollapsed,
+      toggleCollapsed
     }
   }
 })

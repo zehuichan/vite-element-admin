@@ -1,8 +1,8 @@
 <template>
   <el-dropdown class="navbar-action__item avatar-container" size="default" trigger="click">
     <div class="avatar-wrapper">
-      <el-avatar :src="userInfo?.avatar" class="user-avatar" />
-      <span class="user-name">{{ userInfo?.username }}</span>
+      <el-avatar :src="getUserInfo?.avatar" class="user-avatar" />
+      <span class="user-name">{{ getUserInfo?.username }}</span>
     </div>
     <template #dropdown>
       <el-dropdown-menu class="user-dropdown">
@@ -18,25 +18,26 @@
 <script>
 import { computed, defineComponent } from 'vue'
 
-import { useStore } from '@/store'
+import { useUserStore } from '@/store'
 import { useRoute, useRouter } from '@/router'
 
 export default defineComponent({
   name: 'Userinfo',
   setup() {
-    const store = useStore()
+    const userStore = useUserStore()
+
     const router = useRouter()
     const route = useRoute()
 
-    const userInfo = computed(() => store.getters.userInfo)
+    const getUserInfo = computed(() => userStore.getUserInfo || {})
 
     function logout() {
-      store.dispatch('user/logout')
-      router.push(`/login?redirect=${route.fullPath}`)
+      userStore.logout()
+      router.push('/login?redirect=' + route.fullPath)
     }
 
     return {
-      userInfo,
+      getUserInfo,
       logout
     }
   }

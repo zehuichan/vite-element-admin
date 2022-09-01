@@ -1,30 +1,11 @@
-import Vue, { getCurrentInstance } from 'vue'
-import Vuex from 'vuex'
-import getters from './getters'
+import Vue from 'vue'
+import { createPinia, PiniaVuePlugin } from 'pinia'
 
-Vue.use(Vuex)
+Vue.use(PiniaVuePlugin)
 
-// https://webpack.js.org/guides/dependency-management/#requirecontext
-const modulesFiles = import.meta.globEager('./modules/**/*.js')
+export * from './modules/app'
+export * from './modules/permission'
+export * from './modules/tagsView'
+export * from './modules/user'
 
-// you do not need `import app from './modules/app'`
-// it will auto require all vuex module from modules file
-const modules = Object.keys(modulesFiles).reduce((modules, modulePath) => {
-  // set './app.js' => 'app'
-  const moduleName = modulePath.replace(/^\.\/modules\/(.*)\.\w+$/, '$1')
-  modules[moduleName] = modulesFiles[modulePath].default
-  return modules
-}, {})
-
-const store = new Vuex.Store({
-  modules,
-  getters
-})
-
-export function useStore() {
-  const vm = getCurrentInstance()
-  if (vm) return vm.proxy.$store
-  return undefined
-}
-
-export default store
+export const store = createPinia()

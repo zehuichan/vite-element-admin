@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
-import store from '@/store'
-import { Cache } from '@/utils/cache'
+import { Cache, TOKEN_KEY } from '@/utils/cache'
 
 
 // 格式化url，返回形参
@@ -37,11 +36,11 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
 
-    if (store.getters.token) {
+    if (Cache.getItem(TOKEN_KEY)) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers['X-Token'] = Cache.getItem('token')
+      config.headers['X-Token'] = Cache.getItem(TOKEN_KEY)
     }
     return config
   },

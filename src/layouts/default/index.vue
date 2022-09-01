@@ -1,11 +1,11 @@
 <template>
-  <div :class="['app-wrapper', classObj, mediaQuery]">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+  <div class="app-wrapper">
+    <div v-if="getIsMobile && getCollapsed" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
-    <div :class="{hasTagsView: needTagsView}" class="main-container">
-      <div :class="{'fixed-header': fixedHeader}">
+    <div :class="{hasTagsView: getShowMultipleTab}" class="main-container">
+      <div :class="{'fixed-header': getFixed}">
         <navbar />
-        <tags-view v-if="needTagsView" />
+        <tags-view v-if="getShowMultipleTab" />
       </div>
       <app-main />
     </div>
@@ -13,54 +13,52 @@
 </template>
 
 <script>
-import { computed, defineComponent, unref } from 'vue'
-
-import { useStore } from '@/store'
+import { defineComponent } from 'vue'
 
 import AppMain from './components/AppMain/index.vue'
 import Navbar from './components/Navbar/index.vue'
-import Sidebar from './components/Sidebar/index.vue'
 import TagsView from './components/TagsView/index.vue'
-import ResizeMixin from './mixin/ResizeHandler'
+import Sidebar from './components/Sidebar/index.vue'
+
+import { useAppInjectStore } from '@/hooks/useAppProvideStore'
+import { useMenuSetting } from '@/hooks/useMenuSetting'
+import { useHeaderSetting } from '@/hooks/useHeaderSetting'
+import { useMultipleTabSetting } from '@/hooks/useMultipleTabSetting'
 
 export default defineComponent({
   name: 'Layout',
   components: {
     AppMain,
     Navbar,
-    Sidebar,
-    TagsView
+    TagsView,
+    Sidebar
   },
-  mixins: [ResizeMixin],
   setup() {
-    const store = useStore()
+    const { getIsMobile } = useAppInjectStore()
 
-    const sidebar = computed(() => store.state.app.sidebar)
-    const device = computed(() => store.state.app.device)
-    const mediaQuery = computed(() => store.state.app.mediaQuery)
-    const showSettings = computed(() => store.state.settings.showSettings)
-    const needTagsView = computed(() => store.state.settings.tagsView)
-    const fixedHeader = computed(() => store.state.settings.fixedHeader)
-    const classObj = computed(() => ({
-      hideSidebar: !unref(sidebar).opened,
-      openSidebar: unref(sidebar).opened,
-      withoutAnimation: unref(sidebar).withoutAnimation,
-      mobile: unref(device) === 'mobile'
-    }))
+    const {
+      setMenuSetting,
+      getCollapsed
+    } = useMenuSetting()
+    const {
+      getFixed
+    } = useHeaderSetting()
+    const {
+      getShowMultipleTab
+    } = useMultipleTabSetting()
+
 
     function handleClickOutside() {
-      store.dispatch('app/closeSideBar', { withoutAnimation: false })
+      setMenuSetting({
+        collapsed: true
+      })
     }
 
     return {
-      sidebar,
-      device,
-      mediaQuery,
-      showSettings,
-      needTagsView,
-      fixedHeader,
-      classObj,
-
+      getIsMobile,
+      getFixed,
+      getShowMultipleTab,
+      getCollapsed,
       handleClickOutside
     }
   }

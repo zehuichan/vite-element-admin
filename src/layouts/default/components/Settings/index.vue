@@ -14,10 +14,6 @@
           <span>固定 Header</span>
           <el-switch v-model="fixedHeader" class="drawer-switch" />
         </div>
-        <div class="drawer-item">
-          <span>侧边栏 Logo</span>
-          <el-switch v-model="sidebarLogo" class="drawer-switch" />
-        </div>
       </div>
     </el-drawer>
   </div>
@@ -25,47 +21,36 @@
 
 <script>
 import { computed, defineComponent, ref } from 'vue'
-import { useStore } from '@/store'
+
+import { useHeaderSetting } from '@/hooks/useHeaderSetting'
+import { useMultipleTabSetting } from '@/hooks/useMultipleTabSetting'
 
 export default defineComponent({
   name: 'Settings',
   setup() {
-    const store = useStore()
+    const { setHeaderSetting, getFixed } = useHeaderSetting()
+    const { setMultipleTabSetting, getShowMultipleTab } = useMultipleTabSetting()
 
     const visible = ref(false)
 
     const fixedHeader = computed({
       get() {
-        return store.state.settings.fixedHeader
+        return getFixed.value
       },
       set(val) {
-        store.dispatch('settings/changeSetting', {
-          key: 'fixedHeader',
-          value: val
+        setHeaderSetting({
+          fixed: val
         })
       }
     })
 
     const tagsView = computed({
       get() {
-        return store.state.settings.tagsView
+        return getShowMultipleTab.value
       },
       set(val) {
-        store.dispatch('settings/changeSetting', {
-          key: 'tagsView',
-          value: val
-        })
-      }
-    })
-
-    const sidebarLogo = computed({
-      get() {
-        return store.state.settings.sidebarLogo
-      },
-      set(val) {
-        store.dispatch('settings/changeSetting', {
-          key: 'sidebarLogo',
-          value: val
+        setMultipleTabSetting({
+          show: val
         })
       }
     })
@@ -73,8 +58,7 @@ export default defineComponent({
     return {
       visible,
       fixedHeader,
-      tagsView,
-      sidebarLogo
+      tagsView
     }
   }
 })

@@ -1,14 +1,15 @@
 <template>
-  <div :class="{'has-logo':showLogo}">
-    <logo v-if="showLogo" :collapse="isCollapse" />
+  <div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         mode="vertical"
         :default-active="defaultActive"
-        :collapse="isCollapse"
-        :background-color="variables.backgroundColor"
-        :text-color="variables.textColor"
-        :active-text-color="variables.activeTextColor"
+        :collapse="collapse"
+        :unique-opened="getAccordion"
+        :background-color="getMenuBackgroundColor"
+        :text-color="getMenuTextColor"
+        :active-text-color="getMenuActiveTextColor"
+        :collapse-transition="false"
         @select="onSelect"
       >
         <menu-item v-for="route in menus" :key="route.path" :item="route" />
@@ -18,16 +19,17 @@
 </template>
 
 <script>
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, unref } from 'vue'
 
-import { useStore } from '@/store'
+import { usePermissionStore } from '@/store'
 import { useRoute, useRouter } from '@/router'
 
-import Logo from './Logo.vue'
+import Logo from './logo.vue'
 import MenuItem from './Item.vue'
 
-import defaultSettings from '@/settings'
 import { isUrl } from '@/utils/is'
+import { useAppInjectStore } from '@/hooks/useAppProvideStore'
+import { useMenuSetting } from '@/hooks/useMenuSetting'
 
 export default defineComponent({
   components: {
@@ -35,12 +37,22 @@ export default defineComponent({
     MenuItem
   },
   setup() {
-    const store = useStore()
+    const permissionStore = usePermissionStore()
+
+    const { getIsMobile } = useAppInjectStore()
+
+    const {
+      getCollapsed,
+      getAccordion,
+      getMenuBackgroundColor,
+      getMenuTextColor,
+      getMenuActiveTextColor,
+      getMenuWidth
+    } = useMenuSetting()
+
     const router = useRouter()
     const route = useRoute()
 
-    const showLogo = computed(() => store.state.settings.sidebarLogo)
-    const isCollapse = computed(() => !store.getters.sidebar.opened)
     const defaultActive = computed(() => {
       const { meta, path } = route
       // if set path, the sidebar will highlight the path you set
@@ -49,8 +61,15 @@ export default defineComponent({
       }
       return path
     })
-    const variables = computed(() => defaultSettings.sidebar)
-    const menus = computed(() => store.getters.menus)
+
+    const collapse = computed(() => {
+      if (unref(getIsMobile)) {
+        return false
+      }
+      return unref(getCollapsed)
+    })
+
+    const menus = computed(() => permissionStore.getMenus)
 
     function onSelect(index) {
       if (index === defaultActive.value) return
@@ -62,12 +81,17 @@ export default defineComponent({
     }
 
     return {
-      showLogo,
-      isCollapse,
+      getCollapsed,
+      getAccordion,
+      getMenuBackgroundColor,
+      getMenuTextColor,
+      getMenuActiveTextColor,
+      getMenuWidth,
+
       defaultActive,
-      variables,
-      menus,
-      onSelect
+      collapse,
+      onSelect,
+      menus
     }
   }
 })

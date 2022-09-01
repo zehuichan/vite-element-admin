@@ -1,61 +1,103 @@
-import { login } from '@/api'
-import { Cache, TOKEN_KEY, USER_INFO_KEY } from '@/utils/cache'
+import { defineStore } from 'pinia'
+import { store } from '..'
+
+import { getInfo, login } from '@/api'
+import { Cache, ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '@/utils/cache'
 import { resetRouter } from '@/router'
 
-const state = {
-  token: Cache.getItem(TOKEN_KEY),
-  userInfo: Cache.getItem(USER_INFO_KEY),
-  lastUpdateTime: 0
-}
-
-const mutations = {
-  SET_TOKEN: (state, token) => {
-    state.token = token
-    Cache.setItem(TOKEN_KEY, token)
+export const useUserStore = defineStore({
+  id: 'user',
+  state: () => ({
+    token: undefined,
+    userInfo: null,
+    roleList: [],
+    sessionTimeout: false,
+    lastUpdateTime: 0
+  }),
+  getters: {
+    getToken() {
+      return this.token || Cache.getItem(TOKEN_KEY)
+    },
+    getUserInfo() {
+      return this.userInfo || Cache.getItem(USER_INFO_KEY)
+    },
+    getRoleList() {
+      return this.roleList.length > 0 ? this.roleList : Cache.getItem(ROLES_KEY)
+    },
+    getSessionTimeout() {
+      return !!this.sessionTimeout
+    },
+    getLastUpdateTime() {
+      return this.lastUpdateTime
+    }
   },
-  SET_USER_INFO: (state, info) => {
-    state.userInfo = info
-    Cache.setItem(USER_INFO_KEY, info)
-    state.lastUpdateTime = new Date().getTime()
-  }
-}
+  actions: {
+    setToken(token) {
+      this.token = token ? token : ''
+      Cache.setItem(TOKEN_KEY, token)
+    },
+    setRoleList(roleList) {
+      this.roleList = roleList
+      Cache.setItem(ROLES_KEY, roleList)
+    },
+    setUserInfo(info) {
+      this.userInfo = info
+      this.lastUpdateTime = new Date().getTime()
+      Cache.setItem(USER_INFO_KEY, info)
+    },
+    setSessionTimeout(flag) {
+      this.sessionTimeout = flag
+    },
+    resetState() {
+      this.token = ''
+      this.userInfo = null
+      this.roleList = []
+      this.sessionTimeout = false
+      this.lastUpdateTime = 0
+    },
+    async login(params) {
+      try {
+        const { username, password } = params
+        const {
+          data: { token }
+        } = await login({ username: username.trim(), password: password })
+        this.setToken(token)
+        return Promise.resolve()
+      } catch (e) {
+        return Promise.reject(e)
+      }
+    },
 
-const actions = {
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
-    return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        commit('SET_USER_INFO', data)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-  logout({ commit, dispatch }) {
-    return new Promise((resolve) => {
-      commit('SET_TOKEN', undefined)
-      commit('SET_USER_INFO', null)
+    async getUserInfoAction() {
+      try {
+        const token = this.getToken
+        const { data } = await getInfo(token)
+        const { roles = [] } = data
+
+        // roles must be a non-empty array
+        if (!roles || roles.length <= 0) {
+          data.roles = []
+          this.setRoleList([])
+        } else {
+          this.setRoleList(roles)
+        }
+
+        this.setUserInfo(data)
+        return Promise.resolve(data)
+      } catch (e) {
+        return Promise.reject(e)
+      }
+    },
+    logout() {
+      this.setToken(undefined)
+      this.setSessionTimeout(false)
+      this.setUserInfo(null)
       resetRouter()
-      dispatch('tagsView/closeAllTabs', null, { root: true })
-      resolve()
-    })
-  },
-  resetState({ commit }) {
-    return new Promise(resolve => {
-      commit('SET_TOKEN', undefined)
-      commit('SET_USER_INFO', null)
-      resolve()
-    })
+    }
   }
-}
+})
 
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
+// Need to be used outside the setup
+export function useUserStoreWithOut() {
+  return useUserStore(store)
 }
-

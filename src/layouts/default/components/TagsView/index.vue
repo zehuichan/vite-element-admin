@@ -10,42 +10,42 @@
         @contextmenu.prevent="handleContextMenu(tag, $event)"
       >
         {{ tag.meta.title }}
-        <span v-if="!tag.meta.affix" class="el-icon-close" @click.stop="closeSelectedTag(tag)" />
+        <span v-if="!tag.meta.affix && activeKey === tag.path" class="el-icon-close" @click.stop="handleClose(tag)" />
       </div>
     </scroll-pane>
-    <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">刷新当前</li>
-      <li v-if="!selectedTag.meta?.affix" @click="closeSelectedTag(selectedTag)">关闭当前</li>
-      <li @click="closeOthersTags(selectedTag)">关闭其他</li>
-      <li @click="closeAllTags(selectedTag)">关闭全部</li>
-    </ul>
+    <contextmenu
+      ref="contextmenu"
+      v-show="visible"
+      :tab-item="selectedTag"
+      :x="left"
+      :y="top"
+      @click="visible = false"
+    />
   </div>
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, reactive, ref, toRefs, watch } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, reactive, ref, toRefs, unref, watch } from 'vue'
 import { useRoute, useRouter } from '@/router'
-import { useStore } from '@/store'
-
-import { getRawRoute } from '@/utils'
+import { useMultipleTabStore } from '@/store'
+import { useTabs } from '@/hooks/useTabs'
 
 import ScrollPane from './ScrollPane.vue'
+import Contextmenu from './contextmenu.vue'
 
-const whiteList = [
-  'Login',
-  'Redirect',
-  'ErrorPage'
-]
+import { PAGE_NOT_FOUND_NAME, REDIRECT_NAME } from '@/router/constant'
 
 export default defineComponent({
   components: {
-    ScrollPane
+    ScrollPane,
+    Contextmenu
   },
   setup() {
-    const store = useStore()
+    const multipleTabStore = useMultipleTabStore()
 
     const router = useRouter()
     const route = useRoute()
+    const { close } = useTabs()
 
     const tagsView = ref(null)
 
@@ -54,19 +54,23 @@ export default defineComponent({
       visible: false,
       top: 0,
       left: 0,
-      selectedTag: {},
-      affixTags: []
+      selectedTag: null
     })
 
-    const visitedViews = computed(() => store.state.tagsView.visitedViews)
-    const routes = computed(() => store.state.permission.routes)
+    const visitedViews = computed(() => multipleTabStore.getTabList)
 
     watch(
       () => route.fullPath,
       (to) => {
-        if (whiteList.includes(route.name)) return
+        if (
+          route.name === REDIRECT_NAME ||
+          route.name === PAGE_NOT_FOUND_NAME
+        ) {
+          return
+        }
+
         state.activeKey = to
-        addTags()
+        multipleTabStore.addTab(route)
       }
     )
 
@@ -82,82 +86,20 @@ export default defineComponent({
     )
 
     function handleClick(e) {
-      const { fullPath } = e
+      const { path, fullPath } = e
       if (fullPath === route.fullPath) return
-      state.activeKey = fullPath
+      state.activeKey = fullPath || path
       router.replace(e)
     }
 
-    function filterAffixTags(routes) {
-      let tags = []
-      routes.forEach(route => {
-        if (route.meta && route.meta.affix) {
-          const tagPath = route.path
-          tags.push({
-            fullPath: tagPath,
-            path: tagPath,
-            name: route.name,
-            meta: { ...route.meta }
-          })
-        }
-        if (route.children) {
-          const tempTags = filterAffixTags(route.children, route.path)
-          if (tempTags.length >= 1) {
-            tags = [...tags, ...tempTags]
-          }
-        }
-      })
-      return tags
+    function handleClose(view) {
+      close(view)
     }
 
-    function initTags() {
-      const affixTags = state.affixTags = filterAffixTags(routes.value)
-      for (const tag of affixTags) {
-        // Must have tag name
-        if (tag.name) {
-          store.dispatch('tagsView/addView', getRawRoute(tag))
-        }
-      }
-    }
-
-    function addTags() {
-      const { name } = route
-      if (name) {
-        store.dispatch('tagsView/addView', getRawRoute(route))
-      }
-      return false
-    }
-
-    function refreshSelectedTag(view) {
-      const { fullPath } = view
-      router.push({
-        path: '/redirect' + fullPath
-      })
-    }
-
-    function closeSelectedTag(view) {
-      store.dispatch('tagsView/closeCurrentTab', view)
-      if (state.activeKey === route.fullPath) {
-        const currentRoute = visitedViews.value[Math.max(0, visitedViews.value.length - 1)]
-        state.activeKey = currentRoute.fullPath
-        router.push(currentRoute)
-      }
-    }
-
-    function closeOthersTags(view) {
-      store.dispatch('tagsView/closeOtherTabs', view)
-      state.activeKey = view.fullPath
-      router.push({
-        path: '/redirect' + view.fullPath
-      })
-    }
-
-    function closeAllTags() {
-      store.dispatch('tagsView/closeAllTabs')
-      router.replace('/')
-    }
-
-    function handleContextMenu(tag, e) {
+    async function handleContextMenu(tag, e) {
+      state.visible = false
+      state.selectedTag = null
+      await nextTick()
       const menuMinWidth = 105
       const offsetLeft = tagsView.value.getBoundingClientRect().left // container margin left
       const offsetWidth = tagsView.value.offsetWidth // container width
@@ -183,9 +125,10 @@ export default defineComponent({
       closeMenu()
     }
 
-    onMounted(() => {
-      initTags()
-      addTags()
+    onMounted(async () => {
+      await nextTick()
+      await multipleTabStore.initTabs(router.getRoutes())
+      await multipleTabStore.addTab(unref(route))
     })
 
     return {
@@ -194,10 +137,7 @@ export default defineComponent({
       visitedViews,
 
       handleClick,
-      refreshSelectedTag,
-      closeSelectedTag,
-      closeOthersTags,
-      closeAllTags,
+      handleClose,
       handleContextMenu,
       handleScroll
     }

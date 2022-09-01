@@ -3,7 +3,6 @@
     <div class="app-container">
       <code>
         新增媒体查询，当前屏幕
-        {{ mediaQuery }}
       </code>
     </div>
     <div class="app-container">
@@ -23,9 +22,6 @@
 </template>
 
 <script>
-// vuex
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'Documentation',
   data() {
@@ -41,11 +37,6 @@ export default {
       input: ''
     }
   },
-  computed: {
-    ...mapGetters([
-      'mediaQuery'
-    ])
-  }
 }
 </script>
 

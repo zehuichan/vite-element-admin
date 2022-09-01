@@ -1,4 +1,4 @@
-import Vue, { effectScope, getCurrentInstance, reactive } from 'vue'
+import Vue, { effectScope, getCurrentInstance, reactive, shallowRef } from 'vue'
 import VueRouter from 'vue-router'
 
 import { Layout, REDIRECT_NAME } from './constant'
@@ -77,7 +77,7 @@ export function createRouter(routes = constantRoutes) {
   })
 }
 
-const router = createRouter()
+export const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
@@ -96,6 +96,7 @@ let currentRoute
 export function useRoute() {
   const vm = getCurrentInstance()
   if (!vm) return undefined
+
   if (!currentRoute) {
     const scope = effectScope(true)
     scope.run(() => {
@@ -106,7 +107,6 @@ export function useRoute() {
       })
     })
   }
+
   return currentRoute
 }
-
-export default router

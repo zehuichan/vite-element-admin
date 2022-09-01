@@ -1,6 +1,7 @@
-import SvgIcon from '@/components/SvgIcon'
+import AppProvider from './AppProvider'
+import SvgIcon from './SvgIcon'
 
-const components = [SvgIcon]
+const components = [AppProvider, SvgIcon]
 
 export function registerComponents(app) {
   components.map((item) => {

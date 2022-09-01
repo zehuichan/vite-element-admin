@@ -1,10 +1,10 @@
 <template>
   <div class="login-container">
     <el-form
-      size="default"
-      ref="loginForm"
+      ref="loginFormRef"
       :model="loginForm"
       :rules="loginRules"
+      size="default"
       class="login-form"
       auto-complete="on"
       label-position="left"
@@ -34,7 +34,7 @@
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter.native="login"
           show-password
           clearable
         />
@@ -45,7 +45,7 @@
         type="primary"
         size="medium"
         style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handleLogin"
+        @click.native.prevent="login"
       >
         Login
       </el-button>
@@ -58,66 +58,54 @@
   </div>
 </template>
 
-<script>
-// utils
+<script setup>
+import { reactive, ref } from 'vue'
+import { useRouter } from '@/router'
 import { validUsername } from '@/utils/validate'
+import { useUserStore } from '@/store/modules/user'
 
-export default {
-  name: 'Login',
-  data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
+const userStore = useUserStore()
+const router = useRouter()
+
+const validateUsername = (rule, value, callback) => {
+  if (!validUsername(value)) {
+    callback(new Error('Please enter the correct user name'))
+  } else {
+    callback()
+  }
+}
+const validatePassword = (rule, value, callback) => {
+  if (value.length < 6) {
+    callback(new Error('The password can not be less than 6 digits'))
+  } else {
+    callback()
+  }
+}
+const loginFormRef = ref()
+const loginForm = reactive({
+  username: 'admin',
+  password: '111111'
+})
+const loginRules = reactive({
+  username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+  password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+})
+const loading = ref(false)
+const redirect = ref(undefined)
+
+const login = async () => {
+  try {
+    loading.value = true
+    const valid = await loginFormRef.value.validate()
+    if (valid) {
+      console.log('submit!')
+      await userStore.login(loginForm)
+      await router.push({ path: redirect.value || '/' })
+      loading.value = false
     }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      loginForm: {
-        username: 'admin',
-        password: '111111'
-      },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
-      },
-      loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
-  },
-  watch: {
-    $route: {
-      handler: function (route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    }
+  } catch (error) {
+    console.log('error submit!', error)
+    loading.value = false
   }
 }
 </script>
@@ -142,7 +130,7 @@ $cursor: #fff;
 
     input {
       background: transparent;
-      border: 0px;
+      border: 0;
       -webkit-appearance: none;
       border-radius: 0;
       color: $light_gray;
@@ -164,7 +152,7 @@ $cursor: #fff;
 }
 </style>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
@@ -202,7 +190,7 @@ $light_gray: #eee;
     .title {
       font-size: 26px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0 auto 40px auto;
       text-align: center;
       font-weight: bold;
     }

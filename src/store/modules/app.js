@@ -1,65 +1,39 @@
-import { Cache } from '@/utils/cache'
+import { defineStore } from 'pinia'
+import { store } from '..'
 
-const state = {
-  sidebar: {
-    opened: Cache.getItem('sidebarStatus') ? !!+Cache.getItem('sidebarStatus') : true,
-    withoutAnimation: false
-  },
-  // 设备
-  device: 'desktop',
-  // 媒体查询
-  mediaQuery: undefined
-}
+import { Cache, PROJ_CFG_KEY } from '@/utils/cache'
+import { deepMerge } from '@/utils'
 
-const mutations = {
-  TOGGLE_SIDEBAR: state => {
-    state.sidebar.opened = !state.sidebar.opened
-    state.sidebar.withoutAnimation = false
-    if (state.sidebar.opened) {
-      Cache.setItem('sidebarStatus', 1)
-    } else {
-      Cache.setItem('sidebarStatus', 0)
+import projectConfig from '@/settings/projectSetting'
+
+export const useAppStore = defineStore({
+  id: 'app',
+  state: () => ({
+    projectConfig: Cache.getItem(PROJ_CFG_KEY, projectConfig)
+  }),
+  getters: {
+    getProjectConfig() {
+      return this.projectConfig || {}
+    },
+    getHeaderSetting() {
+      return this.getProjectConfig.headerSetting
+    },
+    getMenuSetting() {
+      return this.getProjectConfig.menuSetting
+    },
+    getMultiTabsSetting() {
+      return this.getProjectConfig.multiTabsSetting
     }
   },
-  CLOSE_SIDEBAR: (state, withoutAnimation) => {
-    Cache.setItem('sidebarStatus', 0)
-    state.sidebar.opened = false
-    state.sidebar.withoutAnimation = withoutAnimation
-  },
-  OPEN_SIDEBAR: (state, withoutAnimation) => {
-    Cache.setItem('sidebarStatus', 1)
-    state.sidebar.opened = true
-    state.sidebar.withoutAnimation = withoutAnimation
-  },
-  TOGGLE_DEVICE: (state, device) => {
-    state.device = device
-  },
-  SET_MEDIA_QUERY: (state, mediaQuery) => {
-    state.mediaQuery = mediaQuery
+  actions: {
+    setProjectConfig(config) {
+      this.projectConfig = deepMerge(this.projectConfig || {}, config)
+      Cache.setItem(PROJ_CFG_KEY, this.projectConfig)
+    }
   }
-}
+})
 
-const actions = {
-  toggleSideBar({ commit }) {
-    commit('TOGGLE_SIDEBAR')
-  },
-  closeSideBar({ commit }, { withoutAnimation }) {
-    commit('CLOSE_SIDEBAR', withoutAnimation)
-  },
-  openSideBar({ commit }, { withoutAnimation }) {
-    commit('OPEN_SIDEBAR', withoutAnimation)
-  },
-  toggleDevice({ commit }, device) {
-    commit('TOGGLE_DEVICE', device)
-  },
-  setMediaQuery({ commit }, query) {
-    commit('SET_MEDIA_QUERY', query)
-  }
-}
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
+// Need to be used outside the setup
+export function useAppStoreWithOut() {
+  return useAppStore(store)
 }

@@ -61,7 +61,7 @@
 <script>
 import { computed, defineComponent, nextTick, ref, unref, watch } from 'vue'
 import { onKeyStroke, useDebounceFn } from '@vueuse/core'
-import { useStore } from '@/store'
+import { usePermissionStore } from '@/store'
 
 import { filter } from '@/utils/treeHelper'
 import { useRouter } from '@/router'
@@ -81,7 +81,7 @@ function createSearchReg(key) {
 export default defineComponent({
   name: 'Search',
   setup() {
-    const store = useStore()
+    const permissionStore = usePermissionStore()
     const router = useRouter()
 
     const visible = ref(false)
@@ -91,7 +91,7 @@ export default defineComponent({
     const keyword = ref('')
     const searchResult = ref([])
 
-    const menuList = store.getters.menus
+    const menuList = permissionStore.getMenus
 
     const getIsNotData = computed(() => !keyword || unref(searchResult).length === 0)
 

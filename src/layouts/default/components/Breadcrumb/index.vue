@@ -15,7 +15,7 @@
 
 <script>
 import { computed, defineComponent, unref } from 'vue'
-import { useStore } from '@/store'
+import { usePermissionStore } from '@/store'
 import { useRoute } from '@/router'
 
 import { compile } from 'path-to-regexp'
@@ -28,14 +28,14 @@ import { getAllParentPath } from '@/router/menuHelper'
 export default defineComponent({
   name: 'Breadcrumb',
   setup() {
-    const store = useStore()
+    const permissionStore = usePermissionStore()
 
     const route = useRoute()
 
     const routes = computed(() => {
       if (route.name === REDIRECT_NAME) return []
 
-      const menus = store.getters.menus
+      const menus = permissionStore.getMenus
 
       const routeMatched = route.matched
       const cur = routeMatched?.[routeMatched.length - 1]
@@ -102,7 +102,7 @@ export default defineComponent({
       if (redirect) {
         return redirect
       }
-      const { params } = unref(currentRoute)
+      const { params } = currentRoute
       const toPath = compile(path)
       return toPath(params)
     }
