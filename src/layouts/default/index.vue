@@ -1,6 +1,6 @@
 <template>
-  <div class="app-wrapper">
-    <div v-if="getIsMobile && getCollapsed" class="drawer-bg" @click="handleClickOutside" />
+  <div class="app-wrapper" :class="layoutClass">
+    <div v-if="getIsMobile && !getCollapsed" class="drawer-bg" @click="handleClickOutside" />
     <sidebar class="sidebar-container" />
     <div :class="{hasTagsView: getShowMultipleTab}" class="main-container">
       <div :class="{'fixed-header': getFixed}">
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { computed, defineComponent, unref } from 'vue'
 
 import AppMain from './components/AppMain/index.vue'
 import Navbar from './components/Navbar/index.vue'
@@ -36,6 +36,15 @@ export default defineComponent({
   setup() {
     const { getIsMobile } = useAppInjectStore()
 
+    const layoutClass = computed(() => {
+      const opened = unref(getCollapsed)
+      return {
+        hideSidebar: opened,
+        openSidebar: !opened,
+        mobile: unref(getIsMobile)
+      }
+    })
+
     const {
       setMenuSetting,
       getCollapsed
@@ -56,6 +65,7 @@ export default defineComponent({
 
     return {
       getIsMobile,
+      layoutClass,
       getFixed,
       getShowMultipleTab,
       getCollapsed,

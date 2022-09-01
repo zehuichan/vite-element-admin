@@ -1,6 +1,6 @@
 <template>
   <div class="hamburger" @click="toggleCollapsed">
-    <i class="el-icon-s-fold" v-if="getCollapsed" />
+    <i class="el-icon-s-fold" v-if="!getCollapsed" />
     <i class="el-icon-s-unfold" v-else />
   </div>
 </template>
