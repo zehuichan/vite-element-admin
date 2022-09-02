@@ -1,4 +1,4 @@
-import Vue, { effectScope, getCurrentInstance, reactive, shallowRef } from 'vue'
+import Vue, { effectScope, getCurrentInstance, reactive } from 'vue'
 import VueRouter from 'vue-router'
 
 import { Layout, REDIRECT_NAME } from './constant'
@@ -30,12 +30,6 @@ Vue.use(VueRouter)
  * all roles can be accessed
  */
 
-export const RootRoute = {
-  path: '/',
-  name: 'Root',
-  redirect: '/dashboard'
-}
-
 export const LoginRoute = {
   path: '/login',
   name: 'Login',
@@ -63,7 +57,6 @@ export const ErrorPageRoute = {
 export const PageNotFoundRoute = { path: '*', redirect: '/404', hidden: true }
 
 export const constantRoutes = [
-  RootRoute,
   LoginRoute,
   RedirectRoute,
   ErrorPageRoute

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import { Cache, TOKEN_KEY } from '@/utils/cache'
+import { useUserStoreWithOut } from '@/store'
 
 
 // 格式化url，返回形参
