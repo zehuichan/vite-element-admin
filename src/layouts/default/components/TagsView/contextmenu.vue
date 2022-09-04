@@ -50,7 +50,10 @@ export default defineComponent({
 
       const curItem = state.current
 
+      console.log(curItem, path)
+
       const isCurItem = curItem ? curItem.path === path : false
+      console.log(isCurItem)
 
       // Refresh button
       const refreshDisabled = !isCurItem

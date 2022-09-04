@@ -3,7 +3,7 @@ import { useNProgress } from '@vueuse/integrations/useNProgress'
 import 'nprogress/nprogress.css'
 
 import { PageNotFoundRoute } from '@/router'
-import { LOGIN_NAME } from '@/router/constant'
+import { LOGIN_NAME, PAGE_NOT_FOUND_NAME } from '@/router/constant'
 
 import { useUserStoreWithOut } from '@/store/modules/user'
 import { usePermissionStoreWithOut } from '@/store/modules/permission'
@@ -66,10 +66,15 @@ export function createPermissionGuard(router) {
 
             permissionStore.setDynamicAddedRoute(true)
 
-            const redirectPath = from.query.redirect || to.path
-            const redirect = decodeURIComponent(redirectPath)
-            const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect }
-            next(nextData)
+            // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
+            if (to.name === PAGE_NOT_FOUND_NAME) {
+              next({ path: to.fullPath, replace: true, query: to.query })
+            } else {
+              const redirectPath = from.query.redirect || to.path
+              const redirect = decodeURIComponent(redirectPath)
+              const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect }
+              next(nextData)
+            }
           } catch (e) {
             console.log(e)
           }

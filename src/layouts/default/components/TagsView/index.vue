@@ -1,17 +1,24 @@
 <template>
   <div ref="tagsView" id="tags-view-container" class="tags-view-container">
     <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
-      <div
-        v-for="tag in visitedViews"
-        :key="tag.path"
-        :class="{ 'active': activeKey === tag.path }"
-        class="tags-view-item"
-        @click.stop="handleClick(tag)"
-        @contextmenu.prevent="handleContextMenu(tag, $event)"
+      <draggable
+        :list="visitedViews"
+        animation="300"
+        item-key="fullPath"
+        @end="handleSortTabs"
       >
-        {{ tag.meta.title }}
-        <span v-if="!tag.meta.affix && activeKey === tag.path" class="el-icon-close" @click.stop="handleClose(tag)" />
-      </div>
+        <div
+          v-for="tag in visitedViews"
+          :key="tag.path"
+          :class="{ 'active': activeKey === tag.path }"
+          class="tags-view-item"
+          @click.stop="handleClick(tag)"
+          @contextmenu.prevent="handleContextMenu(tag, $event)"
+        >
+          {{ tag.meta.title }}
+          <span v-if="!tag.meta.affix && activeKey === tag.path" class="el-icon-close" @click.stop="handleClose(tag)" />
+        </div>
+      </draggable>
     </scroll-pane>
     <contextmenu
       ref="contextmenu"
@@ -29,7 +36,9 @@ import { computed, defineComponent, nextTick, onMounted, reactive, ref, toRefs, 
 import { useRoute, useRouter } from '@/router'
 import { useMultipleTabStore } from '@/store'
 import { useTabs } from '@/hooks/useTabs'
+import { useGo } from '@/hooks/usePage'
 
+import Draggable from 'vuedraggable'
 import ScrollPane from './ScrollPane.vue'
 import Contextmenu from './contextmenu.vue'
 
@@ -37,6 +46,7 @@ import { PAGE_NOT_FOUND_NAME, REDIRECT_NAME } from '@/router/constant'
 
 export default defineComponent({
   components: {
+    Draggable,
     ScrollPane,
     Contextmenu
   },
@@ -45,6 +55,7 @@ export default defineComponent({
 
     const router = useRouter()
     const route = useRoute()
+    const go = useGo()
     const { close } = useTabs()
 
     const tagsView = ref(null)
@@ -89,7 +100,7 @@ export default defineComponent({
       const { path, fullPath } = e
       if (fullPath === route.fullPath) return
       state.activeKey = fullPath || path
-      router.replace(e)
+      go(state.activeKey, true)
     }
 
     function handleClose(view) {
@@ -117,6 +128,14 @@ export default defineComponent({
       state.selectedTag = tag
     }
 
+    function handleSortTabs(evt) {
+      const { oldIndex, newIndex } = evt
+      if (oldIndex === newIndex) {
+        return
+      }
+      multipleTabStore.sortTabs()
+    }
+
     function closeMenu() {
       state.visible = false
     }
@@ -139,6 +158,7 @@ export default defineComponent({
       handleClick,
       handleClose,
       handleContextMenu,
+      handleSortTabs,
       handleScroll
     }
   }

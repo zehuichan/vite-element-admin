@@ -98,13 +98,12 @@ const login = async () => {
     loading.value = true
     const valid = await loginFormRef.value.validate()
     if (valid) {
-      console.log('submit!')
       await userStore.login(loginForm)
-      await router.push({ path: redirect.value || '/' })
+      router.push({ path: redirect.value || '/' }).catch(() => {
+      })
       loading.value = false
     }
   } catch (error) {
-    console.log('error submit!', error)
     loading.value = false
   }
 }

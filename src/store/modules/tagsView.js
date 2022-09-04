@@ -241,7 +241,12 @@ export const useMultipleTabStore = defineStore({
 
     // Initialize the tabs
     async initTabs(routes) {
-      this.tabList = filterAffixTabs(routes)
+      const cacheTabs = filterAffixTabs(routes)
+      cacheTabs.forEach((route) => {
+        if (route.meta && route.meta.affix) {
+          this.addTab(route)
+        }
+      })
     },
     // Sort the tabs
     async sortTabs() {
