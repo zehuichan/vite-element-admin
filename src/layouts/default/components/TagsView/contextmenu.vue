@@ -14,7 +14,7 @@
 
 <script>
 import { computed, defineComponent, reactive, unref, watch } from 'vue'
-import { useRouter } from '@/router'
+import { useRoute } from '@/router'
 
 import { useMultipleTabStore } from '@/store'
 import { TableActionEnum, useTabs } from '@/hooks/useTabs'
@@ -34,7 +34,7 @@ export default defineComponent({
     })
 
     const tabStore = useMultipleTabStore()
-    const { currentRoute } = useRouter()
+    const route = useRoute()
     const { refreshPage, closeAll, close, closeLeft, closeOther, closeRight } = useTabs()
 
     const getTargetTab = computed(() => {
@@ -46,18 +46,20 @@ export default defineComponent({
         return
       }
       const { meta } = unref(getTargetTab)
-      const { path } = currentRoute
+      const { path } = route
 
       const curItem = state.current
-
-      console.log(curItem, path)
+      const index = state.currentIndex
 
       const isCurItem = curItem ? curItem.path === path : false
-      console.log(isCurItem)
 
       // Refresh button
       const refreshDisabled = !isCurItem
       const disabled = tabStore.getTabList.length <= 1
+      // Close left
+      const closeLeftDisabled = index === 0 || !isCurItem
+      // Close right
+      const closeRightDisabled = !isCurItem || (index === tabStore.getTabList.length - 1 && tabStore.getLastDragEndIndex >= 0)
 
       return [
         {
@@ -69,6 +71,16 @@ export default defineComponent({
           event: TableActionEnum.CLOSE_CURRENT,
           text: '关闭标签页',
           disabled: !!meta?.affix || disabled
+        },
+        {
+          event: TableActionEnum.CLOSE_LEFT,
+          text: '关闭左侧标签页',
+          disabled: closeLeftDisabled
+        },
+        {
+          event: TableActionEnum.CLOSE_RIGHT,
+          text: '关闭右侧标签页',
+          disabled: closeRightDisabled
         },
         {
           event: TableActionEnum.CLOSE_OTHER,
@@ -104,7 +116,7 @@ export default defineComponent({
           refreshPage()
           break
         case TableActionEnum.CLOSE_CURRENT:
-          close(unref(getTargetTab))
+          close(props.tabItem)
           break
         case TableActionEnum.CLOSE_LEFT:
           closeLeft()

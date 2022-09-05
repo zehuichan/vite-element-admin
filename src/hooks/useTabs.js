@@ -68,6 +68,14 @@ export function useTabs(_router) {
         await tabStore.closeAllTab(router)
         break
 
+      case TableActionEnum.CLOSE_LEFT:
+        await tabStore.closeLeftTabs(currentTab, router)
+        break
+
+      case TableActionEnum.CLOSE_RIGHT:
+        await tabStore.closeRightTabs(currentTab, router)
+        break
+
       case TableActionEnum.CLOSE_OTHER:
         await tabStore.closeOtherTabs(currentTab, router)
         break
@@ -82,6 +90,8 @@ export function useTabs(_router) {
   return {
     refreshPage: () => handleTabAction(TableActionEnum.REFRESH),
     closeAll: () => handleTabAction(TableActionEnum.CLOSE_ALL),
+    closeLeft: () => handleTabAction(TableActionEnum.CLOSE_LEFT),
+    closeRight: () => handleTabAction(TableActionEnum.CLOSE_RIGHT),
     closeOther: () => handleTabAction(TableActionEnum.CLOSE_OTHER),
     closeCurrent: () => handleTabAction(TableActionEnum.CLOSE_CURRENT),
     close: (tab) => handleTabAction(TableActionEnum.CLOSE, tab),

@@ -97,6 +97,7 @@ export default defineComponent({
     )
 
     function handleClick(e) {
+      state.visible = false
       const { path, fullPath } = e
       if (fullPath === route.fullPath) return
       state.activeKey = fullPath || path

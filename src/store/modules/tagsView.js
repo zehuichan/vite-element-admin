@@ -192,23 +192,23 @@ export const useMultipleTabStore = defineStore({
             pathList.push(item.fullPath)
           }
         }
-        console.log(pathList)
         this.bulkCloseTabs(pathList)
       }
       this.updateCacheTab()
     },
     // Close the tab on the left and jump
     async closeRightTabs(route, router) {
-      const { path } = getRawRoute(route)
-      const { currentRoute } = router
-      const { path: curPath } = currentRoute
-      if (path !== curPath) {
-        return
-      }
-      const index = this.tabList.findIndex((item) => item.path === path)
-      const rightTabs = this.tabList.slice(index + 1)
-      for (const tab of rightTabs) {
-        await this.closeTab(tab, router)
+      const index = this.tabList.findIndex((item) => item.fullPath === route.fullPath)
+      if (index >= 0 && index < this.tabList.length - 1) {
+        const rightTabs = this.tabList.slice(index + 1, this.tabList.length)
+        const pathList = []
+        for (const item of rightTabs) {
+          const affix = item?.meta?.affix ?? false
+          if (!affix) {
+            pathList.push(item.fullPath)
+          }
+        }
+        this.bulkCloseTabs(pathList)
       }
       this.updateCacheTab()
     },

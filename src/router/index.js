@@ -80,15 +80,15 @@ export function resetRouter() {
 
 export function useRouter() {
   const vm = getCurrentInstance()
-  if (vm) return vm.proxy.$router
-  return undefined
+  if (!vm) throw new Error('must be called in setup')
+  return vm.proxy.$router
 }
 
 let currentRoute
 
 export function useRoute() {
   const vm = getCurrentInstance()
-  if (!vm) return undefined
+  if (!vm) throw new Error('must be called in setup')
 
   if (!currentRoute) {
     const scope = effectScope(true)
