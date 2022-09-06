@@ -43,10 +43,6 @@ export default defineComponent({
   },
   inheritAttrs: false,
   props: {
-    modal: {
-      type: Object,
-      default: () => ({})
-    },
     labelPosition: {
       type: String,
       default: 'right'
@@ -71,9 +67,9 @@ export default defineComponent({
       default: true
     }
   },
-  emits: ['register', 'input', 'field-value-change'],
+  emits: ['register', 'field-value-change'],
   setup(props, { attrs, emit }) {
-    const formModel = reactive({ ...props.modal })
+    const formModel = reactive({})
 
     const defaultValueRef = ref({})
     const propsRef = ref({})
@@ -83,7 +79,7 @@ export default defineComponent({
     const getProps = computed(() => {
       return { ...props, ...unref(propsRef) }
     })
-    // Get uniform row style and Row configuration for the entire form
+
     const getRow = computed(() => {
       const { baseRowStyle = {}, rowProps } = unref(getProps)
       return {
@@ -91,6 +87,7 @@ export default defineComponent({
         ...rowProps
       }
     })
+
     const getBindValue = computed(() => {
       return { ...attrs, ...props, ...unref(getProps) }
     })
@@ -100,13 +97,13 @@ export default defineComponent({
       for (const schema of schemas) {
         const { defaultValue } = schema
         if (defaultValue) {
-          schema.defaultValue = defaultValue
+          formModel[schema.field] = defaultValue
         }
       }
       return cloneDeep(schemas)
     })
 
-    const { handleFormValues, initDefault } = useFormValues({
+    const { handleFormValues } = useFormValues({
       defaultValueRef,
       getSchema,
       formModel
@@ -136,11 +133,6 @@ export default defineComponent({
       propsRef.value = Object.assign({}, unref(propsRef), formProps)
     }
 
-    function setFormModel(key, value) {
-      formModel[key] = value
-      emit('field-value-change', key, value)
-    }
-
     const formAction = {
       setProps,
       setFieldsValue,
@@ -166,7 +158,6 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      initDefault()
       emit('register', formAction)
     })
 
@@ -180,7 +171,6 @@ export default defineComponent({
       getProps,
       formElRef,
       formAction,
-      setFormModel,
 
       handleEnterPress,
       ...formAction

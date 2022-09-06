@@ -1,6 +1,6 @@
-import { nextTick, toRaw, unref } from 'vue'
+import { nextTick, reactive, toRaw, unref } from 'vue'
 import { isArray, isObject } from '@/utils/is'
-import { uniqBy } from 'lodash-es'
+import { cloneDeep, uniqBy } from 'lodash-es'
 import { deepMerge } from '@/utils'
 
 export function useFormEvents({ formModel, getSchema, defaultValueRef, formElRef, schemaRef, handleFormValues }) {
@@ -10,12 +10,16 @@ export function useFormEvents({ formModel, getSchema, defaultValueRef, formElRef
       .map((item) => item.field)
       .filter(Boolean)
 
+    const obj = reactive({})
+
     Object.keys(values).forEach((key) => {
       const value = values[key]
       if (fields.includes(key)) {
-        formModel[key] = value
+        obj[key] = value
       }
     })
+
+    formModel = cloneDeep(obj)
   }
 
   //获取表单值

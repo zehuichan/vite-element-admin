@@ -28,18 +28,7 @@ export function useFormValues({ defaultValueRef, getSchema, formModel }) {
     return res
   }
 
-  function initDefault() {
-    const schemas = unref(getSchema)
-    schemas.forEach((item) => {
-      const { defaultValue } = item
-      if (!isNullOrUnDef(defaultValue)) {
-        formModel[item.field] = defaultValue
-      }
-    })
-  }
-
   return {
-    handleFormValues,
-    initDefault
+    handleFormValues
   }
 }
