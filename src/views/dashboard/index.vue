@@ -4,7 +4,7 @@
       <code>Dashboard</code>
     </div>
     <div class="app-container">
-      <div>
+      <div v-if="false">
         <el-button @click="setProps({ size: 'medium' })">更改Size</el-button>
         <el-button @click="setProps({ size: 'small' })">更改Size</el-button>
         <el-button @click="setProps({ size: 'mini' })">更改Size</el-button>
@@ -37,7 +37,8 @@ const schemas = [
     colProps: {
       span: 8
     },
-    defaultValue: 123
+    defaultValue: 123,
+    required: true
   },
   {
     field: 'field2',
