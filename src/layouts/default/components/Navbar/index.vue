@@ -5,17 +5,20 @@
       <breadcrumb />
     </div>
     <div class="navbar-action">
-      <search />
-      <screenfull />
-      <notify />
+      <search v-if="getShowSearch" />
+      <screenfull v-if="getShowFullScreen" />
+      <notify v-if="getShowNotice" />
       <userinfo />
-      <settings />
+      <settings v-if="getShowSetting" />
     </div>
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+
+import { useHeaderSetting } from '@/hooks/useHeaderSetting'
+
 import Breadcrumb from '../Breadcrumb/index.vue'
 import Hamburger from '../Hamburger/index.vue'
 import Notify from '../Notify/index.vue'
@@ -33,6 +36,16 @@ export default defineComponent({
     Userinfo,
     Settings,
     Search
+  },
+  setup() {
+    const { getShowSearch, getShowFullScreen, getShowNotice, getShowSetting } = useHeaderSetting()
+
+    return {
+      getShowSearch,
+      getShowFullScreen,
+      getShowNotice,
+      getShowSetting
+    }
   }
 })
 </script>

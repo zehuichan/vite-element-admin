@@ -5,12 +5,12 @@ export default {
     fixed: true,
     // Whether to show top
     show: true,
+    // Whether to display the menu search
+    showSearch: true,
     // Whether to show the full screen button
     showFullScreen: true,
     // Whether to show the notification button
     showNotice: true,
-    // Whether to display the menu search
-    showSearch: true,
     // Whether to show the configuration button
     showSetting: true
   },
@@ -22,7 +22,7 @@ export default {
     // AppMenu collapse
     collapsed: false,
     // Turn on accordion mode, only show a menu
-    accordion: true,
+    accordion: false,
 
     animation: false,
     backgroundColor: '#001529',
@@ -38,13 +38,7 @@ export default {
     // Turn on
     show: true,
     // Is it possible to drag and drop sorting tabs
-    canDrag: true,
-    // Turn on quick actions
-    showQuick: true,
-    // Whether to show the refresh button
-    showRedo: true,
-    // Whether to show the collapse button
-    showFold: true
+    canDrag: true
   },
 
   // Whether to enable KeepAlive cache is best to close during development, otherwise the cache needs to be cleared every time
@@ -52,9 +46,6 @@ export default {
 
   // Whether to show breadcrumbs
   showBreadCrumb: true,
-
-  // Whether to show the breadcrumb icon
-  showBreadCrumbIcon: false,
 
   // Use error-handler-plugin
   useErrorHandle: false,
