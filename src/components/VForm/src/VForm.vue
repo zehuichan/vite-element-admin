@@ -4,6 +4,7 @@
     :model="formModel"
     :label-position="labelPosition"
     :label-width="labelWidth"
+    :validate-on-rule-change="false"
     v-bind="propsRef"
     @keyup.enter.native="handleEnterPress"
   >
@@ -49,7 +50,7 @@ export default defineComponent({
     },
     labelWidth: {
       type: [Number, String],
-      default: '80px'
+      default: 'auto'
     },
     // 表单配置规则
     schemas: {
@@ -58,6 +59,10 @@ export default defineComponent({
     },
     size: String,
     disabled: Boolean,
+    rulesMessageJoinLabel: {
+      type: Boolean,
+      default: true
+    },
     autoSubmitOnEnter: {
       type: Boolean,
       default: false
@@ -81,7 +86,7 @@ export default defineComponent({
     })
 
     const getRow = computed(() => {
-      const { baseRowStyle = {}, rowProps } = unref(getProps)
+      const { baseRowStyle = {}, rowProps = { gutter: 20 } } = unref(getProps)
       return {
         style: baseRowStyle,
         ...rowProps

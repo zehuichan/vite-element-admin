@@ -1,36 +1,12 @@
-<template>
-  <el-col v-bind="getColProps" v-if="getShow().isIfShow" v-show="getShow().isShow">
-    <el-divider v-if="schema.component === 'Divider'" v-bind="getComponentsProps">
-    </el-divider>
-    <el-form-item
-      v-else
-      v-bind="schema.itemProps"
-      :prop="schema.field"
-      :label="schema.label"
-      :rules="handleRules()"
-    >
-      <slot v-if="schema.slot" :name="schema.slot" v-bind="getValues" />
-      <component
-        v-else-if="getComponent"
-        :is="getComponent"
-        v-bind="getComponentsProps"
-        :disabled="getDisable"
-        v-model="modelValue"
-      ></component>
-    </el-form-item>
-  </el-col>
-</template>
-
-<script>
-import { computed, defineComponent, ref, unref, watch } from 'vue'
-
-import { cloneDeep } from 'lodash-es'
+<script lang="jsx">
+import { computed, defineComponent, h, ref, unref, watch } from 'vue'
 
 import { componentMap } from '../componentMap'
 import { createPlaceholderMessage } from '../helper'
 
 import { isBoolean, isFunction, isNull } from '@/utils/is'
 import { getSlot } from '@/utils/jsxHelper'
+import { cloneDeep } from 'lodash-es'
 
 export default defineComponent({
   name: 'VFormItem',
@@ -73,12 +49,6 @@ export default defineComponent({
       }
     })
 
-    const getColProps = computed(() => {
-      const { colProps = {} } = props.schema
-      const { baseColProps = {} } = props.formProps
-      return { ...baseColProps, ...colProps }
-    })
-
     const getComponentsProps = computed(() => {
       const { schema, formModel } = props
       let { componentProps = {} } = schema
@@ -105,14 +75,6 @@ export default defineComponent({
       return disabled
     })
 
-    const getComponent = computed(() => {
-      const { component } = props.schema
-      if (!componentMap.has(component)) {
-        return null
-      }
-      return componentMap.get(component)
-    })
-
     watch(
       () => props.value,
       (value) => {
@@ -131,6 +93,12 @@ export default defineComponent({
 
     function getShow() {
       const { show, ifShow } = props.schema
+      const { showAdvancedButton } = props.formProps
+      const itemIsAdvanced = showAdvancedButton
+        ? isBoolean(props.schema.isAdvanced)
+          ? props.schema.isAdvanced
+          : true
+        : true
 
       let isShow = true
       let isIfShow = true
@@ -147,7 +115,7 @@ export default defineComponent({
       if (isFunction(ifShow)) {
         isIfShow = ifShow(unref(getValues))
       }
-
+      isShow = isShow && itemIsAdvanced
       return { isShow, isIfShow }
     }
 
@@ -239,15 +207,107 @@ export default defineComponent({
       return rules
     }
 
-    return {
-      getValues,
-      getColProps,
-      getComponentsProps,
-      getDisable,
-      getComponent,
-      modelValue,
-      getShow,
-      handleRules
+    function renderComponent() {
+      const { renderComponentContent, field, label, size, component } = props.schema
+
+      const tag = componentMap.get(component)
+
+      const propsData = {
+        prop: field,
+        clearable: true,
+        size,
+        ...unref(getComponentsProps),
+        disabled: unref(getDisable)
+      }
+
+      if (['daterange', 'datetimerange'].includes(unref(getComponentsProps)?.type) && component === 'DatePicker') {
+        propsData.startPlaceholder = unref(getComponentsProps)?.startPlaceholder || '开始时间'
+        propsData.endPlaceholder = unref(getComponentsProps)?.endPlaceholder || '结束时间'
+      } else {
+        propsData.placeholder = unref(getComponentsProps)?.placeholder || label
+      }
+
+      const bindValue = {
+        value: modelValue.value
+      }
+
+      const compAttr = {
+        attrs: {
+          ...propsData,
+          ...bindValue,
+          ...attrs
+        },
+        on: listeners
+      }
+
+      if (!renderComponentContent) {
+        return h(tag, compAttr)
+      }
+
+      const compSlot = isFunction(renderComponentContent)
+        ? { ...renderComponentContent(unref(getValues)) }
+        : { default: () => renderComponentContent }
+
+      return h(tag, { ...compAttr, ...compSlot })
+    }
+
+    function renderItem() {
+      const { itemProps, slot, render, field, label, component } = props.schema
+
+      if (component === 'Divider') {
+        return (
+          <el-col span={24}>
+            <el-divider {...unref(getComponentsProps)}></el-divider>
+          </el-col>
+        )
+      } else {
+        const getContent = () => {
+          return slot
+            ? getSlot(slots, slot, unref(getValues))
+            : render
+              ? render(unref(getValues))
+              : renderComponent()
+        }
+
+        return (
+          <el-form-item
+            prop={field}
+            label={label}
+            rules={handleRules()}
+            {...{ attrs: itemProps }}
+          >
+            {getContent()}
+          </el-form-item>
+        )
+      }
+    }
+
+    return () => {
+      const { colProps = {}, colSlot, renderColContent, component } = props.schema
+      if (!componentMap.has(component)) {
+        return null
+      }
+
+      const { baseColProps = {} } = props.formProps
+      const realColProps = { ...baseColProps, ...colProps }
+      const { isIfShow, isShow } = getShow()
+      const values = unref(getValues)
+
+      const getContent = () => {
+        return colSlot
+          ? getSlot(slots, colSlot, values)
+          : renderColContent
+            ? renderColContent(values)
+            : renderItem()
+      }
+
+      return (
+        isIfShow && (
+          <el-col {...{ attrs: realColProps }} v-show={isShow}>
+            {getContent()}
+          </el-col>
+        )
+      )
     }
   }
 })
