@@ -97,13 +97,13 @@ export default defineComponent({
       for (const schema of schemas) {
         const { defaultValue } = schema
         if (defaultValue) {
-          formModel[schema.field] = defaultValue
+          schema.defaultValue = defaultValue
         }
       }
       return cloneDeep(schemas)
     })
 
-    const { handleFormValues } = useFormValues({
+    const { handleFormValues, initDefault } = useFormValues({
       defaultValueRef,
       getSchema,
       formModel
@@ -158,6 +158,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      initDefault()
       emit('register', formAction)
     })
 

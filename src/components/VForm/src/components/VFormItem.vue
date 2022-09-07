@@ -9,7 +9,7 @@
       :label="schema.label"
       :rules="handleRules()"
     >
-      <slot v-if="schema.slot" :name="schema.slot" v-bind="getValues"></slot>
+      <slot v-if="schema.slot" :name="schema.slot" v-bind="getValues" />
       <component
         v-else-if="getComponent"
         :is="getComponent"
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, ref, toRefs, unref, watch } from 'vue'
+import { computed, defineComponent, ref, unref, watch } from 'vue'
 
 import { cloneDeep } from 'lodash-es'
 
@@ -114,20 +114,20 @@ export default defineComponent({
     })
 
     watch(
-      () => modelValue.value,
+      () => props.value,
       (value) => {
-        emit('input', value)
-      }
+        modelValue.value = value
+      },
+      { immediate: true }
     )
 
     watch(
-      () => props.formModel,
+      () => modelValue.value,
       (value) => {
-        console.log(value)
+        emit('input', value)
       },
-      { deep: true }
+      { immediate: true }
     )
-
 
     function getShow() {
       const { show, ifShow } = props.schema

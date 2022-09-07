@@ -4,7 +4,7 @@
       <code>Dashboard</code>
     </div>
     <div class="app-container">
-      <div v-if="false">
+      <div>
         <el-button @click="setProps({ size: 'medium' })">更改Size</el-button>
         <el-button @click="setProps({ size: 'small' })">更改Size</el-button>
         <el-button @click="setProps({ size: 'mini' })">更改Size</el-button>
@@ -44,6 +44,15 @@ const schemas = [
     field: 'field2',
     component: 'Input',
     label: '字段2',
+    colProps: {
+      span: 8
+    }
+  },
+  {
+    field: 'field3',
+    component: 'Input',
+    label: '自定义Slot',
+    slot: 'f3',
     colProps: {
       span: 8
     }

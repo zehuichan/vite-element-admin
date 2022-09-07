@@ -3,23 +3,20 @@ import { isArray, isObject } from '@/utils/is'
 import { cloneDeep, uniqBy } from 'lodash-es'
 import { deepMerge } from '@/utils'
 
-export function useFormEvents({ formModel, getSchema, defaultValueRef, formElRef, schemaRef, handleFormValues }) {
+export function useFormEvents(context) {
+  const { formModel, getSchema, defaultValueRef, formElRef, schemaRef, handleFormValues } = context
+
   //设置表单值
   async function setFieldsValue(values) {
-    const fields = unref(getSchema)
-      .map((item) => item.field)
-      .filter(Boolean)
-
-    const obj = reactive({})
+    const schemas = unref(getSchema)
+    const fields = schemas.map((item) => item.field).filter(Boolean)
 
     Object.keys(values).forEach((key) => {
       const value = values[key]
       if (fields.includes(key)) {
-        obj[key] = value
+        formModel[key] = value
       }
     })
-
-    formModel = cloneDeep(obj)
   }
 
   //获取表单值
