@@ -12,6 +12,7 @@
         <el-button @click="setProps({ disabled: false })">解除禁用</el-button>
         <el-button @click="setFieldsValue">setFieldsValue</el-button>
         <el-button @click="getFieldsValue">getFieldsValue</el-button>
+        <el-button @click="updateSchema">updateSchema</el-button>
       </div>
       <v-form
         ref="formElRef"
@@ -19,6 +20,9 @@
       >
         <template #f3="{model,field}">
           <el-input v-model="model[field]" placeholder="自定义slot" />
+        </template>
+        <template #formFooter>
+          <el-button @click="submit">submit</el-button>
         </template>
       </v-form>
     </div>
@@ -65,6 +69,7 @@ export default defineComponent({
   },
   setup() {
     const formElRef = ref(null)
+
     return {
       formElRef,
       schemas,
@@ -82,6 +87,25 @@ export default defineComponent({
         const formEl = formElRef.value
         if (!formEl) return
         console.log(formEl.getFieldsValue())
+      },
+      updateSchema() {
+        const formEl = formElRef.value
+        if (!formEl) return
+        formEl.updateSchema({
+          field: 'field3',
+          label: '字段3 New++'
+        })
+      },
+      submit() {
+        const formEl = formElRef.value
+        if (!formEl) return
+        formEl.validate((valid) => {
+          if (valid) {
+            alert('submit!')
+          } else {
+            return false
+          }
+        })
       }
     }
   }
