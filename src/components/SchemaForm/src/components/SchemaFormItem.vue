@@ -1,15 +1,16 @@
 <script lang="jsx">
 import { computed, defineComponent, h, ref, unref, watch } from 'vue'
+import { useVModel } from '@vueuse/core'
+import { cloneDeep } from 'lodash-es'
 
 import { componentMap } from '../componentMap'
 import { createPlaceholderMessage } from '../helper'
 
 import { isBoolean, isFunction, isNull } from '@/utils/is'
 import { getSlot } from '@/utils/jsxHelper'
-import { cloneDeep } from 'lodash-es'
 
 export default defineComponent({
-  name: 'VFormItem',
+  name: 'SchemaFormItem',
   inheritAttrs: false,
   props: {
     value: [String, Number],
@@ -32,7 +33,7 @@ export default defineComponent({
   },
   emits: ['input', 'change'],
   setup(props, { attrs, emit, listeners, slots }) {
-    const modelValue = ref(props.value ?? null)
+    const modelValue = useVModel(props)
 
     const getValues = computed(() => {
       const { allDefaultValues, formModel, schema } = props
@@ -79,15 +80,6 @@ export default defineComponent({
       () => props.value,
       (value) => {
         modelValue.value = value
-      },
-      { immediate: true }
-    )
-
-    watch(
-      () => modelValue.value,
-      (value) => {
-        emit('input', value)
-        emit('change', value)
       },
       { immediate: true }
     )
@@ -238,7 +230,12 @@ export default defineComponent({
           ...bindValue,
           ...attrs
         },
-        on: listeners
+        on: {
+          input(val) {
+            modelValue.value = val
+          },
+          ...listeners
+        }
       }
 
       if (!renderComponentContent) {

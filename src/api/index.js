@@ -29,3 +29,11 @@ export function priv() {
     method: 'get'
   })
 }
+
+export function optionsListApi(params) {
+  return request({
+    url: '/select/getDemoOptions',
+    method: 'get',
+    params
+  })
+}

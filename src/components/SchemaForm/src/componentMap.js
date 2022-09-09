@@ -1,3 +1,5 @@
+import ApiSelect from './components/ApiSelect.vue'
+
 const componentMap = new Map()
 
 componentMap.set('Input', 'el-input')
@@ -11,6 +13,7 @@ componentMap.set('Upload', 'el-upload')
 componentMap.set('Slider', 'el-slider')
 componentMap.set('Rate', 'el-rate')
 componentMap.set('Divider', 'el-divider')
+componentMap.set('ApiSelect', ApiSelect)
 
 export function add(compName, component) {
   componentMap.set(compName, component)

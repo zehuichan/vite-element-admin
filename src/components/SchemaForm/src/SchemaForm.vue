@@ -29,16 +29,16 @@
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, reactive, ref, unref, watch } from 'vue'
+import { computed, defineComponent, onMounted, reactive, ref, unref } from 'vue'
 
 import { useFormValues } from './hooks/useFormValues'
 import { useFormEvents } from './hooks/useFormEvents'
 
-import VFormItem from './components/VFormItem.vue'
+import VFormItem from './components/SchemaFormItem.vue'
 import { cloneDeep } from 'lodash-es'
 
 export default defineComponent({
-  name: 'VForm',
+  name: 'SchemaForm',
   components: {
     VFormItem
   },
@@ -184,7 +184,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style>
-
-</style>

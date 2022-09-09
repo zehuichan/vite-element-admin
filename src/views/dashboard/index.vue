@@ -14,7 +14,7 @@
         <el-button @click="getFieldsValue">getFieldsValue</el-button>
         <el-button @click="updateSchema">updateSchema</el-button>
       </div>
-      <v-form
+      <schema-form
         ref="formElRef"
         :schemas="schemas"
       >
@@ -24,14 +24,14 @@
         <template #formFooter>
           <el-button @click="submit">submit</el-button>
         </template>
-      </v-form>
+      </schema-form>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, onActivated, onMounted, reactive, ref } from 'vue'
-import VForm from '@/components/VForm'
+import { defineComponent, ref } from 'vue'
+import { optionsListApi } from '@/api'
 
 const schemas = [
   {
@@ -53,20 +53,30 @@ const schemas = [
     }
   },
   {
-    field: 'field3',
-    component: 'Input',
-    label: '自定义Slot',
-    slot: 'f3',
+    field: 'ApiSelect',
+    component: 'ApiSelect',
+    label: 'ApiSelect',
+    componentProps: {
+      api: optionsListApi,
+      params: {
+        count: 2
+      },
+      resultField: 'data.list',
+      // use name as label
+      labelField: 'name',
+      // use id as value
+      valueField: 'id',
+      isBtn: true
+    },
     colProps: {
       span: 8
-    }
+    },
+    defaultValue: '1',
+    required: true
   }
 ]
 
 export default defineComponent({
-  components: {
-    VForm
-  },
   setup() {
     const formElRef = ref(null)
 
