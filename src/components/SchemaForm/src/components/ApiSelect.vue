@@ -26,6 +26,7 @@ export default defineComponent({
   inheritAttrs: false,
   props: {
     value: [Array, Object, String, Number],
+    options: Array,
     numberToString: Boolean,
     api: {
       type: Function,
@@ -59,7 +60,7 @@ export default defineComponent({
     }
   },
   emits: ['options-change', 'input', 'change'],
-  setup(props, { attrs, emit }) {
+  setup(props, { emit }) {
     const options = ref([])
     const loading = ref(false)
     const isFirstLoad = ref(true)
@@ -68,9 +69,9 @@ export default defineComponent({
     const state = useVModel(props)
 
     const getOptions = computed(() => {
-      const { labelField, valueField, numberToString } = props
+      const { labelField, valueField, numberToString, options: defaultOptions } = props
 
-      return unref(options).reduce((prev, next) => {
+      return (defaultOptions || unref(options)).reduce((prev, next) => {
         if (next) {
           const value = next[valueField]
           prev.push({
@@ -145,7 +146,13 @@ export default defineComponent({
       state.value = val
     }
 
-    return { state, attrs, getOptions, loading, handleFetch, handleChange }
+    return {
+      state,
+      getOptions,
+      loading,
+      handleFetch,
+      handleChange
+    }
   }
 })
 </script>

@@ -53,7 +53,7 @@ const schemas = [
     }
   },
   {
-    field: 'ApiSelect',
+    field: 'field34',
     component: 'ApiSelect',
     label: 'ApiSelect',
     componentProps: {
@@ -65,14 +65,30 @@ const schemas = [
       // use name as label
       labelField: 'name',
       // use id as value
-      valueField: 'id',
-      isBtn: true
+      valueField: 'id'
     },
     colProps: {
       span: 8
     },
     defaultValue: '1',
     required: true
+  },
+  {
+    field: 'field35',
+    component: 'ApiSelect',
+    label: '本地下拉选择',
+    componentProps: {
+      options: [
+        { label: '黄金糕', value: 1 },
+        { label: '双皮奶', value: 2 },
+        { label: '蚵仔煎', value: 3 },
+        { label: '龙须面', value: 4 },
+        { label: '北京烤鸭', value: 5 },
+      ]
+    },
+    colProps: {
+      span: 8
+    }
   }
 ]
 
