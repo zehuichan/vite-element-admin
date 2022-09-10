@@ -31,8 +31,7 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  emits: ['input', 'change'],
-  setup(props, { attrs, emit, listeners, slots }) {
+  setup(props, { slots }) {
     const modelValue = useVModel(props)
 
     const getValues = computed(() => {
@@ -201,9 +200,11 @@ export default defineComponent({
     }
 
     function renderComponent() {
-      const { renderComponentContent, field, label, size, component } = props.schema
+      const { renderComponentContent, field, label, component } = props.schema
 
       const tag = componentMap.get(component)
+
+      const { size } = props.formProps
 
       const propsData = {
         prop: field,
@@ -225,16 +226,17 @@ export default defineComponent({
       }
 
       const compAttr = {
+        style: {
+          width: '100%'
+        },
         attrs: {
           ...propsData,
-          ...bindValue,
-          ...attrs
+          ...bindValue
         },
         on: {
           input(val) {
             modelValue.value = val
-          },
-          ...listeners
+          }
         }
       }
 

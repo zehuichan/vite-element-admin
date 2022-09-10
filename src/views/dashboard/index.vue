@@ -53,6 +53,14 @@ const schemas = [
     }
   },
   {
+    field: 'field3',
+    component: 'Select',
+    label: '字段3',
+    colProps: {
+      span: 8
+    }
+  },
+  {
     field: 'field34',
     component: 'ApiSelect',
     label: 'ApiSelect',
@@ -83,7 +91,7 @@ const schemas = [
         { label: '双皮奶', value: 2 },
         { label: '蚵仔煎', value: 3 },
         { label: '龙须面', value: 4 },
-        { label: '北京烤鸭', value: 5 },
+        { label: '北京烤鸭', value: 5 }
       ]
     },
     colProps: {
