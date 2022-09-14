@@ -1,5 +1,5 @@
 <script lang="jsx">
-import { computed, defineComponent, h, ref, unref, watch } from 'vue'
+import { computed, defineComponent, h, unref, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { cloneDeep } from 'lodash-es'
 

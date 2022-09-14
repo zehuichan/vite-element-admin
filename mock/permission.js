@@ -21,6 +21,23 @@ const menu = [
     }
   },
   {
+    path: '/comp',
+    name: 'comp',
+    component: 'LAYOUT',
+    meta: {
+      title: '组件',
+      icon: 'el-icon-news'
+    },
+    children: [
+      {
+        path: '/comp/refForm',
+        component: '/comp/refForm',
+        name: 'refForm',
+        meta: { title: 'refForm' }
+      }
+    ]
+  },
+  {
     path: '/nested',
     component: 'LAYOUT',
     meta: {

@@ -13,7 +13,7 @@
   </el-select>
 </template>
 <script>
-import { defineComponent, ref, watchEffect, computed, unref, watch } from 'vue'
+import { defineComponent, ref, computed, unref, watch, onMounted } from 'vue'
 
 import { useVModel } from '@vueuse/core'
 
@@ -59,7 +59,7 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ['options-change', 'input', 'change'],
+  emits: ['options-change', 'input'],
   setup(props, { emit }) {
     const options = ref([])
     const loading = ref(false)
@@ -71,7 +71,7 @@ export default defineComponent({
     const getOptions = computed(() => {
       const { labelField, valueField, numberToString, options: defaultOptions } = props
 
-      return (defaultOptions || unref(options)).reduce((prev, next) => {
+      return (defaultOptions ?? unref(options)).reduce((prev, next) => {
         if (next) {
           const value = next[valueField]
           prev.push({
@@ -84,24 +84,12 @@ export default defineComponent({
       }, [])
     })
 
-    watchEffect(() => {
-      props.immediate && !props.alwaysLoad && fetch()
-    })
-
     watch(
       () => props.params,
       () => {
         !unref(isFirstLoad) && fetch()
       },
       { deep: true }
-    )
-
-    watch(
-      () => props.value,
-      (value) => {
-        state.value = value
-      },
-      { immediate: true }
     )
 
     async function fetch() {
@@ -145,6 +133,10 @@ export default defineComponent({
     function handleChange(val) {
       state.value = val
     }
+
+    onMounted(() => {
+      props.immediate && !props.alwaysLoad && fetch()
+    })
 
     return {
       state,
