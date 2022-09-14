@@ -1,4 +1,4 @@
-import { toRaw, unref } from 'vue'
+import { toRaw } from 'vue'
 import { defineStore } from 'pinia'
 import { store } from '..'
 
@@ -108,7 +108,7 @@ export const useMultipleTabStore = defineStore({
       const { path, name, fullPath, params, query } = getRawRoute(route)
 
       // 404 The page does not need to add a tab
-      if ([LOGIN_NAME, REDIRECT_NAME, PAGE_NOT_FOUND_NAME].includes(name)) {
+      if (!name || [LOGIN_NAME, REDIRECT_NAME, PAGE_NOT_FOUND_NAME].includes(name)) {
         return
       }
 
@@ -146,6 +146,7 @@ export const useMultipleTabStore = defineStore({
           (item) => item.fullPath === fullPath
         )
         index !== -1 && this.tabList.splice(index, 1)
+        cacheTab && Cache.setItem(MULTIPLE_TABS_KEY, this.tabList)
       }
 
       const { currentRoute } = router
@@ -183,6 +184,7 @@ export const useMultipleTabStore = defineStore({
     // Close the tab on the right and jump
     async closeLeftTabs(route, router) {
       const index = this.tabList.findIndex((item) => item.path === route.path)
+
       if (index > 0) {
         const leftTabs = this.tabList.slice(0, index)
         const pathList = []
@@ -199,6 +201,7 @@ export const useMultipleTabStore = defineStore({
     // Close the tab on the left and jump
     async closeRightTabs(route, router) {
       const index = this.tabList.findIndex((item) => item.fullPath === route.fullPath)
+
       if (index >= 0 && index < this.tabList.length - 1) {
         const rightTabs = this.tabList.slice(index + 1, this.tabList.length)
         const pathList = []

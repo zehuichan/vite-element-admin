@@ -257,7 +257,7 @@ export default defineComponent({
       if (component === 'Divider') {
         return (
           <el-col span={24}>
-            <el-divider {...unref(getComponentsProps)}></el-divider>
+            <el-divider {...{ attrs: unref(getComponentsProps) }}></el-divider>
           </el-col>
         )
       } else {

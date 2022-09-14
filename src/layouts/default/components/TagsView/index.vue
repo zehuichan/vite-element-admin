@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, onMounted, reactive, ref, toRefs, unref, watch } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { useRoute, useRouter } from '@/router'
 import { useMultipleTabStore } from '@/store'
 import { useTabs } from '@/hooks/useTabs'
@@ -148,7 +148,7 @@ export default defineComponent({
     onMounted(async () => {
       await nextTick()
       await multipleTabStore.initTabs(router.getRoutes())
-      await multipleTabStore.addTab(unref(route))
+      await multipleTabStore.addTab(route)
     })
 
     return {
