@@ -22,7 +22,7 @@ export function createVitePlugins(viteEnv, isBuild) {
   vitePlugins.push(configHtmlPlugin(viteEnv, isBuild))
 
   // vite-plugin-svg-icons
-  vitePlugins.push(configSvgIconsPlugin(isBuild));
+  vitePlugins.push(configSvgIconsPlugin(isBuild))
 
   // vite-plugin-mock
   VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild))

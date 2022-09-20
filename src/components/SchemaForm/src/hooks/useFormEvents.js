@@ -1,10 +1,9 @@
-import { nextTick, reactive, toRaw, unref } from 'vue'
-import { isArray, isObject } from '@/utils/is'
+import { nextTick, toRaw, unref } from 'vue'
+import { isArray, isNullOrUnDef, isObject, isString } from '@/utils/is'
 import { cloneDeep, uniqBy } from 'lodash-es'
 import { deepMerge } from '@/utils'
 
-export function useFormEvents(context) {
-  const { formModel, getSchema, defaultValueRef, formElRef, schemaRef, handleFormValues } = context
+export function useFormEvents({ emit, formModel, getSchema, formElRef, schemaRef, handleFormValues }) {
 
   //设置表单值
   async function setFieldsValue(values) {
@@ -56,6 +55,7 @@ export function useFormEvents(context) {
         }
       })
     })
+    _setDefaultValue(schema)
 
     schemaRef.value = uniqBy(schema, 'field')
   }
@@ -82,14 +82,39 @@ export function useFormEvents(context) {
     schemaRef.value = updateData
   }
 
-  async function resetFields() {
-    await unref(formElRef).resetFields()
-    await nextTick()
-    await clearValidate()
+  async function appendSchemaByField(schema, prefixField, first = false) {
+    const schemaList = cloneDeep(unref(getSchema))
+
+    const index = schemaList.findIndex((schema) => schema.field === prefixField)
+
+    if (!prefixField || index === -1 || first) {
+      first ? schemaList.unshift(schema) : schemaList.push(schema)
+      schemaRef.value = schemaList
+      _setDefaultValue(schema)
+      return
+    }
+    if (index !== -1) {
+      schemaList.splice(index + 1, 0, schema)
+    }
+    _setDefaultValue(schema)
+
+    schemaRef.value = schemaList
   }
 
-  async function clearValidate(name) {
-    await unref(formElRef).clearValidate(name)
+  async function removeSchemaByFiled(fields) {
+    const schemaList = cloneDeep(unref(getSchema))
+    if (!fields) {
+      return
+    }
+
+    let fieldList = isString(fields) ? [fields] : fields
+    if (isString(fields)) {
+      fieldList = [fields]
+    }
+    for (const field of fieldList) {
+      _removeSchemaByFiled(field, schemaList)
+    }
+    schemaRef.value = schemaList
   }
 
   async function validate(callback) {
@@ -100,8 +125,60 @@ export function useFormEvents(context) {
     return await unref(formElRef).validateField(prop, callback)
   }
 
-  async function scrollToField(prop) {
-    return await unref(formElRef).scrollToField(prop)
+  async function resetFields() {
+    await unref(formElRef).resetFields()
+    await nextTick()
+    await clearValidate()
+  }
+
+  async function clearValidate(name) {
+    await unref(formElRef).clearValidate(name)
+  }
+
+  async function handleEnter() {
+    const formEl = unref(formElRef)
+    if (!formEl) return
+    try {
+      await validate()
+      emit('enter')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  function _removeSchemaByFiled(field, schemaList) {
+    if (isString(field)) {
+      const index = schemaList.findIndex((schema) => schema.field === field)
+      if (index !== -1) {
+        delete formModel[field]
+        schemaList.splice(index, 1)
+      }
+    }
+  }
+
+  function _setDefaultValue(data) {
+    let schemas = []
+    if (isObject(data)) {
+      schemas.push(data)
+    }
+    if (isArray(data)) {
+      schemas = [...data]
+    }
+
+    const obj = {}
+    const currentFieldsValue = getFieldsValue()
+    schemas.forEach((item) => {
+      if (
+        item.component != 'Divider' &&
+        Reflect.has(item, 'field') &&
+        item.field &&
+        !isNullOrUnDef(item.defaultValue) &&
+        !(item.field in currentFieldsValue)
+      ) {
+        obj[item.field] = item.defaultValue
+      }
+    })
+    setFieldsValue(obj)
   }
 
   return {
@@ -109,10 +186,12 @@ export function useFormEvents(context) {
     getFieldsValue,
     updateSchema,
     resetSchema,
-    resetFields,
-    clearValidate,
+    appendSchemaByField,
+    removeSchemaByFiled,
     validate,
     validateField,
-    scrollToField
+    resetFields,
+    clearValidate,
+    handleEnter
   }
 }

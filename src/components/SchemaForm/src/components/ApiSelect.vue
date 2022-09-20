@@ -1,9 +1,9 @@
 <template>
   <el-select
     v-bind="$attrs"
+    v-on="$listeners"
     v-model="state"
     :loading="loading"
-    @change="handleChange"
     @visible-change="handleFetch"
   >
     <el-option v-for="item in getOptions" :key="item.value" :label="item.label" :value="item.value" />
@@ -12,10 +12,9 @@
     </template>
   </el-select>
 </template>
+
 <script>
 import { defineComponent, ref, computed, unref, watch, onMounted } from 'vue'
-
-import { useVModel } from '@vueuse/core'
 
 import { get, omit } from 'lodash-es'
 
@@ -66,7 +65,14 @@ export default defineComponent({
     const isFirstLoad = ref(true)
 
     // Embedded in the form, just use the hook binding to perform form verification
-    const state = useVModel(props)
+    const state = computed({
+      get() {
+        return props.value
+      },
+      set(val) {
+        emit('input', val)
+      }
+    })
 
     const getOptions = computed(() => {
       const { labelField, valueField, numberToString, options: defaultOptions } = props
@@ -93,8 +99,8 @@ export default defineComponent({
     )
 
     async function fetch() {
-      const api = props.api
-      if (!api || !isFunction(api)) return
+      const { api, options: defaultOptions = [] } = props
+      if (defaultOptions.length || !api || !isFunction(api)) return
       options.value = []
       try {
         loading.value = true
@@ -130,10 +136,6 @@ export default defineComponent({
       emit('options-change', unref(getOptions))
     }
 
-    function handleChange(val) {
-      state.value = val
-    }
-
     onMounted(() => {
       props.immediate && !props.alwaysLoad && fetch()
     })
@@ -142,8 +144,7 @@ export default defineComponent({
       state,
       getOptions,
       loading,
-      handleFetch,
-      handleChange
+      handleFetch
     }
   }
 })

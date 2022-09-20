@@ -1,6 +1,7 @@
 <script lang="jsx">
-import { computed, defineComponent, h, unref, watch } from 'vue'
+import { computed, defineComponent, unref, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
+
 import { cloneDeep } from 'lodash-es'
 
 import { componentMap } from '../componentMap'
@@ -13,7 +14,7 @@ export default defineComponent({
   name: 'SchemaFormItem',
   inheritAttrs: false,
   props: {
-    value: [String, Number],
+    value: [String, Number, Boolean],
     schema: {
       type: Object,
       default: () => ({})
@@ -31,8 +32,8 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  setup(props, { slots }) {
-    const modelValue = useVModel(props)
+  setup(props, { emit, listeners, slots }) {
+    const state = useVModel(props)
 
     const getValues = computed(() => {
       const { allDefaultValues, formModel, schema } = props
@@ -78,7 +79,7 @@ export default defineComponent({
     watch(
       () => props.value,
       (value) => {
-        modelValue.value = value
+        state.value = value
       },
       { immediate: true }
     )
@@ -137,13 +138,13 @@ export default defineComponent({
         const msg = rule.message || defaultMsg
         if (value === undefined || isNull(value)) {
           // 空值
-          return callback(new Error(msg))
+          callback(new Error(msg))
         } else if (Array.isArray(value) && value.length === 0) {
           // 数组类型
-          return callback(new Error(msg))
+          callback(new Error(msg))
         } else if (typeof value === 'string' && value.trim() === '') {
           // 空字符串
-          return callback(new Error(msg))
+          callback(new Error(msg))
         } else if (
           typeof value === 'object' &&
           Reflect.has(value, 'checked') &&
@@ -154,9 +155,9 @@ export default defineComponent({
           value.halfChecked.length === 0
         ) {
           // 非关联选择的tree组件
-          return callback(new Error(msg))
+          callback(new Error(msg))
         }
-        return callback()
+        callback()
       }
 
       const getRequired = isFunction(required) ? required(unref(getValues)) : required
@@ -196,6 +197,7 @@ export default defineComponent({
         rules[characterInx].message =
           rules[characterInx].message || `字符数应小于${[rules[characterInx].max]}位`
       }
+
       return rules
     }
 
@@ -215,14 +217,15 @@ export default defineComponent({
       }
 
       if (['daterange', 'datetimerange'].includes(unref(getComponentsProps)?.type) && component === 'DatePicker') {
-        propsData.startPlaceholder = unref(getComponentsProps)?.startPlaceholder || '开始时间'
-        propsData.endPlaceholder = unref(getComponentsProps)?.endPlaceholder || '结束时间'
+        const [startPlaceholder, endPlaceholder] = unref(getComponentsProps)?.placeholder
+        propsData.startPlaceholder = startPlaceholder || '开始时间'
+        propsData.endPlaceholder = endPlaceholder || '结束时间'
       } else {
         propsData.placeholder = unref(getComponentsProps)?.placeholder || label
       }
 
       const bindValue = {
-        value: modelValue.value
+        value: state.value
       }
 
       const compAttr = {
@@ -234,25 +237,31 @@ export default defineComponent({
           ...bindValue
         },
         on: {
-          input(val) {
-            modelValue.value = val
+          ...listeners,
+          input(e) {
+            emit('input', e)
           }
         }
       }
 
       if (!renderComponentContent) {
-        return h(tag, compAttr)
+        return (<tag {...compAttr} />)
       }
 
       const compSlot = isFunction(renderComponentContent)
         ? { ...renderComponentContent(unref(getValues)) }
         : { default: () => renderComponentContent }
 
-      return h(tag, { ...compAttr, ...compSlot })
+      return (<tag {...{ ...compAttr, ...compSlot }} />)
     }
 
     function renderItem() {
       const { itemProps, slot, render, field, label, component } = props.schema
+
+      // todo
+      if (!componentMap.has(component)) {
+        return null
+      }
 
       if (component === 'Divider') {
         return (
@@ -283,10 +292,7 @@ export default defineComponent({
     }
 
     return () => {
-      const { colProps = {}, colSlot, renderColContent, component } = props.schema
-      if (!componentMap.has(component)) {
-        return null
-      }
+      const { colProps = {}, colSlot, renderColContent } = props.schema
 
       const { baseColProps = {} } = props.formProps
       const realColProps = { ...baseColProps, ...colProps }

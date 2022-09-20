@@ -1,27 +1,25 @@
 <template>
   <el-form
+    v-bind="getBindValue"
     ref="formElRef"
     :model="formModel"
-    :label-position="labelPosition"
-    :label-width="labelWidth"
     :validate-on-rule-change="false"
-    v-bind="propsRef"
     @keyup.enter.native="handleEnterPress"
   >
     <el-row v-bind="getRow">
       <slot name="formHeader"></slot>
       <template v-for="schema in getSchema">
-        <v-form-item
+        <schema-form-item
           :schema="schema"
           :formProps="getProps"
           :allDefaultValues="defaultValueRef"
           :formModel="formModel"
           v-model="formModel[schema.field]"
         >
-          <template v-for="item in Object.keys($scopedSlots)" #[item]="data">
+          <template #[item]="data" v-for="item in Object.keys($scopedSlots)">
             <slot :name="item" v-bind="data || {}"></slot>
           </template>
-        </v-form-item>
+        </schema-form-item>
       </template>
       <slot name="formFooter"></slot>
     </el-row>
@@ -29,21 +27,27 @@
 </template>
 
 <script>
-import { computed, defineComponent, onMounted, reactive, ref, unref } from 'vue'
+import { computed, defineComponent, onMounted, reactive, ref, unref, watch } from 'vue'
+import { cloneDeep, pick } from 'lodash-es'
+
+import { Form } from 'element-ui'
 
 import { useFormValues } from './hooks/useFormValues'
 import { useFormEvents } from './hooks/useFormEvents'
 
-import VFormItem from './components/SchemaFormItem.vue'
-import { cloneDeep } from 'lodash-es'
+import SchemaFormItem from './components/SchemaFormItem.vue'
 
 export default defineComponent({
   name: 'SchemaForm',
   components: {
-    VFormItem
+    SchemaFormItem
   },
   inheritAttrs: false,
   props: {
+    model: {
+      type: Object,
+      default: () => ({})
+    },
     labelPosition: {
       type: String,
       default: 'right'
@@ -70,13 +74,15 @@ export default defineComponent({
     autoSetPlaceHolder: {
       type: Boolean,
       default: true
-    }
+    },
+    autoFocusFirstItem: Boolean
   },
-  emits: ['register', 'field-value-change'],
+  emits: ['register', 'field-value-change', 'enter'],
   setup(props, { attrs, emit }) {
     const formModel = reactive({})
 
     const defaultValueRef = ref({})
+    const isInitedDefaultRef = ref(false)
     const propsRef = ref({})
     const schemaRef = ref(null)
     const formElRef = ref(null)
@@ -94,7 +100,10 @@ export default defineComponent({
     })
 
     const getBindValue = computed(() => {
-      return { ...attrs, ...props, ...unref(getProps) }
+      return pick(
+        { ...attrs, ...props, ...unref(getProps) },
+        Object.keys(Form.props)
+      )
     })
 
     const getSchema = computed(() => {
@@ -119,12 +128,15 @@ export default defineComponent({
       getFieldsValue,
       updateSchema,
       resetSchema,
+      appendSchemaByField,
+      removeSchemaByFiled,
       resetFields,
       clearValidate,
       validate,
       validateField,
-      scrollToField
+      handleEnter
     } = useFormEvents({
+      emit,
       getProps,
       formModel,
       getSchema,
@@ -133,6 +145,35 @@ export default defineComponent({
       schemaRef,
       handleFormValues
     })
+
+    watch(
+      () => unref(getProps).model,
+      (model) => {
+        if (!model) return
+        setFieldsValue(model)
+      },
+      { immediate: true }
+    )
+
+    watch(
+      () => unref(getProps).schemas,
+      (schemas) => {
+        resetSchema(schemas ?? [])
+      }
+    )
+
+    watch(
+      () => getSchema.value,
+      (schema) => {
+        if (unref(isInitedDefaultRef)) {
+          return
+        }
+        if (schema?.length) {
+          initDefault()
+          isInitedDefaultRef.value = true
+        }
+      }
+    )
 
     async function setProps(formProps) {
       propsRef.value = Object.assign({}, unref(propsRef), formProps)
@@ -144,11 +185,13 @@ export default defineComponent({
       getFieldsValue,
       updateSchema,
       resetSchema,
+      appendSchemaByField,
+      removeSchemaByFiled,
       resetFields,
       clearValidate,
       validate,
       validateField,
-      scrollToField
+      handleEnter
     }
 
     function handleEnterPress(e) {
@@ -157,7 +200,7 @@ export default defineComponent({
       if (e.key === 'Enter' && e.target && e.target instanceof HTMLElement) {
         const target = e.target
         if (target && target.tagName && target.tagName.toUpperCase() == 'INPUT') {
-          console.log('submit')
+          handleEnter()
         }
       }
     }
