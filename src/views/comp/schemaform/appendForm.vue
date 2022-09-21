@@ -1,16 +1,23 @@
 <template>
   <div class="app-container">
-    <schema-form @register="register">
-      <template #add="{ field }">
-        <el-button v-if="Number(field) === 0" text icon="Plus" @click="add" />
-        <el-button v-if="field > 0" text icon="Minus" @click="del(field)" />
+    <el-form>
+      <el-form-item label="配置">
+        <el-button @click="validate">
+          validate
+        </el-button>
+      </el-form-item>
+    </el-form>
+    <schema-form :schemas="schemas" @register="register">
+      <template #add="{field}">
+        <el-button v-if="Number(field) === 0" text icon="el-icon-plus" @click="add" />
+        <el-button v-if="field > 0" text icon="el-icon-minus" @click="del(field)" />
       </template>
     </schema-form>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { useForm } from '@/components/SchemaForm'
 
 const schemas = [
@@ -21,7 +28,6 @@ const schemas = [
     colProps: {
       span: 8
     },
-    defaultValue: 123,
     required: true
   },
   {
@@ -44,9 +50,7 @@ const schemas = [
 
 export default defineComponent({
   setup() {
-    const [register, { appendSchemaByField, removeSchemaByFiled }] = useForm({
-      schemas
-    })
+    const [register, { validate, appendSchemaByField, removeSchemaByFiled }] = useForm()
     const n = ref(1)
 
     function add() {
@@ -57,7 +61,6 @@ export default defineComponent({
         colProps: {
           span: 16
         },
-        defaultValue: 123,
         required: true
       })
       appendSchemaByField({
@@ -78,7 +81,9 @@ export default defineComponent({
     }
 
     return {
+      schemas,
       register,
+      validate,
       add,
       del
     }

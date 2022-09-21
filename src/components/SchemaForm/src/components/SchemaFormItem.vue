@@ -32,7 +32,7 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  setup(props, { emit, listeners, slots }) {
+  setup(props, { listeners, slots }) {
     const state = useVModel(props)
 
     const getValues = computed(() => {
@@ -86,12 +86,6 @@ export default defineComponent({
 
     function getShow() {
       const { show, ifShow } = props.schema
-      const { showAdvancedButton } = props.formProps
-      const itemIsAdvanced = showAdvancedButton
-        ? isBoolean(props.schema.isAdvanced)
-          ? props.schema.isAdvanced
-          : true
-        : true
 
       let isShow = true
       let isIfShow = true
@@ -108,7 +102,7 @@ export default defineComponent({
       if (isFunction(ifShow)) {
         isIfShow = ifShow(unref(getValues))
       }
-      isShow = isShow && itemIsAdvanced
+
       return { isShow, isIfShow }
     }
 
@@ -236,12 +230,7 @@ export default defineComponent({
           ...propsData,
           ...bindValue
         },
-        on: {
-          ...listeners,
-          input(e) {
-            emit('input', e)
-          }
-        }
+        on: listeners
       }
 
       if (!renderComponentContent) {
@@ -266,7 +255,7 @@ export default defineComponent({
       if (component === 'Divider') {
         return (
           <el-col span={24}>
-            <el-divider {...{ attrs: unref(getComponentsProps) }}></el-divider>
+            <el-divider {...{ attrs: unref(getComponentsProps) }}>{label}</el-divider>
           </el-col>
         )
       } else {

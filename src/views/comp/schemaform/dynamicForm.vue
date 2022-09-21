@@ -33,7 +33,9 @@ const schemas = [
     field: 'field1',
     component: 'Input',
     label: '字段1',
-    defaultValue: 123,
+    colProps: {
+      span: 8
+    },
     required: true,
     ifShow: ({ values }) => {
       return !!values.field4
@@ -43,12 +45,18 @@ const schemas = [
     field: 'field4',
     component: 'Switch',
     label: '字段4',
+    colProps: {
+      span: 8
+    },
     defaultValue: true
   },
   {
     field: 'field2',
     component: 'Input',
     label: '字段2',
+    colProps: {
+      span: 8
+    },
     dynamicDisabled: ({ values }) => {
       return values.field35 == 1
     }
@@ -57,6 +65,9 @@ const schemas = [
     field: 'field3',
     component: 'Input',
     label: '字段3',
+    colProps: {
+      span: 8
+    },
     slot: 'f3',
     dynamicRules: ({ values }) => {
       return values.field34 == 0 ? [{ required: true, message: '必填', trigger: 'change' }] : []
@@ -66,6 +77,9 @@ const schemas = [
     field: 'field34',
     component: 'ApiSelect',
     label: 'ApiSelect',
+    colProps: {
+      span: 8
+    },
     componentProps: {
       api: optionsListApi,
       params: {
@@ -84,6 +98,9 @@ const schemas = [
     field: 'field35',
     component: 'ApiSelect',
     label: '本地下拉选择',
+    colProps: {
+      span: 8
+    },
     componentProps: {
       options: [
         { label: '黄金糕', value: 1 },

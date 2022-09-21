@@ -16,6 +16,8 @@
 <script>
 import { defineComponent, ref, computed, unref, watch, onMounted } from 'vue'
 
+import { useVModel } from '@vueuse/core'
+
 import { get, omit } from 'lodash-es'
 
 import { isFunction } from '@/utils/is'
@@ -65,14 +67,19 @@ export default defineComponent({
     const isFirstLoad = ref(true)
 
     // Embedded in the form, just use the hook binding to perform form verification
-    const state = computed({
-      get() {
-        return props.value
-      },
-      set(val) {
-        emit('input', val)
-      }
-    })
+
+    // 方式一：
+    const state = useVModel(props)
+
+    // 方式二：
+    // const state = computed({
+    //   get() {
+    //     return props.value
+    //   },
+    //   set(val) {
+    //     emit('input', val)
+    //   }
+    // })
 
     const getOptions = computed(() => {
       const { labelField, valueField, numberToString, options: defaultOptions } = props
