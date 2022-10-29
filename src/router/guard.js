@@ -1,5 +1,5 @@
 import { useTitle } from '@vueuse/core'
-import { useNProgress } from '@vueuse/integrations/useNProgress'
+import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 import { PageNotFoundRoute } from '@/router'
@@ -19,15 +19,13 @@ export function setupGuard(router) {
 }
 
 export function createProgressGuard(router) {
-  const { isLoading } = useNProgress(null, { showSpinner: false })
-
   router.beforeEach((to, from, next) => {
-    isLoading.value = true
+    nprogress.start()
     next()
   })
 
   router.afterEach(() => {
-    isLoading.value = false
+    nprogress.done()
   })
 }
 
