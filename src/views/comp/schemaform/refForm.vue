@@ -13,6 +13,7 @@
       </el-form-item>
     </el-form>
     <schema-form ref="formRef" :schemas="schemas">
+      <template #form-field1-label>custom label</template>
       <template #f3="{ model, field }">
         <el-input v-model="model[field]" placeholder="自定义slot" />
       </template>

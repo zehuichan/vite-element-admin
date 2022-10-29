@@ -14,7 +14,7 @@ export default defineComponent({
   name: 'SchemaFormItem',
   inheritAttrs: false,
   props: {
-    value: [String, Number, Boolean],
+    value: null,
     schema: {
       type: Object,
       default: () => ({})
@@ -195,6 +195,14 @@ export default defineComponent({
       return rules
     }
 
+    function renderLabel() {
+      const { field, label } = props.schema
+      if (slots[`form-${field}-label`]) {
+        return slots[`form-${field}-label`]()
+      }
+      return label
+    }
+
     function renderComponent() {
       const { renderComponentContent, field, label, component } = props.schema
 
@@ -267,14 +275,19 @@ export default defineComponent({
               : renderComponent()
         }
 
+        const scopedSlots = {
+          label: () => renderLabel(),
+          default: () => getContent()
+        }
+
         return (
           <el-form-item
             prop={field}
             label={label}
             rules={handleRules()}
+            scopedSlots={scopedSlots}
             {...{ attrs: itemProps }}
           >
-            {getContent()}
           </el-form-item>
         )
       }
