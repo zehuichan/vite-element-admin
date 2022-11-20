@@ -60,8 +60,7 @@ export default defineComponent({
 
     watch(
       () => getIsMobile.value,
-      (value) => {
-        console.log(value)
+      () => {
         setMenuSetting({
           animation: unref(getCollapsed) && true
         })
