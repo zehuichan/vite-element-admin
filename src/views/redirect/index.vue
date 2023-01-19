@@ -4,13 +4,14 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { useRouter } from '@/router'
+import { useRoute, useRouter } from 'vue-router/composables'
 
 export default defineComponent({
   name: 'Redirect',
   setup() {
     const router = useRouter()
-    const { params, query } = router.currentRoute
+    const route = useRoute()
+    const { params, query } = route
     const { path, _redirect_type = 'path' } = params
 
     Reflect.deleteProperty(params, '_redirect_type')

@@ -20,9 +20,9 @@
 
 <script>
 import { computed, defineComponent, unref } from 'vue'
+import { useRoute, useRouter } from 'vue-router/composables'
 
 import { usePermissionStore } from '@/store'
-import { useRoute, useRouter } from '@/router'
 
 import Logo from './logo.vue'
 import MenuItem from './Item.vue'

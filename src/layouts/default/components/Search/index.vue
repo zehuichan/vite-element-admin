@@ -60,11 +60,11 @@
 
 <script>
 import { computed, defineComponent, nextTick, ref, unref, watch } from 'vue'
+import { useRouter } from 'vue-router/composables'
 import { onKeyStroke, useDebounceFn } from '@vueuse/core'
 import { usePermissionStore } from '@/store'
 
 import { filter } from '@/utils/treeHelper'
-import { useRouter } from '@/router'
 
 // Translate special characters
 function transform(c) {

@@ -204,6 +204,7 @@ export const useMultipleTabStore = defineStore({
 
       if (index >= 0 && index < this.tabList.length - 1) {
         const rightTabs = this.tabList.slice(index + 1, this.tabList.length)
+
         const pathList = []
         for (const item of rightTabs) {
           const affix = item?.meta?.affix ?? false

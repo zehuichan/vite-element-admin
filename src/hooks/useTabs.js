@@ -1,4 +1,4 @@
-import { useRouter } from '@/router'
+import { useRoute, useRouter } from 'vue-router/composables'
 
 import { useAppStore, useMultipleTabStore } from '@/store'
 
@@ -27,11 +27,9 @@ export function useTabs(_router) {
 
   const tabStore = useMultipleTabStore()
   const router = _router || useRouter()
-
-  const { currentRoute } = router
+  const route = useRoute()
 
   function getCurrentTab() {
-    const route = currentRoute
     return tabStore.getTabList.find((item) => item.fullPath === route.fullPath)
   }
 

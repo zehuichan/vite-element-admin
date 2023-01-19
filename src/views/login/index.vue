@@ -60,7 +60,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { useRouter } from '@/router'
+import { useRouter } from 'vue-router/composables'
 import { validUsername } from '@/utils/validate'
 import { useUserStore } from '@/store/modules/user'
 

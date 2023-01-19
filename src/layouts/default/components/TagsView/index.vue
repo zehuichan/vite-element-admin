@@ -1,74 +1,95 @@
 <template>
-  <div ref="tagsView" id="tags-view-container" class="tags-view-container">
-    <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
-      <draggable
-        :list="visitedViews"
-        animation="300"
-        item-key="fullPath"
-        @end="handleSortTabs"
-      >
-        <div
-          v-for="tag in visitedViews"
-          :key="tag.path"
-          :class="{ 'active': activeKey === tag.path }"
-          class="tags-view-item"
-          @click.stop="handleClick(tag)"
-          @contextmenu.prevent="handleContextMenu(tag, $event)"
-        >
-          {{ tag.meta.title }}
-          <span v-if="!tag.meta.affix && activeKey === tag.path" class="el-icon-close" @click.stop="handleClose(tag)" />
+  <div class="tabs-view">
+    <div class="tabs-view-main">
+      <div ref="navWrap" class="tabs-card">
+        <div ref="navScroll" class="tabs-card-scroll">
+          <draggable
+            :list="getTabsState"
+            animation="300"
+            item-key="fullPath"
+            class="flex"
+            @end="handleSortTabs"
+          >
+            <div
+              v-for="element in getTabsState"
+              :key="element.path"
+              :id="`tag${element?.fullPath?.split('/').join('\/')}`"
+              class="tabs-card-scroll-item"
+              :class="{ 'active-item': activeKey === element.path }"
+              @click.stop="handleClick(element)"
+              @contextmenu.prevent="handleContextMenu($event, element)"
+            >
+              <div class="tabs-card-scroll-item__inner">
+                <span>{{ element.meta.title }}</span>
+                <span
+                  v-if="!element.meta.affix && activeKey === element.path"
+                  class="el-icon-close"
+                  @click.stop="handleClose(element)"
+                />
+              </div>
+            </div>
+          </draggable>
         </div>
-      </draggable>
-    </scroll-pane>
+      </div>
+    </div>
     <contextmenu
       ref="contextmenu"
-      v-show="visible"
-      :tab-item="selectedTag"
-      :x="left"
-      :y="top"
-      @click="visible = false"
+      v-show="showDropdown"
+      :tab-item="currentTab"
+      :x="dropdownX"
+      :y="dropdownY"
+      @click="showDropdown = false"
     />
   </div>
 </template>
 
 <script>
 import { computed, defineComponent, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue'
-import { useRoute, useRouter } from '@/router'
-import { useMultipleTabStore } from '@/store'
-import { useTabs } from '@/hooks/useTabs'
-import { useGo } from '@/hooks/usePage'
+import { useRoute, useRouter } from 'vue-router/composables'
+import { onClickOutside } from '@vueuse/core'
 
 import Draggable from 'vuedraggable'
-import ScrollPane from './ScrollPane.vue'
 import Contextmenu from './contextmenu.vue'
+
+import { useMultipleTabStore } from '@/store'
+
+import { useTabs } from '@/hooks/useTabs'
+import { useGo } from '@/hooks/usePage'
 
 import { PAGE_NOT_FOUND_NAME, REDIRECT_NAME } from '@/router/constant'
 
 export default defineComponent({
   components: {
     Draggable,
-    ScrollPane,
     Contextmenu
   },
   setup() {
-    const multipleTabStore = useMultipleTabStore()
+    const navWrap = ref(null)
+    const navScroll = ref(null)
+    const contextmenu = ref(null)
+    const currentTab = ref(null)
+
+    const tabStore = useMultipleTabStore()
 
     const router = useRouter()
     const route = useRoute()
     const go = useGo()
+
     const { close } = useTabs()
 
     const tagsView = ref(null)
 
     const state = reactive({
       activeKey: route.fullPath,
-      visible: false,
-      top: 0,
-      left: 0,
-      selectedTag: null
+      scrollable: false,
+      dropdownX: 0,
+      dropdownY: 0,
+      showDropdown: false,
+      isMultiHeaderFixed: false,
+      multiTabsSetting: true
     })
 
-    const visitedViews = computed(() => multipleTabStore.getTabList)
+    const getTabsState = computed(() => tabStore.getTabList)
 
     watch(
       () => route.fullPath,
@@ -81,52 +102,40 @@ export default defineComponent({
         }
 
         state.activeKey = to
-        multipleTabStore.addTab(route)
-      }
-    )
-
-    watch(
-      () => state.visible,
-      (value) => {
-        if (value) {
-          document.body.addEventListener('click', closeMenu)
-        } else {
-          document.body.removeEventListener('click', closeMenu)
-        }
+        tabStore.addTab(route)
       }
     )
 
     function handleClick(e) {
-      state.visible = false
+      state.showDropdown = false
       const { path, fullPath } = e
       if (fullPath === route.fullPath) return
       state.activeKey = fullPath || path
       go(state.activeKey, true)
     }
 
-    function handleClose(view) {
-      close(view)
+    function handleClose(item) {
+      close(item)
     }
 
-    async function handleContextMenu(tag, e) {
-      state.visible = false
-      state.selectedTag = null
-      await nextTick()
+    async function handleContextMenu(e, item) {
+      state.showDropdown = false
+      currentTab.value = null
       const menuMinWidth = 105
-      const offsetLeft = tagsView.value.getBoundingClientRect().left // container margin left
-      const offsetWidth = tagsView.value.offsetWidth // container width
+      const offsetLeft = navWrap.value.getBoundingClientRect().left // container margin left
+      const offsetWidth = navWrap.value.offsetWidth // container width
       const maxLeft = offsetWidth - menuMinWidth // left boundary
       const left = e.clientX - offsetLeft + 15 // 15: margin right
 
       if (left > maxLeft) {
-        state.left = maxLeft
+        state.dropdownX = maxLeft
       } else {
-        state.left = left
+        state.dropdownX = left
       }
 
-      state.visible = true
-      state.top = e.clientY
-      state.selectedTag = tag
+      state.showDropdown = true
+      state.dropdownY = e.clientY
+      currentTab.value = item
     }
 
     function handleSortTabs(evt) {
@@ -134,134 +143,142 @@ export default defineComponent({
       if (oldIndex === newIndex) {
         return
       }
-      multipleTabStore.sortTabs()
+      tabStore.sortTabs()
     }
 
-    function closeMenu() {
-      state.visible = false
-    }
-
-    function handleScroll() {
-      closeMenu()
-    }
+    onClickOutside(contextmenu, () => (state.showDropdown = false))
 
     onMounted(async () => {
       await nextTick()
-      await multipleTabStore.initTabs(router.getRoutes())
-      await multipleTabStore.addTab(route)
+      await tabStore.initTabs(router.getRoutes())
+      await tabStore.addTab(route)
     })
 
     return {
       ...toRefs(state),
-      tagsView,
-      visitedViews,
+      navWrap,
+      navScroll,
+      contextmenu,
+      currentTab,
+      getTabsState,
 
       handleClick,
       handleClose,
       handleContextMenu,
-      handleSortTabs,
-      handleScroll
+      handleSortTabs
     }
   }
 })
 </script>
 
 <style lang="scss">
-.tags-view-container {
-  height: 42px;
+.tabs-view {
   width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+  padding: 4px 6px 4px;
+  display: flex;
+  transition: all 0.2s ease-in-out;
+  background-color: #fff;
 
-  .tags-view-wrapper {
-    .tags-view-item {
-      display: inline-block;
+  &-main {
+    height: 32px;
+    display: flex;
+    max-width: 100%;
+    min-width: 100%;
+
+    .tabs-card {
+      flex-grow: 1;
+      flex-shrink: 1;
+      overflow: hidden;
       position: relative;
-      cursor: pointer;
-      height: 34px;
-      line-height: 34px;
-      border: 1px solid #d8dce5;
-      color: #495060;
-      background: #fff;
-      padding: 0 8px;
-      font-size: 12px;
-      margin-left: 5px;
-      margin-top: 4px;
 
-      &:last-of-type {
-        margin-right: 15px;
+      .tabs-card-prev,
+      .tabs-card-next {
+        width: 32px;
+        text-align: center;
+        position: absolute;
+        line-height: 32px;
+        cursor: pointer;
       }
 
-      &.active {
-        background-color: #42b983;
-        color: #fff;
-        border-color: #42b983;
+      .tabs-card-prev {
+        left: 0;
+      }
 
-        &::before {
-          content: '';
-          background: #fff;
+      .tabs-card-next {
+        right: 0;
+      }
+
+      .tabs-card-next-hide,
+      .tabs-card-prev-hide {
+        display: none;
+      }
+
+      &-scroll {
+        white-space: nowrap;
+        overflow: hidden;
+
+        &-item {
           display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
           position: relative;
-          margin-right: 2px;
+          cursor: pointer;
+          height: 32px;
+          line-height: 32px;
+          border: 1px solid #f0f0f0;
+          color: #1f2225;
+          background: #fff;
+          padding: 0 8px;
+          font-size: 12px;
+          border-radius: 2px;
+          margin-right: 6px;
+          flex: 0 0 auto;
+
+          &:hover {
+            color: #515a6e;
+          }
+
+          &__inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          [class^=el-icon-] {
+            margin-left: 8px;
+            font-size: 14px;
+          }
+        }
+
+        .active-item {
+          color: #fff;
+          background: #0960bd;
+          border: 0;
         }
       }
     }
-  }
 
-  .contextmenu {
-    margin: 0;
-    background: #fff;
-    z-index: 3000;
-    position: absolute;
-    list-style-type: none;
-    padding: 5px 0;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #333;
-    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
-
-    li {
-      margin: 0;
-      padding: 7px 16px;
-      cursor: pointer;
-
-      &:hover {
-        background: #eee;
-      }
+    .tabs-card-scrollable {
+      padding: 0 32px;
+      overflow: hidden;
     }
   }
 }
-</style>
 
-<style lang="scss">
-//reset element css of el-icon-close
-.tags-view-wrapper {
-  .tags-view-item {
-    .el-icon-close {
-      width: 16px;
-      height: 16px;
-      vertical-align: 2px;
-      border-radius: 50%;
-      text-align: center;
-      transition: all .3s cubic-bezier(.645, .045, .355, 1);
-      transform-origin: 100% 50%;
+.tabs-view-default-background {
+  background: #f5f7f9;
+}
 
-      &:before {
-        transform: scale(.6);
-        display: inline-block;
-        vertical-align: -3px;
-      }
+.tabs-view-dark-background {
+  background: #101014;
+}
 
-      &:hover {
-        background-color: #b4bccc;
-        color: #fff;
-      }
-    }
-  }
+.tabs-view-fix {
+  position: fixed;
+  z-index: 5;
+  padding: 6px 19px 6px 10px;
+  left: 200px;
+}
+
+.tabs-view-fixed-header {
+  top: 0;
 }
 </style>

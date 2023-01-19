@@ -17,9 +17,9 @@
 
 <script>
 import { computed, defineComponent } from 'vue'
+import { useRoute, useRouter } from 'vue-router/composables'
 
 import { useUserStore } from '@/store'
-import { useRoute, useRouter } from '@/router'
 
 export default defineComponent({
   name: 'Userinfo',

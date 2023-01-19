@@ -8,8 +8,8 @@
 
 <script>
 import { computed, defineComponent } from 'vue'
+import { useRoute } from 'vue-router/composables'
 import { useMultipleTabStore } from '@/store'
-import { useRoute } from '@/router'
 
 export default defineComponent({
   name: 'AppMain',

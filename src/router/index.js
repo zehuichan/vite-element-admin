@@ -1,4 +1,4 @@
-import Vue, { effectScope, getCurrentInstance, reactive } from 'vue'
+import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import { Layout, REDIRECT_NAME } from './constant'
@@ -76,30 +76,4 @@ export const router = createRouter()
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
-}
-
-export function useRouter() {
-  const vm = getCurrentInstance()
-  if (!vm) throw new Error('must be called in setup')
-  return vm.proxy.$router
-}
-
-let currentRoute
-
-export function useRoute() {
-  const vm = getCurrentInstance()
-  if (!vm) throw new Error('must be called in setup')
-
-  if (!currentRoute) {
-    const scope = effectScope(true)
-    scope.run(() => {
-      const { $router } = vm.proxy
-      currentRoute = reactive(Object.assign({}, $router.currentRoute))
-      $router.afterEach(to => {
-        Object.assign(currentRoute, to)
-      })
-    })
-  }
-
-  return currentRoute
 }

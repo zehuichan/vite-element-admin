@@ -7,6 +7,7 @@
       :class="{ 'tabs-view-contextmenu-item__disabled': item.disabled }"
       @click="handleMenuEvent(item)"
     >
+      <!--<icon :name="item.icon" />-->
       <span>{{ item.text }}</span>
     </li>
   </ul>
@@ -14,7 +15,7 @@
 
 <script>
 import { computed, defineComponent, reactive, unref, watch } from 'vue'
-import { useRoute } from '@/router'
+import { useRoute } from 'vue-router/composables'
 
 import { useMultipleTabStore } from '@/store'
 import { TableActionEnum, useTabs } from '@/hooks/useTabs'
@@ -49,45 +50,53 @@ export default defineComponent({
       const { path } = route
 
       const curItem = state.current
-      const index = state.currentIndex
 
       const isCurItem = curItem ? curItem.path === path : false
 
       // Refresh button
+      const index = state.currentIndex
       const refreshDisabled = !isCurItem
-      const disabled = tabStore.getTabList.length <= 1
       // Close left
       const closeLeftDisabled = index === 0 || !isCurItem
+
+      const disabled = tabStore.getTabList.length === 1
+
       // Close right
       const closeRightDisabled = !isCurItem || (index === tabStore.getTabList.length - 1 && tabStore.getLastDragEndIndex >= 0)
 
       return [
         {
+          icon: 'Refresh',
           event: TableActionEnum.REFRESH,
           text: '重新加载',
           disabled: refreshDisabled
         },
         {
+          icon: 'Close',
           event: TableActionEnum.CLOSE_CURRENT,
           text: '关闭标签页',
           disabled: !!meta?.affix || disabled
         },
         {
+          icon: 'DArrowLeft',
           event: TableActionEnum.CLOSE_LEFT,
           text: '关闭左侧标签页',
           disabled: closeLeftDisabled
         },
         {
+          icon: 'DArrowRight',
           event: TableActionEnum.CLOSE_RIGHT,
           text: '关闭右侧标签页',
           disabled: closeRightDisabled
         },
         {
+          icon: 'Switch',
           event: TableActionEnum.CLOSE_OTHER,
           text: '关闭其他标签页',
           disabled: disabled || !isCurItem
         },
         {
+          icon: 'SemiSelect',
           event: TableActionEnum.CLOSE_ALL,
           text: '关闭全部标签页',
           disabled: disabled

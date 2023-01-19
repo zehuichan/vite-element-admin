@@ -14,11 +14,11 @@
 </template>
 
 <script>
-import { computed, defineComponent, unref } from 'vue'
-import { usePermissionStore } from '@/store'
-import { useRoute } from '@/router'
-
+import { computed, defineComponent } from 'vue'
+import { useRoute } from 'vue-router/composables'
 import { compile } from 'path-to-regexp'
+
+import { usePermissionStore } from '@/store'
 
 import { filter } from '@/utils/treeHelper'
 
@@ -30,16 +30,16 @@ export default defineComponent({
   setup() {
     const permissionStore = usePermissionStore()
 
-    const route = useRoute()
+    const currentRoute = useRoute()
 
     const routes = computed(() => {
-      if (route.name === REDIRECT_NAME) return []
+      if (currentRoute.name === REDIRECT_NAME) return []
 
       const menus = permissionStore.getMenus
 
-      const routeMatched = route.matched
+      const routeMatched = currentRoute.matched
       const cur = routeMatched?.[routeMatched.length - 1]
-      let { path } = route
+      let { path } = currentRoute
 
       if (cur && cur?.meta?.currentActiveMenu) {
         path = cur.meta.currentActiveMenu
@@ -53,10 +53,10 @@ export default defineComponent({
 
       const breadcrumbList = filterItem(matched)
 
-      if (route.meta?.currentActiveMenu) {
+      if (currentRoute.meta?.currentActiveMenu) {
         breadcrumbList.push({
-          ...route,
-          name: route.meta?.title || route.name
+          ...currentRoute,
+          name: currentRoute.meta?.title || currentRoute.name
         })
       }
 

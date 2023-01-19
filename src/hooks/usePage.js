@@ -1,4 +1,4 @@
-import { useRouter } from '@/router'
+import { useRouter } from 'vue-router/composables'
 import { REDIRECT_NAME } from '@/router/constant'
 
 function handleError(e) {
