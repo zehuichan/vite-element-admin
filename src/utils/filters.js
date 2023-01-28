@@ -1,7 +1,15 @@
 import dayjs from 'dayjs'
 
-export function dayjsFormat(val, template = 'YYYY-MM-DD HH:mm:ss') {
-  return dayjs(val).format(template)
+const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
+const DATE_FORMAT = 'YYYY-MM-DD'
+
+export function formatToDateTime(date = undefined, format = DATE_TIME_FORMAT) {
+  return dayjs(date).format(format)
+}
+
+export function formatToDate(date = undefined, format = DATE_FORMAT) {
+  if (!date) return ''
+  return dayjs(date).format(format)
 }
 
 function pluralize(time, label) {
