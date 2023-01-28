@@ -1,39 +1,82 @@
-import { defineStore } from 'pinia'
-import { store } from '..'
+import Cookies from 'js-cookie'
+import {getLanguage} from '@/lang/index'
 
-import { Cache, PROJ_CFG_KEY } from '@/utils/cache'
-import { deepMerge } from '@/utils'
+const state = {
+  sidebar: {
+    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
+    withoutAnimation: false
+  },
+  // 设备
+  device: 'desktop',
+  // 媒体查询
+  mediaQuery: undefined,
+  language: getLanguage(),
+  size: Cookies.get('size') || 'mini'
+}
 
-import projectConfig from '@/settings/projectSetting'
-
-export const useAppStore = defineStore({
-  id: 'app',
-  state: () => ({
-    projectConfig: Cache.getItem(PROJ_CFG_KEY, projectConfig)
-  }),
-  getters: {
-    getProjectConfig() {
-      return this.projectConfig || {}
-    },
-    getHeaderSetting() {
-      return this.getProjectConfig.headerSetting
-    },
-    getMenuSetting() {
-      return this.getProjectConfig.menuSetting
-    },
-    getMultiTabsSetting() {
-      return this.getProjectConfig.multiTabsSetting
+const mutations = {
+  TOGGLE_SIDEBAR: state => {
+    state.sidebar.opened = !state.sidebar.opened
+    state.sidebar.withoutAnimation = false
+    if (state.sidebar.opened) {
+      Cookies.set('sidebarStatus', 1)
+    } else {
+      Cookies.set('sidebarStatus', 0)
     }
   },
-  actions: {
-    setProjectConfig(config) {
-      this.projectConfig = deepMerge(this.projectConfig || {}, config)
-      Cache.setItem(PROJ_CFG_KEY, this.projectConfig)
-    }
+  CLOSE_SIDEBAR: (state, withoutAnimation) => {
+    Cookies.set('sidebarStatus', 0)
+    state.sidebar.opened = false
+    state.sidebar.withoutAnimation = withoutAnimation
+  },
+  OPEN_SIDEBAR: (state, withoutAnimation) => {
+    Cookies.set('sidebarStatus', 1)
+    state.sidebar.opened = true
+    state.sidebar.withoutAnimation = withoutAnimation
+  },
+  TOGGLE_DEVICE: (state, device) => {
+    state.device = device
+  },
+  SET_MEDIA_QUERY: (state, mediaQuery) => {
+    state.mediaQuery = mediaQuery
+  },
+  SET_LANGUAGE: (state, language) => {
+    state.language = language
+    Cookies.set('language', language)
+  },
+  SET_SIZE: (state, size) => {
+    state.size = size
+    Cookies.set('size', size)
   }
-})
+}
 
-// Need to be used outside the setup
-export function useAppStoreWithOut() {
-  return useAppStore(store)
+const actions = {
+  toggleSideBar({ commit }) {
+    commit('TOGGLE_SIDEBAR')
+  },
+  closeSideBar({ commit }, { withoutAnimation }) {
+    commit('CLOSE_SIDEBAR', withoutAnimation)
+  },
+  openSideBar({ commit }, { withoutAnimation }) {
+    commit('OPEN_SIDEBAR', withoutAnimation)
+  },
+  toggleDevice({ commit }, device) {
+    commit('TOGGLE_DEVICE', device)
+  },
+  setMediaQuery({ commit }, query) {
+    commit('SET_MEDIA_QUERY', query)
+  },
+  setLanguage({ commit }, language) {
+    commit('SET_LANGUAGE', language)
+  },
+  setSize({ commit }, size) {
+    commit('SET_SIZE', size)
+  }
+}
+
+export default {
+  namespaced: true,
+  state,
+  mutations,
+  actions
 }

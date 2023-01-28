@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import { Layout, REDIRECT_NAME } from './constant'
-
 Vue.use(VueRouter)
+
+/* Layout */
+import Layout from '@/layout'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -29,51 +30,69 @@ Vue.use(VueRouter)
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-
-export const LoginRoute = {
-  path: '/login',
-  name: 'Login',
-  component: () => import('@/views/login/index.vue')
-}
-
-export const RedirectRoute = {
-  path: '/redirect',
-  component: Layout,
-  children: [
-    {
-      path: '/redirect/:path(.*)',
-      name: REDIRECT_NAME,
-      component: () => import('@/views/redirect/index.vue')
-    }
-  ]
-}
-
-export const ErrorPageRoute = {
-  path: '/404',
-  component: () => import('@/views/error-page/404.vue'),
-  hidden: true
-}
-
-export const PageNotFoundRoute = { path: '*', redirect: '/404', hidden: true }
-
 export const constantRoutes = [
-  LoginRoute,
-  RedirectRoute,
-  ErrorPageRoute
+  {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/login/index'),
+    hidden: true
+  },
+  {
+    path: '/auth-redirect',
+    component: () => import('@/views/login/auth-redirect'),
+    hidden: true
+  },
+  {
+    path: '/401',
+    component: () => import('@/views/error-page/401'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error-page/404'),
+    hidden: true
+  },
+  {
+    path: '/500',
+    component: () => import('@/views/error-page/500'),
+    hidden: true
+  },
+  { path: '/', redirect: '/dashboard' },
 ]
 
-export function createRouter(routes = constantRoutes) {
-  return new VueRouter({
-    // mode: 'history', // require service support
-    scrollBehavior: () => ({ y: 0 }),
-    routes: routes
-  })
-}
 
-export const router = createRouter()
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+const createRouter = () => new VueRouter({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
+})
+
+const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
+
+console.info('[INFO] ' + 'VueRouter', VueRouter.version)
+export default router
