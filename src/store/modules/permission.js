@@ -1,103 +1,86 @@
-import {menuList} from '@/api/ums'
-import {constantRoutes} from '@/router'
-import mapping from '@/router/mapping'
+import { defineStore } from 'pinia'
+import { store } from '..'
 
-/**
- *
- * @param serverRouter
- * @returns {[]}
- */
-function generatorDynamicRouter(serverRouter) {
-  const res = []
+import { priv } from '@/api'
+import { constantRoutes } from '@/router'
 
-  serverRouter.forEach(route => {
-    const tmp = { ...route }
-    if (tmp.component === 'Layout') {
-      tmp.component = mapping['Layout']
-    } else {
-      tmp.component = mapping[tmp.component]
+import { flatMultiLevelRoutes, routerGenerator, transformObjToRoute } from '@/router/routeHelper'
+import { transformRouteToMenu } from '@/router/menuHelper'
+
+export const usePermissionStore = defineStore({
+  id: 'permission',
+  state: () => ({
+    menus: [],
+    routers: constantRoutes,
+    // Whether the route has been dynamically added
+    // 路由是否动态添加
+    isDynamicAddedRoute: false,
+    // To trigger a menu update
+    // 触发菜单更新
+    lastBuildMenuTime: 0
+  }),
+  getters: {
+    getMenus() {
+      return this.menus
+    },
+    getIsDynamicAddedRoute() {
+      return this.isDynamicAddedRoute
     }
+  },
+  actions: {
+    // 设置动态菜单
+    setMenus(menus) {
+      this.menus = menus
+      menus?.length > 0 && this.setLastBuildMenuTime()
+    },
+    // 设置动态路由
+    setRouters(routers) {
+      this.routers = constantRoutes.concat(routers)
+    },
+    setLastBuildMenuTime() {
+      this.lastBuildMenuTime = new Date().getTime()
+    },
+    setDynamicAddedRoute(added) {
+      this.isDynamicAddedRoute = added
+    },
+    resetState() {
+      this.isDynamicAddedRoute = false
+      this.menus = []
+      this.lastBuildMenuTime = 0
+    },
+    async buildRoutesAction() {
+      let routeList = []
 
-    if (tmp.children) {
-      tmp.children = generatorDynamicRouter(tmp.children)
-    }
-
-    res.push(tmp)
-  })
-
-  return res
-}
-
-/**
- * Use meta.roles to determine if the current user has permission
- * @param roles
- * @param route
- */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
-  } else {
-    return true
-  }
-}
-
-/**
- * Filter asynchronous routing tables by recursion
- * @param routes asyncRoutes
- * @param roles
- */
-export function filterAsyncRoutes(routes, roles) {
-  const res = []
-
-  routes.forEach(route => {
-    const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
+      try {
+        const res = await priv()
+        routeList = res.data
+      } catch (error) {
+        console.log(error)
       }
-      res.push(tmp)
+
+      // 清洗数据
+      routeList = routerGenerator(routeList)
+
+      // Dynamically introduce components
+      // 动态引入组件
+      routeList = transformObjToRoute(routeList)
+
+      // Background routing to menu structure
+      // 后台路由到菜单结构
+      const menus = transformRouteToMenu(routeList)
+      this.setMenus(menus)
+
+      // Convert multi-level routing to level 2 routing
+      // 将多级路由转换为 2 级路由
+      routeList = flatMultiLevelRoutes(routeList)
+      this.setRouters(routeList)
+
+      return routeList
     }
-  })
-
-  return res
-}
-
-const state = {
-  routes: [],
-  addRoutes: []
-}
-
-const mutations = {
-  SET_ROUTES: (state, routes) => {
-    state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
   }
-}
+})
 
-const actions = {
-  generateRoutes({ commit }, roles) {
-    return new Promise(resolve => {
-      let accessedRoutes
-      let permissionRouters
-      menuList().then(response => {
-        const { data } = response
-        permissionRouters = generatorDynamicRouter(data)
-        permissionRouters = [...permissionRouters, { path: '*', redirect: '/404', hidden: true }]
-        if (roles.includes('admin')) {
-          accessedRoutes = permissionRouters || []
-        } else {
-          accessedRoutes = filterAsyncRoutes(permissionRouters, roles)
-        }
-        commit('SET_ROUTES', accessedRoutes)
-        resolve(accessedRoutes)
-      })
-    })
-  }
-}
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
+// Need to be used outside the setup
+export function usePermissionStoreWithOut() {
+  return usePermissionStore(store)
 }
