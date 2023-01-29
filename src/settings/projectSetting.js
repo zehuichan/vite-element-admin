@@ -22,9 +22,9 @@ export default {
     // AppMenu collapse
     collapsed: false,
     // Turn on accordion mode, only show a menu
-    accordion: false,
+    accordion: true,
 
-    animation: false,
+    animation: true,
     backgroundColor: '#001529',
     textColor: '#ffffffb3',
     activeTextColor: '#1890ff',
@@ -41,6 +41,15 @@ export default {
     canDrag: true
   },
 
+  // Whether to cancel the menu, the top, the multi-tab page display, for possible embedded in other systems
+  fullContent: false,
+
+  // Whether to display the logo
+  showLogo: true,
+
+  // Whether to show footer
+  showFooter: false,
+
   // Whether to enable KeepAlive cache is best to close during development, otherwise the cache needs to be cleared every time
   openKeepAlive: true,
 
@@ -48,7 +57,7 @@ export default {
   showBreadCrumb: true,
 
   // Use error-handler-plugin
-  useErrorHandle: false,
+  useErrorHandle: true,
 
   // Whether to open back to top
   useOpenBackTop: true

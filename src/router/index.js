@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import { Layout, REDIRECT_NAME } from './constant'
+import { ERROR_PAGE, LAYOUT, LOGIN_NAME, PAGE_NOT_FOUND_NAME, REDIRECT_NAME } from './constant'
 
 Vue.use(VueRouter)
 
@@ -30,36 +30,59 @@ Vue.use(VueRouter)
  * all roles can be accessed
  */
 
-export const LoginRoute = {
+export const ROOT_ROUTE = {
+  path: '/',
+  name: 'Root',
+  redirect: '/dashboard'
+}
+
+export const LOGIN_ROUTE = {
   path: '/login',
-  name: 'Login',
+  name: LOGIN_NAME,
   component: () => import('@/views/login/index.vue')
 }
 
-export const RedirectRoute = {
+export const REDIRECT_ROUTE = {
   path: '/redirect',
-  component: Layout,
+  component: LAYOUT,
   children: [
     {
-      path: '/redirect/:path(.*)',
+      path: '/redirect/*',
       name: REDIRECT_NAME,
-      component: () => import('@/views/redirect/index.vue')
+      component: () => import('@/views/redirect/index.vue'),
+      meta: {
+        title: REDIRECT_NAME,
+        hideBreadcrumb: true,
+        hideMenu: true
+      }
     }
   ]
 }
 
-export const ErrorPageRoute = {
+export const PAGE_NOT_FOUND_ROUTE = {
   path: '/404',
-  component: () => import('@/views/error-page/404.vue'),
-  hidden: true
+  component: LAYOUT,
+  children: [
+    {
+      path: '',
+      name: PAGE_NOT_FOUND_NAME,
+      component: ERROR_PAGE,
+      meta: {
+        title: 'ErrorPage',
+        hideBreadcrumb: true,
+        hideMenu: false
+      }
+    }
+  ]
 }
 
 export const PageNotFoundRoute = { path: '*', redirect: '/404', hidden: true }
 
 export const constantRoutes = [
-  LoginRoute,
-  RedirectRoute,
-  ErrorPageRoute
+  ROOT_ROUTE,
+  LOGIN_ROUTE,
+  REDIRECT_ROUTE,
+  PAGE_NOT_FOUND_ROUTE
 ]
 
 export function createRouter(routes = constantRoutes) {

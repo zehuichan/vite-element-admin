@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown class="navbar-action__item avatar-container" size="default" trigger="click">
+  <el-dropdown class="basic-layout-navbar-action__item avatar-container" size="default" trigger="click">
     <div class="avatar-wrapper">
       <el-avatar :src="getUserInfo?.avatar" class="user-avatar" />
       <span class="user-name">{{ getUserInfo?.username }}</span>

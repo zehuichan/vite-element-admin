@@ -20,7 +20,7 @@ setupGuard(router)
 registerComponents(Vue)
 
 Vue.config.productionTip = false
-console.log(__APP_INFO__)
+console.table(__APP_INFO__)
 
 new Vue({
   router,

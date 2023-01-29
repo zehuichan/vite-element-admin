@@ -1,4 +1,4 @@
-import { Layout, Blank, getParentLayout } from '@/router/constant'
+import { LAYOUT, BLANK, getParentLayout } from '@/router/constant'
 import { cloneDeep, omit } from 'lodash-es'
 import { createRouter } from '@/router'
 import { treeMap } from '@/utils/treeHelper'
@@ -6,8 +6,8 @@ import { joinParentPath } from '@/router/menuHelper'
 
 const LayoutMap = new Map()
 
-LayoutMap.set('LAYOUT', Layout)
-LayoutMap.set('BLANK', Blank)
+LayoutMap.set('LAYOUT', LAYOUT)
+LayoutMap.set('BLANK', BLANK)
 
 let dynamicViewsModules
 
@@ -16,7 +16,7 @@ export function asyncImportRoute(routes) {
   if (!routes) return
   routes.forEach((item) => {
     if (!item.component) {
-      item.component = 'Blank'
+      item.component = 'BLANK'
     }
     const { component, name } = item
     const { children } = item
@@ -165,7 +165,7 @@ export function transformObjToRoute(routeList) {
         route.component = LayoutMap.get(component.toUpperCase())
       } else {
         route.children = [cloneDeep(route)]
-        route.component = Layout
+        route.component = LAYOUT
         route.name = `${route.name}Parent`
         route.path = ''
         const meta = route.meta || {}

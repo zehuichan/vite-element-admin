@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar-action__item" @click="toggle">
+  <div class="basic-layout-navbar-action__item" @click="toggle">
     <i class="el-icon-full-screen" v-if="!isFullscreen" />
     <i class="el-icon-close" v-else />
   </div>

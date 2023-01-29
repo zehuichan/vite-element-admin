@@ -1,5 +1,5 @@
 <template>
-  <div class="hamburger" @click="toggleCollapsed">
+  <div class="trigger" @click="toggleCollapsed">
     <i class="el-icon-s-fold" v-if="!getCollapsed" />
     <i class="el-icon-s-unfold" v-else />
   </div>
@@ -10,7 +10,7 @@ import { defineComponent } from 'vue'
 import { useMenuSetting } from '@/hooks/useMenuSetting'
 
 export default defineComponent({
-  name: 'Hamburger',
+  name: 'Trigger',
   setup() {
     const { getCollapsed, toggleCollapsed } = useMenuSetting()
 
@@ -23,17 +23,19 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.hamburger {
+.trigger {
   display: flex;
   height: 100%;
   padding: 0 10px;
   cursor: pointer;
   align-items: center;
-  font-size: 16px;
-  color: #000;
 
   &:hover {
     background-color: #f6f6f6;
+  }
+
+  .el-icon {
+    font-size: 16px;
   }
 }
 </style>

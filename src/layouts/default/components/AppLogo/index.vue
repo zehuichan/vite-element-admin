@@ -1,7 +1,7 @@
 <template>
   <div class="logo" @click="goHome">
-    <img src="/element-plus-logo.svg" alt="" :class="{ 'mr-2': !collapsed }" />
-    <div v-show="!collapsed" class="title">PlusAdmin</div>
+    <img src="/vite.svg" alt="" :class="{ 'mr-2': !collapsed }" />
+    <div v-show="!collapsed" class="title">ElementAdmin</div>
   </div>
 </template>
 

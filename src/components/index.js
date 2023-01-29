@@ -1,8 +1,9 @@
 import AppProvider from './AppProvider'
+import Overlay from './Overlay'
 import SchemaForm from './SchemaForm'
 import SvgIcon from './SvgIcon'
 
-const components = [AppProvider, SchemaForm, SvgIcon]
+const components = [AppProvider, Overlay, SchemaForm, SvgIcon]
 
 export function registerComponents(app) {
   components.map((item) => {

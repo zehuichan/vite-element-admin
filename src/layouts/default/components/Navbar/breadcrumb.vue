@@ -2,9 +2,9 @@
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
       <el-breadcrumb-item v-for="item in routes" :key="item.path">
-        <span v-if="!hasRedirect(routes, item)" class="no-redirect">
+        <div v-if="!hasRedirect(routes, item)" class="no-redirect">
           {{ item.meta?.title }}
-        </span>
+        </div>
         <router-link v-else :to="pathCompile(item)">
           {{ item.meta.title }}
         </router-link>
@@ -117,7 +117,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.app-breadcrumb.el-breadcrumb {
+.app-breadcrumb {
   display: inline-block;
   font-size: 14px;
   line-height: 50px;
@@ -127,5 +127,25 @@ export default defineComponent({
     color: #97a8be;
     cursor: text;
   }
+}
+
+/* breadcrumb transition */
+.breadcrumb-enter-active,
+.breadcrumb-leave-active {
+  transition: all .5s;
+}
+
+.breadcrumb-enter,
+.breadcrumb-leave-active {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.breadcrumb-move {
+  transition: all .5s;
+}
+
+.breadcrumb-leave-active {
+  position: absolute;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="navbar-action__item" @click="visible = true">
+    <div class="basic-layout-navbar-action__item" @click="visible = true">
       <i class="el-icon-search" />
     </div>
     <el-dialog

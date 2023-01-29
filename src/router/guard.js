@@ -2,7 +2,7 @@ import { useTitle } from '@vueuse/core'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-import { PageNotFoundRoute } from '@/router'
+import { LOGIN_ROUTE, PAGE_NOT_FOUND_ROUTE, PageNotFoundRoute } from '@/router'
 import { LOGIN_NAME, PAGE_NOT_FOUND_NAME } from '@/router/constant'
 
 import { useUserStoreWithOut } from '@/store/modules/user'
@@ -40,52 +40,81 @@ export function createPermissionGuard(router) {
     // determine whether the user has logged in
     const token = userStore.getToken
 
-    if (token) {
-      if (to.path === '/login') {
-        next('/')
-      } else {
-        if (permissionStore.getIsDynamicAddedRoute) {
-          next()
-        } else {
-          try {
-            // 用户信息
-            await userStore.getUserInfoAction()
-            // 菜单
-            const routes = await permissionStore.buildRoutesAction()
-            // 默认添加根路由
-            routes.unshift({ path: '/', redirect: routes[0].children[0].path })
-            // 动态添加可访问路由表
-            routes.forEach((item) => {
-              router.addRoute(item)
-            })
-            // 404
-            router.addRoute(PageNotFoundRoute)
-            console.log(routes)
+    // Whitelist can be directly entered
+    if (whiteList.includes(to.path)) {
+      next()
+      return
+    }
 
-            permissionStore.setDynamicAddedRoute(true)
 
-            // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
-            if (to.name === PAGE_NOT_FOUND_NAME) {
-              next({ path: to.fullPath, replace: true, query: to.query })
-            } else {
-              const redirectPath = from.query.redirect || to.path
-              const redirect = decodeURIComponent(redirectPath)
-              const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect }
-              next(nextData)
-            }
-          } catch (e) {
-            console.log(e)
-          }
+    // token does not exist
+    if (!token) {
+      // You can access without permissions. You need to set the routing meta.ignoreAuth to true
+      if (to.meta.ignoreAuth) {
+        next()
+        return
+      }
+      // redirect login page
+      const redirectData = {
+        path: LOGIN_ROUTE.path,
+        replace: true
+      }
+      if (to.path) {
+        redirectData.query = {
+          ...redirectData.query,
+          redirect: to.path
         }
       }
-    } else {
-      if (whiteList.indexOf(to.path) !== -1) {
-        // in the free login whitelist, go directly
+      next(redirectData)
+      return
+    }
+
+    if (
+      from.name === LOGIN_NAME &&
+      to.name === PAGE_NOT_FOUND_NAME
+    ) {
+      next('/')
+      return
+    }
+
+    // get userinfo while last fetch time is empty
+    if (userStore.getLastUpdateTime === 0) {
+      try {
+        await userStore.getUserInfoAction()
+      } catch (err) {
         next()
-      } else {
-        // other pages that do not have permission to access are redirected to the login page.
-        next(`/login?redirect=${to.path}`)
+        return
       }
+    }
+
+    if (permissionStore.getIsDynamicAddedRoute) {
+      next()
+      return
+    }
+
+    const routes = await permissionStore.buildRoutesAction()
+
+    // 默认添加根路由
+    routes.unshift({ path: '/', redirect: routes[0].children[0].path })
+
+    // 动态添加可访问路由表
+    routes.forEach((route) => {
+      router.addRoute(route)
+    })
+
+    router.addRoute(PageNotFoundRoute)
+
+    permissionStore.setDynamicAddedRoute(true)
+
+    // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
+    if (to.name === PAGE_NOT_FOUND_NAME) {
+      next({ path: to.fullPath, replace: true, query: to.query })
+    } else {
+      const redirectPath = from.query.redirect || to.path
+      const redirect = decodeURIComponent(redirectPath)
+      const nextData =
+        to.path === redirect ? { ...to, replace: true } : { path: redirect }
+      next(nextData)
     }
   })
 }
@@ -94,6 +123,7 @@ export function createStateGuard(router) {
   const tabStore = useMultipleTabStoreWithOut()
   const userStore = useUserStoreWithOut()
   const permissionStore = usePermissionStoreWithOut()
+
   router.afterEach((to) => {
     if (to.name === LOGIN_NAME) {
       permissionStore.resetState()

@@ -1,34 +1,58 @@
 <template>
-  <div :class="{'fixed-header': getFixed}">
-    <navbar />
-    <tags-view />
+  <div>
+    <div :style="getPlaceholderDomStyle" v-if="getFixed"></div>
+    <div
+      :class="{'basic-layout-multiple-header': true, 'basic-layout-multiple-header--fixed': getFixed}"
+    >
+      <navbar />
+      <tabs v-if="getShowMultipleTab" />
+    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-
+import { computed, defineComponent, unref } from 'vue'
 import Navbar from '../Navbar/index.vue'
-import TagsView from '../TagsView/index.vue'
+import Tabs from '../Tabs/index.vue'
 
 import { useHeaderSetting } from '@/hooks/useHeaderSetting'
+import { useMultipleTabSetting } from '@/hooks/useMultipleTabSetting'
+
+const HEADER_HEIGHT = 48
+const TABS_HEIGHT = 40
 
 export default defineComponent({
   name: 'AppHeader',
   components: {
     Navbar,
-    TagsView
+    Tabs
   },
   setup() {
-    const { getFixed } = useHeaderSetting()
+    const { getFixed, getShowHeader } = useHeaderSetting()
+    const { getShowMultipleTab } = useMultipleTabSetting()
+
+    const getPlaceholderDomStyle = computed(() => {
+      let height = 0
+      if (unref(getShowHeader)) {
+        height += HEADER_HEIGHT
+      }
+      if (unref(getShowMultipleTab)) {
+        height += TABS_HEIGHT
+      }
+      return {
+        height: `${height}px`
+      }
+    })
 
     return {
-      getFixed
+      HEADER_HEIGHT,
+      TABS_HEIGHT,
+
+      getFixed,
+      getPlaceholderDomStyle,
+
+      getShowMultipleTab
     }
   }
 })
 </script>
-
-<style scoped>
-
-</style>

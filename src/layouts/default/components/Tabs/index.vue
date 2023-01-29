@@ -22,7 +22,7 @@
               <div class="tabs-card-scroll-item__inner">
                 <span>{{ element.meta.title }}</span>
                 <span
-                  v-if="!element.meta.affix && activeKey === element.path"
+                  v-show="!element.meta.affix && activeKey === element.path"
                   class="el-icon-close"
                   @click.stop="handleClose(element)"
                 />
@@ -59,6 +59,7 @@ import { useGo } from '@/hooks/usePage'
 import { PAGE_NOT_FOUND_NAME, REDIRECT_NAME } from '@/router/constant'
 
 export default defineComponent({
+  name: 'AppTabs',
   components: {
     Draggable,
     Contextmenu
@@ -76,8 +77,6 @@ export default defineComponent({
     const go = useGo()
 
     const { close } = useTabs()
-
-    const tagsView = ref(null)
 
     const state = reactive({
       activeKey: route.fullPath,
@@ -107,6 +106,7 @@ export default defineComponent({
     )
 
     function handleClick(e) {
+      currentTab.value = e
       state.showDropdown = false
       const { path, fullPath } = e
       if (fullPath === route.fullPath) return
@@ -121,6 +121,7 @@ export default defineComponent({
     async function handleContextMenu(e, item) {
       state.showDropdown = false
       currentTab.value = null
+      await nextTick()
       const menuMinWidth = 105
       const offsetLeft = navWrap.value.getBoundingClientRect().left // container margin left
       const offsetWidth = navWrap.value.offsetWidth // container width

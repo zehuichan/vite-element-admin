@@ -1,7 +1,7 @@
 <template>
   <el-popover>
     <template #reference>
-      <div class="navbar-action__item">
+      <div class="basic-layout-navbar-action__item">
         <i class="el-icon-bell" />
       </div>
     </template>

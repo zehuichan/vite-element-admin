@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="navbar-action__item" @click="visible = true">
+    <div class="basic-layout-navbar-action__item" @click="visible = true">
       <i class="el-icon-setting" />
     </div>
     <el-drawer size="260px" :withHeader="false" :append-to-body="true" :visible.sync="visible">

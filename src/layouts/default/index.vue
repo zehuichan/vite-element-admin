@@ -1,58 +1,53 @@
 <template>
-  <div class="app-wrapper" :class="layoutClass">
-    <div v-if="getIsMobile && !getCollapsed" class="drawer-bg" @click="handleClickOutside" />
-    <sidebar class="sidebar-container" />
-    <div :class="{hasTagsView: getShowMultipleTab}" class="main-container">
-      <div :class="{'fixed-header': getFixed}">
-        <navbar />
-        <tags-view v-if="getShowMultipleTab" />
-      </div>
-      <app-main />
-    </div>
+  <div class="basic-layout layout-aside" :class="layoutClass">
+    <app-sider />
+    <section class="basic-layout-main">
+      <app-header />
+      <app-content />
+      <app-footer v-if="getShowFooter" />
+    </section>
+    <el-backtop v-if="getUseOpenBackTop" />
   </div>
 </template>
 
 <script>
 import { computed, defineComponent, onMounted, unref, watch } from 'vue'
 
-import AppMain from './components/AppMain/index.vue'
-import Navbar from './components/Navbar/index.vue'
-import TagsView from './components/TagsView/index.vue'
-import Sidebar from './components/Sidebar/index.vue'
+import AppHeader from './components/AppHeader/index.vue'
+import AppContent from './components/AppContent/index.vue'
+import AppSider from './components/AppSider/index.vue'
+import AppFooter from './components/AppFooter/index.vue'
 
-import { useAppInjectStore } from '@/hooks/useAppProvideStore'
+import { useRootSetting } from '@/hooks/useRootSetting'
 import { useMenuSetting } from '@/hooks/useMenuSetting'
-import { useHeaderSetting } from '@/hooks/useHeaderSetting'
-import { useMultipleTabSetting } from '@/hooks/useMultipleTabSetting'
+import { useAppInjectStore } from '@/hooks/useAppProvideStore'
 
 export default defineComponent({
-  name: 'Layout',
+  name: 'BasicLayout',
   components: {
-    AppMain,
-    Navbar,
-    TagsView,
-    Sidebar
+    AppHeader,
+    AppContent,
+    AppSider,
+    AppFooter
   },
   setup() {
     const { getIsMobile } = useAppInjectStore()
 
+    const { getShowFooter, getUseOpenBackTop } = useRootSetting()
     const {
       setMenuSetting,
       getCollapsed,
-      getAnimation
+      getAnimation,
+      getMenuBackgroundColor,
+      getMenuWidth,
+      getCollapsedWidth
     } = useMenuSetting()
-    const {
-      getFixed
-    } = useHeaderSetting()
-    const {
-      getShowMultipleTab
-    } = useMultipleTabSetting()
 
     const layoutClass = computed(() => {
       const opened = unref(getCollapsed)
       return {
-        hideSidebar: opened,
-        openSidebar: !opened,
+        hideSider: opened,
+        openSider: !opened,
         withoutAnimation: unref(getAnimation),
         mobile: unref(getIsMobile)
       }
@@ -67,13 +62,6 @@ export default defineComponent({
       }
     )
 
-    function handleClickOutside() {
-      setMenuSetting({
-        collapsed: true,
-        animation: false
-      })
-    }
-
     onMounted(() => {
       if (unref(getCollapsed)) {
         setMenuSetting({
@@ -84,57 +72,139 @@ export default defineComponent({
     })
 
     return {
-      getIsMobile,
-      layoutClass,
-      getFixed,
-      getShowMultipleTab,
-      getCollapsed,
-      handleClickOutside
+      getShowFooter,
+      getUseOpenBackTop,
+      getMenuBackgroundColor,
+      getMenuWidth,
+      getCollapsedWidth,
+      layoutClass
     }
   }
 })
 </script>
 
-<style lang="scss" scoped>
-@import "@/styles/mixin.scss";
-@import "@/styles/variables.scss";
-
-.app-wrapper {
-  @include clearfix;
-  position: relative;
-  height: 100%;
+<style lang="scss">
+.basic-layout {
   width: 100%;
+  min-height: 100%;
+  background-color: #f4f7f9;
 
-  &.mobile.openSidebar {
-    position: fixed;
-    top: 0;
+  .basic-layout-main {
+    position: relative;
+    margin-left: v-bind(getMenuWidth);
+    transition: margin-left 0.28s;
   }
-}
 
-.drawer-bg {
-  background: #000;
-  opacity: 0.3;
-  width: 100%;
-  top: 0;
-  height: 100%;
-  position: absolute;
-  z-index: 999;
-}
+  .basic-layout-aside {
+    transition: width 0.28s;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 2001;
+    width: v-bind(getMenuWidth);
+    height: 100vh;
 
-.fixed-header {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 9;
-  width: calc(100% - #{$sideBarWidth});
-  transition: width 0.28s;
-}
+    // reset element-ui css
+    .horizontal-collapse-transition {
+      transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
+    }
 
-.hideSidebar .fixed-header {
-  width: calc(100% - 54px)
-}
+    .scrollbar-wrapper {
+      overflow-x: hidden !important;
+    }
 
-.mobile .fixed-header {
-  width: 100%;
+    .el-scrollbar__bar.is-vertical {
+      right: 0;
+    }
+
+    .el-scrollbar {
+      height: 100%;
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background-color: v-bind(getMenuBackgroundColor);
+
+      .el-menu {
+        border-right: 0;
+
+        &:not(.el-menu--collapse) {
+          width: v-bind(getMenuWidth);
+        }
+      }
+    }
+
+    &__collapsed {
+      width: v-bind(getCollapsedWidth);
+    }
+
+    &__open {
+      width: v-bind(getMenuWidth);
+      transform: translateX(0);
+    }
+
+    &__hide {
+      width: v-bind(getMenuWidth);
+      transform: translateX(-100%);
+    }
+  }
+
+  .basic-layout-multiple-header {
+    &--fixed {
+      position: fixed;
+      top: 0;
+      z-index: 505;
+      width: calc(100% - v-bind(getMenuWidth));
+      box-shadow: 0 1px 3px 0 rgb(0 0 0 / 12%), 0 0 3px 0 rgb(0 0 0 / 4%);
+      transition: width 0.28s;
+    }
+  }
+
+  &.hideSider {
+    .basic-layout-aside {
+      width: v-bind(getCollapsedWidth);
+    }
+
+    .basic-layout-main {
+      margin-left: v-bind(getCollapsedWidth);
+    }
+
+    .basic-layout-multiple-header--fixed {
+      width: calc(100% - v-bind(getCollapsedWidth));
+    }
+  }
+
+  &.mobile {
+    .basic-layout-aside {
+      transition: transform 0.28s;
+      width: v-bind(getMenuWidth);
+    }
+
+    .basic-layout-main {
+      margin-left: 0;
+    }
+
+    .basic-layout-multiple-header--fixed {
+      width: 100%;
+    }
+
+    &.hideSider {
+      .basic-layout-aside {
+        pointer-events: none;
+        transition-duration: 0.3s;
+      }
+    }
+  }
+
+  &.withoutAnimation {
+    .basic-layout-aside,
+    .basic-layout-main,
+    .basic-layout-multiple-header--fixed {
+      transition: none;
+    }
+  }
 }
 </style>
