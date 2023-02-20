@@ -15,13 +15,12 @@
 </template>
 
 <script>
-import { computed, defineComponent, unref } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router/composables'
 
 import MenuItem from './Item.vue'
 
 import { isUrl } from '@/utils/is'
-import { useAppInjectStore } from '@/hooks/useAppProvideStore'
 import { useMenuSetting } from '@/hooks/useMenuSetting'
 
 export default defineComponent({
@@ -30,15 +29,12 @@ export default defineComponent({
     MenuItem
   },
   props: {
-    routes: Array,
-    uniqueOpened: Boolean
+    collapse: Boolean,
+    routes: Array
   },
   emits: ['click'],
   setup(props, { emit }) {
-    const { getIsMobile } = useAppInjectStore()
-
     const {
-      getCollapsed,
       getAccordion,
       getMenuBackgroundColor,
       getMenuTextColor,
@@ -58,13 +54,6 @@ export default defineComponent({
       return path
     })
 
-    const collapse = computed(() => {
-      if (unref(getIsMobile)) {
-        return false
-      }
-      return unref(getCollapsed)
-    })
-
     function onSelect(index) {
       if (index === defaultActive.value) return
       if (isUrl(index)) {
@@ -76,7 +65,6 @@ export default defineComponent({
     }
 
     return {
-      getCollapsed,
       getAccordion,
       getMenuBackgroundColor,
       getMenuTextColor,
@@ -84,7 +72,6 @@ export default defineComponent({
       getMenuWidth,
 
       defaultActive,
-      collapse,
       onSelect
     }
   }

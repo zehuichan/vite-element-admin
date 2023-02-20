@@ -31,7 +31,7 @@ export default defineComponent({
     AppFooter
   },
   setup() {
-    const { getIsMobile } = useAppInjectStore()
+    const { getIsMobile, getIsLaptop } = useAppInjectStore()
 
     const { getShowFooter, getUseOpenBackTop } = useRootSetting()
     const {
@@ -44,7 +44,8 @@ export default defineComponent({
     } = useMenuSetting()
 
     const layoutClass = computed(() => {
-      const opened = unref(getCollapsed)
+      const opened = unref(getIsLaptop) ? true : unref(getCollapsed)
+
       return {
         hideSider: opened,
         openSider: !opened,

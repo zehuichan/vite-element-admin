@@ -7,11 +7,11 @@ import App from './App.vue'
 // A modern alternative to CSS resets
 import 'normalize.css/normalize.css'
 // global css
-import './styles/index.scss'
+import './assets/styles/index.scss'
 
 import { store } from './store'
 import { router } from './router'
-import { setupElement } from '@/plugins/element'
+import { setupElement } from '@/install/plugins/element'
 import { setupGuard } from './router/guard'
 import { registerComponents } from './components'
 
