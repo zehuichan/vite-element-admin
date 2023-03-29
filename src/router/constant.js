@@ -8,6 +8,8 @@ export const PAGE_NOT_FOUND_NAME = 'PageNotFound'
 
 export const BLANK = () => import('@/layouts/blank/index.vue')
 
+export const PAGE = () => import('@/layouts/page/index.vue')
+
 export const LAYOUT = () => import('@/layouts/default/index.vue')
 
 export const ERROR_PAGE = () => import('@/views/error-page/index.vue')
@@ -16,7 +18,7 @@ export const getParentLayout = (_name) => {
   return () =>
     new Promise((resolve) => {
       resolve({
-        name: PARENT_LAYOUT_NAME
+        name: _name || PARENT_LAYOUT_NAME
       })
     })
 }

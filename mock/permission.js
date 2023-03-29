@@ -21,6 +21,23 @@ const menu = [
     }
   },
   {
+    path: '/feature',
+    name: 'Feature',
+    component: 'LAYOUT',
+    meta: {
+      title: '功能',
+      icon: 'el-icon-document'
+    },
+    children: [
+      {
+        path: 'unocss',
+        component: '/feat/unocss/index',
+        name: 'unocss',
+        meta: { title: 'unocss' }
+      }
+    ]
+  },
+  {
     path: '/comp',
     name: 'comp',
     component: 'LAYOUT',

@@ -1,6 +1,10 @@
 // Register icon sprite
 import 'virtual:svg-icons-register'
 
+// unocss
+import 'uno.css'
+import 'virtual:unocss-devtools'
+
 import Vue from 'vue'
 import App from './App.vue'
 

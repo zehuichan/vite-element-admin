@@ -3,6 +3,16 @@ import VueRouter from 'vue-router'
 
 import { ERROR_PAGE, LAYOUT, LOGIN_NAME, PAGE_NOT_FOUND_NAME, REDIRECT_NAME } from './constant'
 
+const modulesRoutes = import.meta.glob('./modules/**/*.js', { eager: true })
+
+const modules = Object.keys(modulesRoutes).reduce((modules, modulePath) => {
+  const value = modulesRoutes[modulePath].default
+  modules.push(...value)
+  return modules
+}, [])
+
+console.log(modules)
+
 Vue.use(VueRouter)
 
 /**
@@ -82,7 +92,8 @@ export const constantRoutes = [
   ROOT_ROUTE,
   LOGIN_ROUTE,
   REDIRECT_ROUTE,
-  PAGE_NOT_FOUND_ROUTE
+  PAGE_NOT_FOUND_ROUTE,
+  ...modules
 ]
 
 export function createRouter(routes = constantRoutes) {

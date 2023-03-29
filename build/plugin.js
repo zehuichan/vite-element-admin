@@ -1,6 +1,8 @@
 import vue from '@vitejs/plugin-vue2'
 import vueJsx from '@vitejs/plugin-vue2-jsx'
 
+import uno from 'unocss/vite'
+
 import legacy from '@vitejs/plugin-legacy'
 
 import { configHtmlPlugin } from './html.js'
@@ -15,7 +17,9 @@ export function createVitePlugins(viteEnv, isBuild) {
     // have to
     vue(),
     // have to
-    vueJsx()
+    vueJsx(),
+    // have to
+    uno()
   ]
 
   // vite-plugin-html

@@ -11,7 +11,7 @@ export const usePermissionStore = defineStore({
   id: 'permission',
   state: () => ({
     menus: [],
-    routers: constantRoutes,
+    routers: [],
     // Whether the route has been dynamically added
     // 路由是否动态添加
     isDynamicAddedRoute: false,
