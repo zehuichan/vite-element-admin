@@ -26,7 +26,7 @@ const menu = [
     component: 'LAYOUT',
     meta: {
       title: '功能',
-      icon: 'el-icon-document'
+      icon: 'el-icon-guide'
     },
     children: [
       {
