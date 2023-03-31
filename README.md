@@ -88,5 +88,8 @@ feat:
 
 ## 致谢
 
-基于 [@PanJiaChen](https://github.com/PanJiaChen)
-的 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin) 二次开发的模板
+- [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
+- [vue-vben-admin](https://github.com/vbenjs/vue-vben-admin)
+- [ant-design-vue-pro](https://github.com/vueComponent/ant-design-vue-pro)
+- [naive-ui-admin](https://github.com/jekip/naive-ui-admin)
+- [element-pro-components](https://github.com/tolking/element-pro-components) 
