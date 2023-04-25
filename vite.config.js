@@ -39,13 +39,6 @@ export default defineConfig(({ command, mode }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
-    css: {
-      preprocessorOptions: {
-        less: {
-          additionalData: `@import "@/assets/less/var.less";`
-        }
-      }
-    },
     server: {
       host: true,
       port: VITE_PORT,

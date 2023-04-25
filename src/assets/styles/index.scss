@@ -1,8 +1,7 @@
-@import 'variables';
-@import 'mixin';
-@import 'transition';
-@import 'element-ui';
-@import 'tap';
+@use 'mixin';
+@use 'transition';
+@use 'element-ui';
+@use 'tap';
 
 body {
   height: 100%;
