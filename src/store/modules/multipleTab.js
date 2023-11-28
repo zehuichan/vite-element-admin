@@ -104,11 +104,14 @@ export const useMultipleTabStore = defineStore({
       const redo = useRedo(router)
       await redo()
     },
-    addTab(route) {
+    async addTab(route) {
       const { path, name, fullPath, params, query } = getRawRoute(route)
 
       // 404 The page does not need to add a tab
-      if (!name || [LOGIN_NAME, REDIRECT_NAME, PAGE_NOT_FOUND_NAME].includes(name)) {
+      if (
+        !name ||
+        [LOGIN_NAME, REDIRECT_NAME, PAGE_NOT_FOUND_NAME].includes(name)
+      ) {
         return
       }
 
@@ -133,7 +136,7 @@ export const useMultipleTabStore = defineStore({
         this.tabList.push(getRawRoute(route))
       }
 
-      this.updateCacheTab()
+      await this.updateCacheTab()
       cacheTab && Cache.setItem(MULTIPLE_TABS_KEY, this.tabList)
     },
     async closeTab(tab, router) {

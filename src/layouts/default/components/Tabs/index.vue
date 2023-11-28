@@ -15,14 +15,14 @@
               :key="element.path"
               :id="`tag${element?.fullPath?.split('/').join('\/')}`"
               class="tabs-card-scroll-item"
-              :class="{ 'active-item': activeKey === element.path }"
+              :class="{ 'active-item': activeKey === element.fullPath }"
               @click.stop="handleClick(element)"
               @contextmenu.prevent="handleContextMenu($event, element)"
             >
               <div class="tabs-card-scroll-item__inner">
                 <span>{{ element.meta.title }}</span>
                 <span
-                  v-show="!element.meta.affix && activeKey === element.path"
+                  v-show="!element.meta.affix && activeKey === element.fullPath"
                   class="el-icon-close"
                   @click.stop="handleClose(element)"
                 />
@@ -102,7 +102,8 @@ export default defineComponent({
 
         state.activeKey = to
         tabStore.addTab(route)
-      }
+      },
+      { immediate: true }
     )
 
     function handleClick(e) {
@@ -152,7 +153,6 @@ export default defineComponent({
     onMounted(async () => {
       await nextTick()
       await tabStore.initTabs(router.getRoutes())
-      await tabStore.addTab(route)
     })
 
     return {

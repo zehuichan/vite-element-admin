@@ -46,7 +46,11 @@ export function transformRouteToMenu(routeModList, routerMapping = false) {
 
   // 对路由项进行修改
   cloneRouteModList.forEach((item) => {
-    if (routerMapping && item.meta.hideChildrenInMenu && typeof item.redirect === 'string') {
+    if (
+      routerMapping &&
+      item.meta.hideChildrenInMenu &&
+      typeof item.redirect === 'string'
+    ) {
       item.path = item.redirect
     }
 
@@ -57,6 +61,7 @@ export function transformRouteToMenu(routeModList, routerMapping = false) {
       routeList.push(item)
     }
   })
+
   // 提取树指定结构
   const list = treeMap(routeList, {
     conversion: (node) => {

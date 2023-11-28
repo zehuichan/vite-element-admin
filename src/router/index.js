@@ -43,7 +43,7 @@ Vue.use(VueRouter)
 export const ROOT_ROUTE = {
   path: '/',
   name: 'Root',
-  redirect: '/dashboard'
+  component: () => import('@/views/before-enter/index.vue')
 }
 
 export const LOGIN_ROUTE = {

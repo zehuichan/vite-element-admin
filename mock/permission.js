@@ -17,7 +17,8 @@ const menu = [
     component: '/documentation/index',
     meta: {
       title: '文档',
-      icon: 'el-icon-document'
+      icon: 'el-icon-document',
+      affix: true
     }
   },
   {
